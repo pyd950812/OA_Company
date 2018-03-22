@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.JobposMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.Jobpos">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="jobpos_name" property="jobposName" jdbcType="VARCHAR" />
+	    	<result column="jobpos_code" property="jobposCode" jdbcType="VARCHAR" />
+	    	<result column="jobpos_level" property="jobposLevel" jdbcType="VARCHAR" />
+	    	<result column="dept_id" property="deptId" jdbcType="INTEGER" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			jobpos_name,
+			jobpos_code,
+			jobpos_level,
+			dept_id,
+			create_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.Jobpos">
+        insert into jobpos (
+			<include refid="Base_Column_List" />
+		)values(
+			NOW(),
+        	#{jobposName,jdbcType=VARCHAR},
+        	#{jobposCode,jdbcType=VARCHAR},
+        	#{jobposLevel,jdbcType=VARCHAR},
+        	#{deptId,jdbcType=INTEGER},
+			NOW(),
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.Jobpos">
+        delete from jobpos
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobposName != null and jobposName != ''">
+                jobpos_name = #{jobposName,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobposCode != null and jobposCode != ''">
+                jobpos_code = #{jobposCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobposLevel != null and jobposLevel != ''">
+                jobpos_level = #{jobposLevel,jdbcType=VARCHAR} and
+            </if>
+			<if test="deptId != null and deptId != ''">
+                dept_id = #{deptId,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM jobpos WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.Jobpos">
+    	update jobpos
+    	<set>
+			<if test="jobposName != null and jobposName != ''">
+                jobpos_name = #{jobposName,jdbcType=VARCHAR},
+            </if>
+			<if test="jobposCode != null and jobposCode != ''">
+                jobpos_code = #{jobposCode,jdbcType=VARCHAR},
+            </if>
+			<if test="jobposLevel != null and jobposLevel != ''">
+                jobpos_level = #{jobposLevel,jdbcType=VARCHAR},
+            </if>
+			<if test="deptId != null and deptId != ''">
+                dept_id = #{deptId,jdbcType=INTEGER},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Jobpos">
+    	select count(*) from jobpos 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobposName != null and jobposName != ''">
+                jobpos_name = #{jobposName,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobposCode != null and jobposCode != ''">
+                jobpos_code = #{jobposCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobposLevel != null and jobposLevel != ''">
+                jobpos_level = #{jobposLevel,jdbcType=VARCHAR} and
+            </if>
+			<if test="deptId != null and deptId != ''">
+                dept_id = #{deptId,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Jobpos">
+    	select id,
+			<include refid="Base_Column_List" />
+		from jobpos 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="jobpos.id != null and jobpos.id != ''">
+                id = #{jobpos.id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobpos.jobposName != null and jobpos.jobposName != ''">
+                jobpos_name = #{jobpos.jobposName,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobpos.jobposCode != null and jobpos.jobposCode != ''">
+                jobpos_code = #{jobpos.jobposCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobpos.jobposLevel != null and jobpos.jobposLevel != ''">
+                jobpos_level = #{jobpos.jobposLevel,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobpos.deptId != null and jobpos.deptId != ''">
+                dept_id = #{jobpos.deptId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobpos.createTime != null and jobpos.createTime != ''">
+                create_time = #{jobpos.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Jobpos">
+    	select id,
+			<include refid="Base_Column_List" />
+		from jobpos 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="jobpos.id != null and jobpos.id != ''">
+                id = #{jobpos.id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobpos.jobposName != null and jobpos.jobposName != ''">
+                jobpos_name = #{jobpos.jobposName,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobpos.jobposCode != null and jobpos.jobposCode != ''">
+                jobpos_code = #{jobpos.jobposCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobpos.jobposLevel != null and jobpos.jobposLevel != ''">
+                jobpos_level = #{jobpos.jobposLevel,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobpos.deptId != null and jobpos.deptId != ''">
+                dept_id = #{jobpos.deptId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobpos.createTime != null and jobpos.createTime != ''">
+                create_time = #{jobpos.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+    
+	<!-- 查询设备类型和设备类型ID 的 全查操作 -->
+	<select id="ajaxSelectJobposByDeptId" resultType="java.util.Map">
+		select id,jobpos_name from jobpos WHERE dept_id=${deptId};;
+	</select>
+	
+</mapper>

@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+	    http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!--&lt;!&ndash; 1. 定时同步资产中数据，包括新资产添加；老资产的修改		每天1点10分执行一次 		begin &ndash;&gt;-->
+	<!--<bean id="syncAssetInfoTimer" class="com.pengyd.timer.SyncAssetInfoTimer"/>-->
+	<!--&lt;!&ndash;JobDetail的配 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程&ndash;&gt;-->
+	<!--<bean id="syncAssetInfoJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+		<!--<property name="targetObject" ref="syncAssetInfoTimer" />-->
+		<!--<property name="targetMethod" value="run"/>-->
+		<!--<property name="concurrent" value="false"/>-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; quartz-2.x的配置 &ndash;&gt;-->
+	<!--<bean id="syncAssetInfoTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+		<!--<property name="jobDetail" ref="syncAssetInfoJob" />-->
+		<!--<property name="cronExpression" value="0 10 1 1 * ?" />-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; 1. 定时同步资产中数据，包括新资产添加；老资产的修改		每天1点10分执行一次 		end &ndash;&gt;-->
+
+	<!--&lt;!&ndash; 2. 定时同步资产vintage表统计数据，包括新资产添加；老资产的修改		每天1点执行一次 		begin &ndash;&gt;-->
+	<!--<bean id="syncAssetVintageTimer" class="com.pengyd.timer.SyncAssetVintageTimer"/>-->
+	<!--&lt;!&ndash;JobDetail的配 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程&ndash;&gt;-->
+	<!--<bean id="syncAssetVintageJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+		<!--<property name="targetObject" ref="syncAssetVintageTimer" />-->
+		<!--<property name="targetMethod" value="run"/>-->
+		<!--<property name="concurrent" value="false"/>-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; quartz-2.x的配置 &ndash;&gt;-->
+	<!--<bean id="syncAssetVintageTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+		<!--<property name="jobDetail" ref="syncAssetVintageJob" />-->
+		<!--<property name="cronExpression" value="0 0 1 1 * ?" />-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; 2. 定时同步资产vintage表统计数据，包括新资产添加；老资产的修改		每天1点执行一次 		begin &ndash;&gt;-->
+
+	<!--&lt;!&ndash; 3. 定时生成报表，每月1号3点执行		每月1号3点执行一次 		begin &ndash;&gt;-->
+	<!--<bean id="buildReportTimer" class="com.pengyd.timer.BuildReportTimer"/>-->
+	<!--&lt;!&ndash;JobDetail的配 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程&ndash;&gt;-->
+	<!--<bean id="buildReportJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+		<!--<property name="targetObject" ref="buildReportTimer" />-->
+		<!--<property name="targetMethod" value="run"/>-->
+		<!--<property name="concurrent" value="false"/>-->
+	<!--</bean>-->
+	<!-- quartz-2.x的配置 -->
+	<!--<bean id="buildReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+		<!--<property name="jobDetail" ref="buildReportJob" />-->
+		<!--<property name="cronExpression" value="0 0 3 1 * ?" />-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; 3. 定时生成报表，每月1号3点执行		每月1号3点执行一次 		end &ndash;&gt;-->
+
+	<!--<bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+		<!--<property name="triggers">-->
+			<!--<list>-->
+				<!--<ref bean="syncAssetInfoTrigger" />-->
+				<!--<ref bean="syncAssetVintageTrigger" />-->
+				<!--<ref bean="buildReportTrigger" />-->
+			<!--</list>-->
+		<!--</property>-->
+		<!--<property name="waitForJobsToCompleteOnShutdown" value="true"/>-->
+	<!--</bean>-->
+</beans>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.DepartmentMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.Department">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+	    	<result column="deptname" property="deptname" jdbcType="VARCHAR" />
+	    	<result column="deptinfo" property="deptinfo" jdbcType="VARCHAR" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			dept_code,
+			deptname,
+			deptinfo,
+			create_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.Department">
+        insert into department (
+			<include refid="Base_Column_List" />
+		)values(
+			NOW(),
+        	#{deptCode,jdbcType=VARCHAR},
+        	#{deptname,jdbcType=VARCHAR},
+        	#{deptinfo,jdbcType=VARCHAR},
+			NOW(),
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.Department">
+        delete from department
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="deptCode != null and deptCode != ''">
+                dept_code = #{deptCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="deptname != null and deptname != ''">
+                deptname = #{deptname,jdbcType=VARCHAR} and
+            </if>
+			<if test="deptinfo != null and deptinfo != ''">
+                deptinfo = #{deptinfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM department WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.Department">
+    	update department
+    	<set>
+			<if test="deptCode != null and deptCode != ''">
+                dept_code = #{deptCode,jdbcType=VARCHAR},
+            </if>
+			<if test="deptname != null and deptname != ''">
+                deptname = #{deptname,jdbcType=VARCHAR},
+            </if>
+			<if test="deptinfo != null and deptinfo != ''">
+                deptinfo = #{deptinfo,jdbcType=VARCHAR},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Department">
+    	select count(*) from department 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="deptCode != null and deptCode != ''">
+                dept_code = #{deptCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="deptname != null and deptname != ''">
+                deptname = #{deptname,jdbcType=VARCHAR} and
+            </if>
+			<if test="deptinfo != null and deptinfo != ''">
+                deptinfo = #{deptinfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Department">
+    	select id,
+			<include refid="Base_Column_List" />
+		from department 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="department.id != null and department.id != ''">
+                id = #{department.id,jdbcType=INTEGER} and
+            </if>
+			<if test="department.deptCode != null and department.deptCode != ''">
+                dept_code = #{department.deptCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="department.deptname != null and department.deptname != ''">
+                deptname = #{department.deptname,jdbcType=VARCHAR} and
+            </if>
+			<if test="department.deptinfo != null and department.deptinfo != ''">
+                deptinfo = #{department.deptinfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="department.createTime != null and department.createTime != ''">
+                create_time = #{department.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Department">
+    	select id,
+			<include refid="Base_Column_List" />
+		from department 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="department.id != null and department.id != ''">
+                id = #{department.id,jdbcType=INTEGER} and
+            </if>
+			<if test="department.deptCode != null and department.deptCode != ''">
+                dept_code = #{department.deptCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="department.deptname != null and department.deptname != ''">
+                deptname = #{department.deptname,jdbcType=VARCHAR} and
+            </if>
+			<if test="department.deptinfo != null and department.deptinfo != ''">
+                deptinfo = #{department.deptinfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="department.createTime != null and department.createTime != ''">
+                create_time = #{department.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+    
+	<!-- 查询设备类型和设备类型ID 的 全查操作 -->
+	<select id="ajaxSelectDept" resultType="java.util.Map">
+		select id,deptname from department;
+	</select>
+
+
+
+	
+</mapper>

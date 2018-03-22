@@ -1,0 +1,20 @@
+//
+
+.ui-th-column,.ui-th-ltr{
+	vertical-align:center!important;
+	width:100px;
+	background:black;
+}
+#GRIDTABLE_connectForm,#GRIDTABLE_poorHouse{
+	vertical-align:center!important;
+	width:100px;
+	background:black;
+}
+.table>thead>tr>th{
+		vertical-align:center!important;
+}
+
+
+//
+
+

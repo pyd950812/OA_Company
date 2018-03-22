@@ -1,0 +1,18 @@
+
+.save,
+.cancle,
+.back{
+	width:40px;
+	padding:8px 15px;
+	background:#ccc;
+	color:black;
+	border-radius:5px;
+	margin-right:28px;
+	margin-left:66px;
+	cursor: pointer;
+}
+.save:hover,
+.cancle:hover,
+.back:hover{
+	background:#20c060;
+}

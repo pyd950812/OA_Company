@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.EmployeeMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.Employee">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_code" property="empCode" jdbcType="VARCHAR" />
+	    	<result column="loginname" property="loginname" jdbcType="VARCHAR" />
+	    	<result column="password" property="password" jdbcType="VARCHAR" />
+	    	<result column="realname" property="realname" jdbcType="VARCHAR" />
+	    	<result column="entry_time" property="entryTime" jdbcType="DATE" />
+	    	<result column="jobpos_id" property="jobposId" jdbcType="INTEGER" />
+	    	<result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_code,
+			loginname,
+			password,
+			realname,
+			entry_time,
+			jobpos_id,
+			register_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.Employee">
+        insert into employee (
+			<include refid="Base_Column_List" />
+		)values(
+        	#{empCode,jdbcType=VARCHAR},
+        	#{loginname,jdbcType=VARCHAR},
+        	#{password,jdbcType=VARCHAR},
+        	#{realname,jdbcType=VARCHAR},
+        	#{entryTime,jdbcType=DATE},
+        	#{jobposId,jdbcType=INTEGER},
+			NOW()
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.Employee">
+        delete from employee
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empCode != null and empCode != ''">
+                emp_code = #{empCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="loginname != null and loginname != ''">
+                loginname = #{loginname,jdbcType=VARCHAR} and
+            </if>
+			<if test="password != null and password != ''">
+                password = #{password,jdbcType=VARCHAR} and
+            </if>
+			<if test="realname != null and realname != ''">
+                realname = #{realname,jdbcType=VARCHAR} and
+            </if>
+			<if test="entryTime != null and entryTime != ''">
+                entry_time = #{entryTime,jdbcType=DATE} and
+            </if>
+			<if test="jobposId != null and jobposId != ''">
+                jobpos_id = #{jobposId,jdbcType=INTEGER} and
+            </if>
+			<if test="registezrTime != null and registerTime != ''">
+                register_time = #{registerTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM employee WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.Employee">
+    	update employee
+    	<set>
+			<if test="empCode != null and empCode != ''">
+                emp_code = #{empCode,jdbcType=VARCHAR},
+            </if>
+			<if test="loginname != null and loginname != ''">
+                loginname = #{loginname,jdbcType=VARCHAR},
+            </if>
+			<if test="password != null and password != ''">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+			<if test="realname != null and realname != ''">
+                realname = #{realname,jdbcType=VARCHAR},
+            </if>
+			<if test="entryTime != null and entryTime != ''">
+                entry_time = #{entryTime,jdbcType=DATE},
+            </if>
+			<if test="jobposId != null and jobposId != ''">
+                jobpos_id = #{jobposId,jdbcType=INTEGER},
+            </if>
+			<if test="registerTime != null and registerTime != ''">
+                register_time = #{registerTime,jdbcType=TIMESTAMP},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Employee">
+    	select count(*) from employee 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empCode != null and empCode != ''">
+                emp_code = #{empCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="loginname != null and loginname != ''">
+                loginname = #{loginname,jdbcType=VARCHAR} and
+            </if>
+			<if test="password != null and password != ''">
+                password = #{password,jdbcType=VARCHAR} and
+            </if>
+			<if test="realname != null and realname != ''">
+                realname = #{realname,jdbcType=VARCHAR} and
+            </if>
+			<if test="entryTime != null and entryTime != ''">
+                entry_time = #{entryTime,jdbcType=DATE} and
+            </if>
+			<if test="jobposId != null and jobposId != ''">
+                jobpos_id = #{jobposId,jdbcType=INTEGER} and
+            </if>
+			<if test="registerTime != null and registerTime != ''">
+                register_time = #{registerTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Employee">
+    	select 
+			<include refid="Base_Column_List" />
+		from employee 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="employee.id != null and employee.id != ''">
+                id = #{employee.id,jdbcType=INTEGER} and
+            </if>
+			<if test="employee.empCode != null and employee.empCode != ''">
+                emp_code = #{employee.empCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.loginname != null and employee.loginname != ''">
+                loginname = #{employee.loginname,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.password != null and employee.password != ''">
+                password = #{employee.password,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.realname != null and employee.realname != ''">
+                realname = #{employee.realname,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.entryTime != null and employee.entryTime != ''">
+                entry_time = #{employee.entryTime,jdbcType=DATE} and
+            </if>
+			<if test="employee.jobposId != null and employee.jobposId != ''">
+                jobpos_id = #{employee.jobposId,jdbcType=INTEGER} and
+            </if>
+			<if test="employee.registerTime != null and employee.registerTime != ''">
+                register_time = #{employee.registerTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Employee">
+    	select 
+			<include refid="Base_Column_List" />
+		from employee 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="employee.id != null and employee.id != ''">
+                id = #{employee.id,jdbcType=INTEGER} and
+            </if>
+			<if test="employee.empCode != null and employee.empCode != ''">
+                emp_code = #{employee.empCode,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.loginname != null and employee.loginname != ''">
+                loginname = #{employee.loginname,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.password != null and employee.password != ''">
+                password = #{employee.password,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.realname != null and employee.realname != ''">
+                realname = #{employee.realname,jdbcType=VARCHAR} and
+            </if>
+			<if test="employee.entryTime != null and employee.entryTime != ''">
+                entry_time = #{employee.entryTime,jdbcType=DATE} and
+            </if>
+			<if test="employee.jobposId != null and employee.jobposId != ''">
+                jobpos_id = #{employee.jobposId,jdbcType=INTEGER} and
+            </if>
+			<if test="employee.registerTime != null and employee.registerTime != ''">
+                register_time = #{employee.registerTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+    
+	<!-- 查询设备类型和设备类型ID 的 全查操作 -->
+	<select id="ajaxSelectMaxEmpCode" resultType="java.lang.String">
+		select MAX(emp_code) from employee;
+	</select>
+	
+</mapper>
