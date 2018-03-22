@@ -138,6 +138,7 @@ laydate.render({
 
 $(function(){
 	/* 获取到最大员工编码并进行回显 */
+
 	$.ajax({
 		url:'<%=path %>/employee/ajaxSelectMaxEmpCode',
    		type:'post',

@@ -103,7 +103,7 @@ public class RestController {
 
     @RequestMapping({ "/loginByAjax" })
     @ResponseBody
-    public ReturnData loginByAjax(HttpServletRequest request) {
+    public ReturnData loginByAjax(HttpServletRequest request,HttpSession session) {
         String username = request.getParameter("loginname");
         String password = request.getParameter("password");
 
@@ -118,6 +118,7 @@ public class RestController {
 
             subject.login(new UsernamePasswordToken(username, password));
 
+            session.setAttribute("name",username);
             rd.setCode("OK");
             rd.setMsg("登录成功");
         }

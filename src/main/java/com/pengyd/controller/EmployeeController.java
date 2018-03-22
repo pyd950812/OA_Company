@@ -275,10 +275,13 @@ public class EmployeeController {
 
 
 
-
+    //跳转到 员工薪资信息
     @RequestMapping("salary")
     public String salary(){
         return "employee/salary";
     }
+
+
+
 
 }

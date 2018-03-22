@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.EmployeeEvectionMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.EmployeeEvection">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_id" property="empId" jdbcType="VARCHAR" />
+	    	<result column="emp_name" property="empName" jdbcType="VARCHAR" />
+	    	<result column="evection_timebegin" property="evectionTimebegin" jdbcType="DATE" />
+	    	<result column="evection_timeover" property="evectionTimeover" jdbcType="DATE" />
+	    	<result column="evection_reason" property="evectionReason" jdbcType="VARCHAR" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_id,
+			emp_name,
+			evection_timebegin,
+			evection_timeover,
+			evection_reason,
+			create_time,
+			update_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.EmployeeEvection">
+        insert into employee_evection (
+			<include refid="Base_Column_List" />
+		)values(
+        	#{empId,jdbcType=VARCHAR},
+        	#{empName,jdbcType=VARCHAR},
+        	#{evectionTimebegin,jdbcType=VARCHAR},
+        	#{evectionTimeover,jdbcType=VARCHAR},
+        	#{entryTime,jdbcType=DATE},
+        	#{evectionReason,jdbcType=INTEGER},
+			NOW(),
+            NOW()
+        )
+    </insert>
+
+
+
+
+
+
+
+
+
+
+	
+</mapper>

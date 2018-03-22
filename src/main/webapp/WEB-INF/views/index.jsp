@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="container-fluid">
         <div class="navbar-header header-left left">
             <a class="navbar-brad" href="#">
-                <span>公司OA平台</span>
+                <span>公司OA系统</span>
             </a>
         </div>
         <div class="header-right right">
@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <a href="#ssztgl-salary" class="nav-header" data-toggle="collapse"><span class="glyphicon glyphicon-folder-open"></span><span>薪资管理</span></a>
                 <ul id="ssztgl-salary" class="nav nav-list collapse">
                     <li><a onclick="jumpIframe('employee/salary')"><span class="glyphicon glyphicon-menu-right"></span><span>员工薪资信息</span></a></li>
-                    <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
+                    <li><a onclick="jumpIframe('employeeEvection/evection')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
                     <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工加班管理</span></a></li>
                     <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工处罚管理</span></a></li>
                 </ul>
