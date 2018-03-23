@@ -28,9 +28,8 @@
 		)values(
         	#{empId,jdbcType=VARCHAR},
         	#{empName,jdbcType=VARCHAR},
-        	#{evectionTimebegin,jdbcType=VARCHAR},
-        	#{evectionTimeover,jdbcType=VARCHAR},
-        	#{entryTime,jdbcType=DATE},
+        	#{evectionTimebegin,jdbcType=DATE},
+        	#{evectionTimeover,jdbcType=DATE},
         	#{evectionReason,jdbcType=INTEGER},
 			NOW(),
             NOW()

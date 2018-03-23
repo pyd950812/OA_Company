@@ -129,6 +129,24 @@
         elem: '#evectionTimeover' //出差结束时间
     });
 
+    $("#evec_save").click(function () {
+        alert("11111");
+        $.ajax({
+            url:'<%=path %>/employeeEvection/insert',
+            type:'post',
+            cache:false,
+            data : JSON.stringify(""),
+            dataType:'json',
+            contentType: "application/json;charset=UTF-8",
+            success:function(data) {
+                alert(data);
+            }
+        });
+    });
+
+
+
+
 
     var employeeEvection = {};
     employeeEvection.id;
@@ -170,7 +188,8 @@
                 "出差开始时间",
                 "出差结束时间",
                 "出差理由",
-                "注册时间"
+                "创建时间",
+                "修改时间"
             ],
             colModel: [
                 {name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
