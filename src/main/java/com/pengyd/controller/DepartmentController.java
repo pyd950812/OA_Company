@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.controller;
 
 import java.io.InputStream;
@@ -87,10 +81,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据插入操作
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -100,10 +90,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据删除操作
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -113,7 +99,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据批量删除操作
-     * @param request 请求数据
      */
     @RequestMapping({ "/deleteBatch" })
     @ResponseBody
@@ -132,10 +117,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据修改操作
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -145,10 +126,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据分页查询操作
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ResponseBody
@@ -171,10 +148,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据查询操作不分页
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/selectByParam", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -186,10 +159,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据导出操作
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public void export(HttpServletRequest request, HttpServletResponse response) {
@@ -247,10 +216,6 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据导入操作
-     * @param department json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody

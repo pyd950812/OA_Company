@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.service;
 
 
@@ -63,4 +57,6 @@ public interface JobposService {
     ReturnData selectByParam(String order_by, Jobpos jobpos);
 
     ReturnData ajaxSelectJobposByDeptId(String deptId);
+
+    JqGridJsonBean selectRelationData(String page, String rows, String order_by, Jobpos jobpos);
 }

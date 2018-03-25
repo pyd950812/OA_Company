@@ -1,12 +1,7 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pengyd.bean.Employee;
 import org.apache.ibatis.annotations.Param;
@@ -36,7 +31,6 @@ public interface EmployeeMapper {
 
     /**
      * employee 执行 批量删除 数据操作
-     * @param employee
      */
     void deleteBatch(@Param("ids") String[] ids);
 
@@ -53,12 +47,19 @@ public interface EmployeeMapper {
     int selectCount(Employee employee);
 
     /**
+     * @description: TODO - 主要区分拥有的模糊查询
+     */
+    int selectRelationCount(Employee employee);
+
+    /**
      * 根据条件查询Employee数据
      * @param employee
      */
     List<Employee> selectData(@Param("employee") Employee employee, @Param("limit") int limit,
                               @Param("offset") int offset, @Param("order_by") String order_by);
 
+    List<Map<String, Object>> selectRelationData(@Param("employee") Employee employee, @Param("limit") int limit,
+                                                 @Param("offset") int offset, @Param("order_by") String order_by);
     /**
      * 根据条件查询Employee数据不分页
      * @param employee
@@ -66,4 +67,8 @@ public interface EmployeeMapper {
     List<Employee> selectByParam(@Param("employee") Employee employee, @Param("order_by") String order_by);
 
     String ajaxSelectMaxEmpCode();
+
+    List<Map<Integer, String>> ajaxSelectEmpByJobposId(@Param("jobposId") String jobposId);
+
+    String selectRealnameById(@Param("id") Integer id);
 }

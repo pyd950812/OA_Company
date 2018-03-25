@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.service.impl;
 
 import java.util.HashMap;

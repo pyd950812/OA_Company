@@ -15,7 +15,8 @@
                         http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
                         http://www.springframework.org/schema/tx
                         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
-	<!-- 默认的注解映射支持 -->
+	<!-- 默认的注解映射支持 @RequestMapping, @ExceptionHandler,数据绑定 ,@NumberFormat ,
+        @DateTimeFormat ,@Controller ,@Valid ,@RequestBody ,@ResponseBody等 -->
 	<mvc:annotation-driven/>
 	<!-- 设置使用注解的类所在的包 -->
 	<context:component-scan base-package="com.pengyd.controller" />

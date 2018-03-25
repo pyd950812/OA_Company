@@ -217,5 +217,13 @@
 	<select id="ajaxSelectMaxEmpCode" resultType="java.lang.String">
 		select MAX(emp_code) from employee;
 	</select>
+
+    <select id="ajaxSelectEmpByJobposId" resultType="java.util.Map">
+        select id,realname from employee WHERE jobpos_id=${jobposId};
+    </select>
+
+    <select id="selectRealnameById" resultType="java.lang.String">
+        select realname from employee WHERE id=${id};
+    </select>
 	
 </mapper>

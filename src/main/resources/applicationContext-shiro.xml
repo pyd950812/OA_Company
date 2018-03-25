@@ -8,7 +8,7 @@
     <description>apache shiro配置</description>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-    	<!--shiro 的核心安全接口  -->
+    	<!--shiro 的核心安全接口,这个属性是必须的 -->
         <property name="securityManager" ref="securityManager"/>
         <!-- 设置默认的首页 - 要求登录时的链接  -->
         <property name="loginUrl" value="/rest/login"/>

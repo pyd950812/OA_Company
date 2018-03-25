@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.service;
 
 
@@ -63,4 +57,10 @@ public interface EmployeeService {
     ReturnData selectByParam(String order_by, Employee employee);
 
     ReturnData ajaxSelectMaxEmpCode();
+
+    JqGridJsonBean selectRelationData(String page, String rows, String order_by, Employee employee);
+
+    ReturnData ajaxSelectEmpByJobposId(String jobposId);
+
+    String selectRealnameById(Integer id);
 }

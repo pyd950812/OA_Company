@@ -1,8 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * copyright: 2018
- */
 package com.pengyd.loggerAop;
 
 import java.lang.annotation.Documented;

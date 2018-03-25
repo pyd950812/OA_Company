@@ -146,6 +146,65 @@
         </if>
         order by ${order_by} desc limit #{limit} offset #{offset}
     </select>
+
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Jobpos">
+        select count(*) from jobpos
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="id != null and id != ''">
+                        id = #{id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobposName != null and jobposName != ''">
+                        jobpos_name LIKE CONCAT(CONCAT('%', #{jobposName,jdbcType=VARCHAR}), '%') and
+                    </if>
+                    <if test="jobposCode != null and jobposCode != ''">
+                        jobpos_code = #{jobposCode,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="jobposLevel != null and jobposLevel != ''">
+                        jobpos_level = #{jobposLevel,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="deptId != null and deptId != ''">
+                        dept_id = #{deptId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="createTime != null and createTime != ''">
+                        create_time = #{createTime,jdbcType=TIMESTAMP} and
+                    </if>
+                </trim>
+            </where>
+        </if>
+    </select>
+
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.Jobpos">
+        select j.*, d.deptname
+        from jobpos j, department d
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="jobpos.id != null and jobpos.id != ''">
+                        j.id = #{jobpos.id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobpos.jobposName != null and jobpos.jobposName != ''">
+                        j.jobpos_name LIKE CONCAT(CONCAT('%', #{jobpos.jobposName,jdbcType=VARCHAR}), '%') and
+                    </if>
+                    <if test="jobpos.jobposCode != null and jobpos.jobposCode != ''">
+                        j.jobpos_code = #{jobpos.jobposCode,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="jobpos.jobposLevel != null and jobpos.jobposLevel != ''">
+                        j.jobpos_level = #{jobpos.jobposLevel,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="jobpos.deptId != null and jobpos.deptId != ''">
+                        j.dept_id = #{jobpos.deptId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobpos.createTime != null and jobpos.createTime != ''">
+                        j.create_time = #{jobpos.createTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    j.dept_id = d.id and
+                </trim>
+            </where>
+        </if>
+        order by j.${order_by} desc limit #{limit} offset #{offset}
+    </select>
 	
 	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Jobpos">
     	select id,

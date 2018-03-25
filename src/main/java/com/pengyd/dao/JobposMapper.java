@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.dao;
 
 import java.util.List;
@@ -37,7 +31,6 @@ public interface JobposMapper {
 
     /**
      * jobpos 执行 批量删除 数据操作
-     * @param jobpos
      */
     void deleteBatch(@Param("ids") String[] ids);
 
@@ -53,12 +46,17 @@ public interface JobposMapper {
      */
     int selectCount(Jobpos jobpos);
 
+    int selectRelationCount(Jobpos jobpos);
+
     /**
      * 根据条件查询Jobpos数据
      * @param jobpos
      */
     List<Jobpos> selectData(@Param("jobpos") Jobpos jobpos, @Param("limit") int limit, @Param("offset") int offset,
                             @Param("order_by") String order_by);
+
+    List<Map<String, Object>> selectRelationData(@Param("jobpos") Jobpos jobpos, @Param("limit") int limit,
+                                                 @Param("offset") int offset, @Param("order_by") String order_by);
 
     /**
      * 根据条件查询Jobpos数据不分页

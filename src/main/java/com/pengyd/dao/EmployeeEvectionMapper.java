@@ -1,11 +1,9 @@
 package com.pengyd.dao;
 
-import com.pengyd.bean.Employee;
+
 import com.pengyd.bean.EmployeeEvection;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 /**
  * @Author pengyd

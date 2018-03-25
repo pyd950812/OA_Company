@@ -22,7 +22,6 @@ public class EmployeeEvectionServiceImpl implements EmployeeEvectionService{
     private EmployeeEvectionMapper employeeEvectionMapper;
 
 
-    @Override
     public ReturnData insert(EmployeeEvection employeeEvection) {
         ReturnData returnData = new ReturnData();
         try {

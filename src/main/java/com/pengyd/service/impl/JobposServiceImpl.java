@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.service.impl;
 
 import java.util.HashMap;
@@ -147,6 +141,41 @@ public class JobposServiceImpl implements JobposService {
         return jgjb;
     }
 
+    @Override
+    public JqGridJsonBean selectRelationData(String page, String rows, String order_by, Jobpos jobpos) {
+        // TODO Auto-generated method stub
+        JqGridJsonBean jgjb = new JqGridJsonBean();
+        try {
+            int _page = Integer.parseInt(page);
+            int _rows = Integer.parseInt(rows);
+            //没有order_by 默认主键排序
+            if (order_by != null && !"".equals(order_by)) {
+                //不变
+            }
+            else {
+                order_by = "id";
+            }
+
+            //查询Jobpos总数据量
+            int count = jobposMapper.selectRelationCount(jobpos);
+            //根据查询条件查询总页数
+            int pages = (count % Integer.parseInt(rows)) == 0 ? (count / _rows) : ((count / _rows) + 1);
+            List<Map<String, Object>> data = jobposMapper.selectRelationData(jobpos, _rows, (_page - 1) * _rows,
+                    order_by);
+            jgjb.setPage(_page);// 第几页
+            jgjb.setRecords(count);// 总数据量
+            jgjb.setTotal(pages);// 总页数
+            jgjb.setRoot(data);// 查询数据信息
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            //操作异常,返回错误信息
+        }
+        return jgjb;
+    }
+
+
+
     /**
      * 执行 Jobpos 的查询不分页
      */
@@ -195,4 +224,6 @@ public class JobposServiceImpl implements JobposService {
         }
         return rd;
     }
+
+
 }

@@ -1,21 +1,9 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.bean;
 
 import java.sql.Date;
 
 import org.apache.ibatis.type.Alias;
 
-/**
- * <p>实体类</p>
- * <p>Table: employee - </p>
- *
- * @since ${.now}
- */
 @Alias("Employee")
 public class Employee {
 

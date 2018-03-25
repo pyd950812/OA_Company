@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.ContractMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.Contract">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_id" property="empId" jdbcType="INTEGER" />
+	    	<result column="contract_url" property="contractUrl" jdbcType="VARCHAR" />
+	    	<result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+	    	<result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    	<result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
+	    	<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_id,
+			contract_url,
+			contract_name,
+			create_user_id,
+			create_time,
+			modify_user_id,
+			modify_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.Contract">
+        insert into contract (
+			<include refid="Base_Column_List" />
+		)values(
+        	#{empId,jdbcType=INTEGER},
+        	#{contractUrl,jdbcType=VARCHAR},
+        	#{contractName,jdbcType=VARCHAR},
+        	#{createUserId,jdbcType=INTEGER},
+			NOW(),
+        	#{modifyUserId,jdbcType=INTEGER},
+			NOW()
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.Contract">
+        delete from contract
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contractUrl != null and contractUrl != ''">
+                contract_url = #{contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contractName != null and contractName != ''">
+                contract_name = #{contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="modifyUserId != null and modifyUserId != ''">
+                modify_user_id = #{modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="modifyTime != null and modifyTime != ''">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM contract WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.Contract">
+    	update contract
+    	<set>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER},
+            </if>
+			<if test="contractUrl != null and contractUrl != ''">
+                contract_url = #{contractUrl,jdbcType=VARCHAR},
+            </if>
+			<if test="contractName != null and contractName != ''">
+                contract_name = #{contractName,jdbcType=VARCHAR},
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+			<if test="modifyUserId != null and modifyUserId != ''">
+                modify_user_id = #{modifyUserId,jdbcType=INTEGER},
+            </if>
+				modify_time = NOW(),
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Contract">
+    	select count(*) from contract 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contractUrl != null and contractUrl != ''">
+                contract_url = #{contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contractName != null and contractName != ''">
+                contract_name = #{contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="modifyUserId != null and modifyUserId != ''">
+                modify_user_id = #{modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="modifyTime != null and modifyTime != ''">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Contract">
+    	select id,
+			<include refid="Base_Column_List" />
+		from contract 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="contract.id != null and contract.id != ''">
+                id = #{contract.id,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.empId != null and contract.empId != ''">
+                emp_id = #{contract.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.contractUrl != null and contract.contractUrl != ''">
+                contract_url = #{contract.contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.contractName != null and contract.contractName != ''">
+                contract_name = #{contract.contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.createUserId != null and contract.createUserId != ''">
+                create_user_id = #{contract.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.createTime != null and contract.createTime != ''">
+                create_time = #{contract.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="contract.modifyUserId != null and contract.modifyUserId != ''">
+                modify_user_id = #{contract.modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.modifyTime != null and contract.modifyTime != ''">
+                modify_time = #{contract.modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Contract">
+    	select count(*) from contract 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contractUrl != null and contractUrl != ''">
+                contract_url = #{contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contractName != null and contractName != ''">
+                contract_name = #{contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="modifyUserId != null and modifyUserId != ''">
+                modify_user_id = #{modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="modifyTime != null and modifyTime != ''">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.Contract">
+    	select xtx.*, e1.realname AS realname1, e2.realname AS realname2
+		from contract xtx, employee e1, employee e2
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="contract.id != null and contract.id != ''">
+                xtx.id = #{contract.id,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.empId != null and contract.empId != ''">
+                xtx.emp_id = #{contract.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.contractUrl != null and contract.contractUrl != ''">
+                xtx.contract_url = #{contract.contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.contractName != null and contract.contractName != ''">
+                xtx.contract_name = #{contract.contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.createUserId != null and contract.createUserId != ''">
+                xtx.create_user_id = #{contract.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.createTime != null and contract.createTime != ''">
+                xtx.create_time = #{contract.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="contract.modifyUserId != null and contract.modifyUserId != ''">
+                xtx.modify_user_id = #{contract.modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.modifyTime != null and contract.modifyTime != ''">
+                xtx.modify_time = #{contract.modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            xtx.emp_id = e1.id and xtx.modify_user_id = e2.id and
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCountByEmpRealname" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Contract">
+    	select count(*) from  
+        (
+        select xtx.*, e1.realname
+		from contract xtx, employee e1
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="contract.id != null and contract.id != ''">
+                xtx.id = #{contract.id,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.empId != null and contract.empId != ''">
+                xtx.emp_id = #{contract.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.contractUrl != null and contract.contractUrl != ''">
+                xtx.contract_url = #{contract.contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.contractName != null and contract.contractName != ''">
+                xtx.contract_name = #{contract.contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.createUserId != null and contract.createUserId != ''">
+                xtx.create_user_id = #{contract.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.createTime != null and contract.createTime != ''">
+                xtx.create_time = #{contract.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="contract.modifyUserId != null and contract.modifyUserId != ''">
+                xtx.modify_user_id = #{contract.modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.modifyTime != null and contract.modifyTime != ''">
+                xtx.modify_time = #{contract.modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            xtx.emp_id = e1.id and
+			<if test="empRealname != null and empRealname != ''">
+                e1.realname LIKE CONCAT(CONCAT('%', #{empRealname,jdbcType=VARCHAR}), '%') and
+            </if>
+            </trim>
+            </where>
+        </if>
+        ) a
+    </select>
+    
+    <select id="selectRelationDataByEmpRealname" resultType="java.util.Map" parameterType="com.pengyd.bean.Contract">
+    	select xtx.*, e1.realname AS realname1, e2.realname AS realname2
+		from contract xtx, employee e1, employee e2
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="contract.id != null and contract.id != ''">
+                xtx.id = #{contract.id,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.empId != null and contract.empId != ''">
+                xtx.emp_id = #{contract.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.contractUrl != null and contract.contractUrl != ''">
+                xtx.contract_url = #{contract.contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.contractName != null and contract.contractName != ''">
+                xtx.contract_name = #{contract.contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.createUserId != null and contract.createUserId != ''">
+                xtx.create_user_id = #{contract.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.createTime != null and contract.createTime != ''">
+                xtx.create_time = #{contract.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="contract.modifyUserId != null and contract.modifyUserId != ''">
+                xtx.modify_user_id = #{contract.modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.modifyTime != null and contract.modifyTime != ''">
+                xtx.modify_time = #{contract.modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            xtx.emp_id = e1.id and xtx.modify_user_id = e2.id and
+			<if test="empRealname != null and empRealname != ''">
+                e1.realname LIKE CONCAT(CONCAT('%', #{empRealname,jdbcType=VARCHAR}), '%') and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Contract">
+    	select id,
+			<include refid="Base_Column_List" />
+		from contract 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="contract.id != null and contract.id != ''">
+                id = #{contract.id,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.empId != null and contract.empId != ''">
+                emp_id = #{contract.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.contractUrl != null and contract.contractUrl != ''">
+                contract_url = #{contract.contractUrl,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.contractName != null and contract.contractName != ''">
+                contract_name = #{contract.contractName,jdbcType=VARCHAR} and
+            </if>
+			<if test="contract.createUserId != null and contract.createUserId != ''">
+                create_user_id = #{contract.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.createTime != null and contract.createTime != ''">
+                create_time = #{contract.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="contract.modifyUserId != null and contract.modifyUserId != ''">
+                modify_user_id = #{contract.modifyUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="contract.modifyTime != null and contract.modifyTime != ''">
+                modify_time = #{contract.modifyTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+</mapper>
