@@ -40,9 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <ol class="breadcrumb">
             <li><a>首页</a></li>
             <li>></li>
-            <li>****管理</li>
+            <li>人事信息管理</li>
             <li>></li>
-            <li class="active">***管理</li>
+            <li class="active">职位信息管理</li>
         </ol>
     </div>
     <!--过滤条件-->
@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="panel panel-default">
         	<div class="panel-heading">
             <span class="iconstate left bg-filter"></span>
-            <span class="left bg-filter">***数据表</span>
+            <span class="left bg-filter">职位数据表</span>
 			<shiro:hasPermission name="jobpos_insert">
             <button class="tianjia-button right bg-filter" id="jobpos_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
 			</shiro:hasPermission>
@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			"创建时间"
 			],
             colModel: [
-				{name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
+			{name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
 			{name: "jobposName", index: "jobposName", sortable: false, width: 60, align: "center"},
 			{name: "jobposCode", index: "jobposCode", sortable: false, width: 60, align: "center"},
 			{name: "jobposLevel", index: "jobposLevel", sortable: false, width: 60, align: "center"},

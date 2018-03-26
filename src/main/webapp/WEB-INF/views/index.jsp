@@ -5,6 +5,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -32,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </a>
         </div>
         <div class="header-right right">
-            <button>
+            <button onclick="jumpIframe('rest/welcome')">
                 <span class="glyphicon glyphicon-home"></span>
             </button>
             <button onclick="location.href='<%=path %>/rest/logoutAction'">
@@ -47,14 +48,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <ul class="nav nav-pills nav-stacked">
             <li role="presentation">
                 <a href="#ssztgl-menu" class="nav-header" data-toggle="collapse"><span class="glyphicon glyphicon-folder-open"></span><span>人事信息管理</span></a>
-                <ul id="ssztgl-menu" class="nav nav-list collapse">
+                <ul id="ssztgl-menu" class="nav nav-list collapse in">
                     <li><a onclick="jumpIframe('department/show')"><span class="glyphicon glyphicon-menu-right"></span><span>部门信息管理</span></a></li>
                     <li><a onclick="jumpIframe('jobpos/show')"><span class="glyphicon glyphicon-menu-right"></span><span>职位信息管理</span></a></li>
                     <li><a onclick="jumpIframe('employee/show')"><span class="glyphicon glyphicon-menu-right"></span><span>用户信息管理</span></a></li>
                     <li><a onclick="jumpIframe('contract/show')"><span class="glyphicon glyphicon-menu-right"></span><span>合同信息管理</span></a></li>
                 </ul>
             </li>
-
             <li role="presentation">
                 <a href="#dsjfx-menu" class="nav-header" data-toggle="collapse"><span class="glyphicon glyphicon-menu-hamburger"></span>工作管理</a>
                 <ul id="dsjfx-menu" class="nav nav-list collapse in">
@@ -77,7 +77,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <a href="#ssztgl-salary" class="nav-header" data-toggle="collapse"><span class="glyphicon glyphicon-folder-open"></span><span>薪资管理</span></a>
                 <ul id="ssztgl-salary" class="nav nav-list collapse">
                     <li><a onclick="jumpIframe('employee/salary')"><span class="glyphicon glyphicon-menu-right"></span><span>员工薪资信息</span></a></li>
-                    <li><a onclick="jumpIframe('employeeEvection/evection')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
+
+                    <c:if test="${sessionScope.name == 'admin' }">
+                    <li><a onclick="jumpIframe('employeeEvection/admin')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
+                    </c:if>
+                    <c:if test="${sessionScope.name != 'admin' }">
+                        <li><a onclick="jumpIframe('employeeEvection/other')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
+                    </c:if>
+
                     <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工加班管理</span></a></li>
                     <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工处罚管理</span></a></li>
                 </ul>

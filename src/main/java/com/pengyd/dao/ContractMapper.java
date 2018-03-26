@@ -5,8 +5,9 @@ import java.util.Map;
 
 import com.pengyd.bean.Contract;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface ContractMapper {
 
     /**

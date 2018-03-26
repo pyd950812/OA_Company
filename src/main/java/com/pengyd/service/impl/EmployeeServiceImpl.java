@@ -126,6 +126,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             int count = employeeMapper.selectCount(employee);
             //根据查询条件查询总页数
             int pages = (count % Integer.parseInt(rows)) == 0 ? (count / _rows) : ((count / _rows) + 1);
+
             List<Employee> data = employeeMapper.selectData(employee, _rows, (_page - 1) * _rows, order_by);
             jgjb.setPage(_page);// 第几页
             jgjb.setRecords(count);// 总数据量

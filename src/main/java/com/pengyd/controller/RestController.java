@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
- * @description: TODO - 
+ * @description: TODO - 登录
  * @author: pengyd
  * @createTime: 2018年3月9日 上午11:32:10
  *
@@ -114,6 +114,7 @@ public class RestController {
             subject.login(new UsernamePasswordToken(username, password));
 
             session.setAttribute("name",username);
+
             rd.setCode("OK");
             rd.setMsg("登录成功");
         }

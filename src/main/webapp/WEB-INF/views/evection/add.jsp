@@ -150,8 +150,6 @@
 
 
 
-
-
     var employeeEvection = {};
     employeeEvection.id;
     employeeEvection.empId;
@@ -167,7 +165,7 @@
         var GridParam = JSON.parse(JSON.stringify(employeeEvection));
         $("#GRIDTABLE").jqGrid({
             //caption:'权限管理',
-            url: '<%=path %>/employeeEvection/select', //若修改url地址，可将此url对应的本地json文件删除
+            url: '<%=path %>/employeeEvection/adminSelect', //若修改url地址，可将此url对应的本地json文件删除
             styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
             datatype: "json", //数据类型
             mtype: "post",//提交方式

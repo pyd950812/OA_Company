@@ -40,9 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <ol class="breadcrumb">
             <li><a>首页</a></li>
             <li>></li>
-            <li>****管理</li>
+            <li>人事信息管理</li>
             <li>></li>
-            <li class="active">***管理</li>
+            <li class="active">部门信息管理</li>
         </ol>
     </div>
     <!--过滤条件-->
@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="panel panel-default">
         	<div class="panel-heading">
             <span class="iconstate left bg-filter"></span>
-            <span class="left bg-filter">***数据表</span>
+            <span class="left bg-filter">部门数据表</span>
 			<shiro:hasPermission name="department_insert">
             <button class="tianjia-button right bg-filter" id="department_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
 			</shiro:hasPermission>

@@ -17,44 +17,37 @@ public interface DepartmentMapper {
 
     /**
      * department 执行插入 Department 操作
-     * @param department
      */
     void insert(Department department);
 
     /**
      * department 执行删除 数据操作
-     * @param department
      */
     void delete(Department department);
 
     /**
      * department 执行 批量删除 数据操作
-     * @param department
      */
     void deleteBatch(@Param("ids") String[] ids);
 
     /**
      * department 执行修改 数据操作
-     * @param department
      */
     void update(Department department);
 
     /**
      * 根据条件查询Department总数据量
-     * @param department
      */
     int selectCount(Department department);
 
     /**
      * 根据条件查询Department数据
-     * @param department
      */
     List<Department> selectData(@Param("department") Department department, @Param("limit") int limit,
                                 @Param("offset") int offset, @Param("order_by") String order_by);
 
     /**
      * 根据条件查询Department数据不分页
-     * @param department
      */
     List<Department> selectByParam(@Param("department") Department department, @Param("order_by") String order_by);
 

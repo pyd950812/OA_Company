@@ -5,6 +5,7 @@
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <html>
 <head>
     <base href="<%=basePath%>">
@@ -42,18 +43,26 @@
             <li>></li>
             <li>薪资管理</li>
             <li>></li>
-            <li class="active">员工薪资信息</li>
+            <li class="active">员工出差管理</li>
         </ol>
     </div>
 
 
     <div class="filter panel panel-default">
         <div class="panel-heading">
-            <span>薪资信息</span>
+            <span>出差信息</span>
+                <div id="evec_over">
+                    <c:if test="${sessionScope.name == 'admin' }">
+                    <button class="tianjia-button right bg-filter" id ="emp_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+                    <button class="tianjia-button right bg-filter" id ="emp_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
+                    <button class="tianjia-button right bg-filter" id ="emp_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+                    </c:if>
+                </div>
             <div class="GL-danger-info" id="GLDangerInfo">
 
             </div>
         </div>
+
         <%-- 表格 --%>
         <div class="panel-body">
             <table id="GRIDTABLE" style="border-collapse: collapse"></table>
@@ -64,21 +73,22 @@
 </div>
 <script>
 
+    var employeeEvection = {};
+    employeeEvection.id;
+    employeeEvection.empId;
+    employeeEvection.empName;
+    employeeEvection.evectionTimebegin;
+    employeeEvection.evectionTimeover;
+    employeeEvection.evectionReason;
+    employeeEvection.createTime;
+    employeeEvection.updateTime;
 
-    var employeeSalary = {};
-    employeeSalary.id;
-    employeeSalary.empCode;
-    employeeSalary.loginname;
-    employeeSalary.password;
-    employeeSalary.realname;
-    employeeSalary.entryTime;
-    employeeSalary.jobposId;
-    employeeSalary.registerTime;
+
     $(function(){
-        var GridParam = JSON.parse(JSON.stringify(employeeSalary));
+        var GridParam = JSON.parse(JSON.stringify(employeeEvection));
         $("#GRIDTABLE").jqGrid({
             //caption:'权限管理',
-            url: '<%=path %>/employee/select', //若修改url地址，可将此url对应的本地json文件删除
+            url: '<%=path %>/employeeEvection/select', //若修改url地址，可将此url对应的本地json文件删除
             styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
             datatype: "json", //数据类型
             mtype: "post",//提交方式
@@ -97,24 +107,24 @@
             multiboxonly : true,//单选框
 
             colNames: [
-                "",
+                "id",
                 "员工编码",
-                "用户名",
-                "用户密码",
-                "真实姓名",
-                "入职时间",
-                "所属职位",
-                "注册时间"
+                "员工姓名",
+                "出差开始时间",
+                "出差结束时间",
+                "出差理由",
+                "创建时间",
+                "修改时间"
             ],
             colModel: [
                 {name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
-                {name: "empCode", index: "empCode", sortable: false, width: 60, align: "center"},
-                {name: "loginname", index: "loginname", sortable: false, width: 60, align: "center"},
-                {name: "password", index: "password", sortable: false, width: 60, align: "center"},
-                {name: "realname", index: "realname", sortable: false, width: 60, align: "center"},
-                {name: "entryTime", index: "entryTime", sortable: false, width: 60, align: "center"},
-                {name: "jobposId", index: "jobposId", sortable: false, width: 60, align: "center"},
-                {name: "registerTime", index: "registerTime", sortable: false, width: 60, align: "center"}
+                {name: "empId", index: "empId", sortable: false, width: 60, align: "center"},
+                {name: "empName", index: "empName", sortable: false, width: 60, align: "center"},
+                {name: "evectionTimebegin", index: "evectionTimebegin", sortable: false, width: 60, align: "center"},
+                {name: "evectionTimeover", index: "evectionTimeover", sortable: false, width: 60, align: "center"},
+                {name: "evectionReason", index: "evectionReason", sortable: false, width: 60, align: "center"},
+                {name: "createTime", index: "createTime", sortable: false, width: 60, align: "center"},
+                {name: "updateTime", index: "updateTime", sortable: false, width: 60, align: "center"}
             ],
             viewrecords: true, //是否在浏览导航栏显示记录总数
             rowNum:15,
@@ -132,15 +142,6 @@
         $("#GRIDPAGE").css("height", "45px");
     });
 
-
-    //执行一个laydate实例
-    laydate.render({
-        elem: '#entryTime' //指定元素
-    });
-
-    $("#back").click(function(){
-        window.location.href= "<%=path %>/employee/show";
-    });
 
 </script>
 </body>

@@ -36,6 +36,77 @@
         )
     </insert>
 
+	<select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.EmployeeEvection">
+		select count(*) from employee_evection
+		<if test="_parameter != null">
+			<where>
+				<trim suffixOverrides="and">
+					<if test="id != null and id != ''">
+						id = #{id,jdbcType=INTEGER} and
+					</if>
+					<if test="empId != null and empId != ''">
+						emp_id = #{empId,jdbcType=VARCHAR} and
+					</if>
+					<if test="empName != null and empName != ''">
+						emp_name = #{empName,jdbcType=VARCHAR} and
+					</if>
+					<if test="evectionTimebegin != null and evectionTimebegin != ''">
+						evection_timebegin = #{evectionTimebegin,jdbcType=VARCHAR} and
+					</if>
+					<if test="evectionTimeover != null and evectionTimeover != ''">
+						evection_timeover = #{evectionTimeover,jdbcType=VARCHAR} and
+					</if>
+					<if test="evectionReason != null and evectionReason != ''">
+						evection_reason = #{evectionReason,jdbcType=DATE} and
+					</if>
+					<if test="createTime != null and createTime != ''">
+						create_time = #{createTime,jdbcType=INTEGER} and
+					</if>
+					<if test="updateTime != null and updateTime != ''">
+						update_time = #{updateTime,jdbcType=TIMESTAMP} and
+					</if>
+				</trim>
+			</where>
+		</if>
+	</select>
+
+
+	<select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.EmployeeEvection">
+		select *
+		from employee_evection
+		<if test="_parameter != null">
+			<where>
+				<trim suffixOverrides="and">
+					<if test="id != null and id != ''">
+						id = #{id,jdbcType=INTEGER} and
+					</if>
+					<if test="empId != null and empId != ''">
+						emp_id = #{empId,jdbcType=VARCHAR} and
+					</if>
+					<if test="empName != null and empName != ''">
+						emp_name = #{empName,jdbcType=VARCHAR} and
+					</if>
+					<if test="evectionTimebegin != null and evectionTimebegin != ''">
+						evection_timebegin = #{evectionTimebegin,jdbcType=VARCHAR} and
+					</if>
+					<if test="evectionTimeover != null and evectionTimeover != ''">
+						evection_timeover = #{evectionTimeover,jdbcType=VARCHAR} and
+					</if>
+					<if test="evectionReason != null and evectionReason != ''">
+						evection_reason = #{evectionReason,jdbcType=DATE} and
+					</if>
+					<if test="createTime != null and createTime != ''">
+						create_time = #{createTime,jdbcType=INTEGER} and
+					</if>
+					<if test="updateTime != null and updateTime != ''">
+						update_time = #{updateTime,jdbcType=TIMESTAMP} and
+					</if>
+				</trim>
+			</where>
+		</if>
+		order by ${order_by} desc limit #{limit} offset #{offset}
+	</select>
+
 
 
 

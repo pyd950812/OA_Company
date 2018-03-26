@@ -41,7 +41,12 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
-
+/**
+ * @description: TODO -
+ * @author: pengyd
+ * @createTime: 2018年3月9日 上午11:32:10
+ *
+ */
 @Controller
 @RequestMapping(value = "/contract")
 public class ContractController {
@@ -175,6 +180,9 @@ public class ContractController {
         return contractService.insert(contract);//执行插入 Contract 操作
     }
 
+    /**
+     *  下载合同
+     */
     @RequiresPermissions(value = "contract_downFileById")
     @RequestMapping(value = "/downFileById", method = RequestMethod.GET)
     public void downFileById(Model model, HttpServletRequest request, HttpServletResponse response) {

@@ -19,13 +19,11 @@ public interface JobposMapper {
 
     /**
      * jobpos 执行插入 Jobpos 操作
-     * @param jobpos
      */
     void insert(Jobpos jobpos);
 
     /**
      * jobpos 执行删除 数据操作
-     * @param jobpos
      */
     void delete(Jobpos jobpos);
 
@@ -36,13 +34,11 @@ public interface JobposMapper {
 
     /**
      * jobpos 执行修改 数据操作
-     * @param jobpos
      */
     void update(Jobpos jobpos);
 
     /**
      * 根据条件查询Jobpos总数据量
-     * @param jobpos
      */
     int selectCount(Jobpos jobpos);
 
@@ -50,7 +46,6 @@ public interface JobposMapper {
 
     /**
      * 根据条件查询Jobpos数据
-     * @param jobpos
      */
     List<Jobpos> selectData(@Param("jobpos") Jobpos jobpos, @Param("limit") int limit, @Param("offset") int offset,
                             @Param("order_by") String order_by);
@@ -60,7 +55,6 @@ public interface JobposMapper {
 
     /**
      * 根据条件查询Jobpos数据不分页
-     * @param jobpos
      */
     List<Jobpos> selectByParam(@Param("jobpos") Jobpos jobpos, @Param("order_by") String order_by);
 
