@@ -7,12 +7,10 @@ import com.pengyd.bean.Employee;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-
 /**
- * <p>数据层接口</p>
- * <p>Table: employee - </p>
- *
- * @since ${.now}
+ * @Author pengyd
+ * @Date 2018/3/22 16:32
+ * @function:
  */
 @Repository
 public interface EmployeeMapper {
@@ -65,4 +63,9 @@ public interface EmployeeMapper {
     List<Map<Integer, String>> ajaxSelectEmpByJobposId(@Param("jobposId") String jobposId);
 
     String selectRealnameById(@Param("id") Integer id);
+
+    /**
+     *  根据empId查询员工是否存在
+     */
+    Employee selectByEmpId(@Param("empId") String empId);
 }

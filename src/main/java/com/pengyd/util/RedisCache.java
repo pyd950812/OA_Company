@@ -5,10 +5,9 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 /**
- * @description: TODO - 
- * @author:
- * @createTime: 2018年3月9日 下午12:19:40
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Component("redisCache")
 public class RedisCache {

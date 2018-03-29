@@ -14,180 +14,182 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
-    
+
     <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
-    
+
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-	
-    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
-	
-    <style type="text/css">
-		.amap-sug-result{
-			z-index:100000;
-		}
-		#fieldHidden{
-			display: none;
-		}
-	</style>
-	
-	<script type="text/javascript">
-		var olddata = JSON.parse('${olddata}');
 
-	</script>
+    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
+
+    <style type="text/css">
+        .amap-sug-result{
+            z-index:100000;
+        }
+        #fieldHidden{
+            display: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var olddata = JSON.parse('${olddata}');
+    </script>
 
 </head>
-   
+
 <body>
 <div class="container-fluid GL-hzs">
-	<!--头部内容-->
+    <!--头部内容-->
     <div class="header">
         <ol class="breadcrumb">
-            <li><a>首页</a></li>
+            <li>人事信息管理</li>
             <li>></li>
-            <li><a>***</a></li>
-            <li>></li>
-            <li><a>***</a></li>
-            <li>></li>
-            <li class="active">**</li>
+            <li class="active">职位信息修改</li>
         </ol>
     </div>
     <!--提示必填项部分-->
-	<div class="filter panel panel-default">
-		<div class="panel-heading" style="border-bottom:0px;">
-			<span>温馨提示：带*的为必填部分，请核对完成后点击添加</span>
-			
-	<span type = "button" id ="save" class="save">保存</span>
-	<span type = "button" id= "back" class="back">返回</span>
-	
-		</div>
-	</div>
-	
-	<div class="filter panel panel-default">
-		<div class="panel-heading">
+    <div class="filter panel panel-default">
+        <div class="panel-heading" style="border-bottom:0px;">
+            <span>温馨提示：带*的为必填部分，请核对完成后点击保存</span>
+
+            <span type = "button" id ="save" class="save">保存</span>
+            <span type = "button" id= "back" class="back">返回</span>
+
+        </div>
+    </div>
+
+    <div class="filter panel panel-default">
+        <div class="panel-heading">
             <span>基础信息</span>
             <div class="GL-danger-info" id="GLDangerInfo">
-				
+
             </div>
         </div>
         <div class="panel-body pad-tb-25" id="jcxx">
-        	 <div class="row">
-			 
-             <!-- 以下为隐藏字段值 -->
-             <div id="fieldHidden">
-            
-				<div class="col-xs-6 row ie-col-6">
+            <div class="row">
+
+                <!-- 以下为隐藏字段值 -->
+                <div id="fieldHidden">
+
+                    <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 自增id：
                     </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <%-- <input type="text" class="col-xs-12 GL-add-require" id="id" value="<%=request.getParameter("id") %>"> --%>
-                        <input type="text" class="col-xs-12 GL-add-require" id="id" value="">
+                        <div class="col-xs-9 pad-0 row">
+                            <%-- <input type="text" class="col-xs-12 GL-add-require" id="id" value="<%=request.getParameter("id") %>"> --%>
+                            <input type="text" class="col-xs-12 GL-add-require" id="id" value="">
+                        </div>
                     </div>
+
                 </div>
-                
-             </div>
-                
-				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 主键：
-                    </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="id" value="">
-                    </div>
-                </div>
-				<div class="col-xs-6 row ie-col-6">
+
+                <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 职位名称：
                     </span>
                     <div class="col-xs-9 pad-0 row">
                         <input type="text" class="col-xs-12 GL-add-require" id="jobposName" value="">
                     </div>
                 </div>
-				<div class="col-xs-6 row ie-col-6">
+                <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 职位编码：
                     </span>
                     <div class="col-xs-9 pad-0 row">
                         <input type="text" class="col-xs-12 GL-add-require" id="jobposCode" value="">
                     </div>
                 </div>
-				<div class="col-xs-6 row ie-col-6">
+                <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 职位层级：
                     </span>
                     <div class="col-xs-9 pad-0 row">
                         <input type="text" class="col-xs-12 GL-add-require" id="jobposLevel" value="">
                     </div>
                 </div>
-				<div class="col-xs-6 row ie-col-6">
+                <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 所属部门：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="deptId" value="">
+                        <select id="deptId" style="width:200px;" >
+
+                        </select>
                     </div>
                 </div>
-				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 创建时间：
-                    </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="createTime" value="">
-                    </div>
-                </div>
-        	 	
-                
-        	 </div>
+
+            </div>
         </div>
-	
-	</div>
+
+    </div>
 </div>
 </body>
 
 <script type="text/javascript">
-var jobposParam = {};
-	jobposParam.id;
-	jobposParam.jobposName;
-	jobposParam.jobposCode;
-	jobposParam.jobposLevel;
-	jobposParam.deptId;
-	jobposParam.createTime;
+    var jobposParam = {};
+    jobposParam.id;
+    jobposParam.jobposName;
+    jobposParam.jobposCode;
+    jobposParam.jobposLevel;
+    jobposParam.deptId;
+    jobposParam.createTime;
+    $("#id").val(olddata.id);
+    $("#jobposName").val(olddata.jobposName);
+    $("#jobposCode").val(olddata.jobposCode);
+    $("#jobposLevel").val(olddata.jobposLevel);
 
-	$("#id").val(olddata.id);
-	$("#jobposName").val(olddata.jobposName);
-	$("#jobposCode").val(olddata.jobposCode);
-	$("#jobposLevel").val(olddata.jobposLevel);
-	$("#deptId").val(olddata.deptId);
-	$("#createTime").val(olddata.createTime);
+    //部门信息回显
+    /* 获取到部门信息集合 */
+    $.ajax({
+        url:'<%=path %>/department/ajaxSelectDept',
+        type:'post',
+        cache:false,
+        dataType:'json',
+        contentType: "application/json;charset=UTF-8",
+        success:function(data){
+            var list = data.data.data;
+            var _html = "<option value='0'>请选择所属部门</option>";
+            for(var i=0;i<list.length;i++){
+                if (list[i].id == olddata.deptId) {
+                    _html += "<option value='"+list[i].id+"' selected>"+list[i].deptname+"</option>";
+                } else {
+                    _html += "<option value='"+list[i].id+"'>"+list[i].deptname+"</option>";
+                }
+            }
+            $("#deptId").html(_html);
+        },
+        error:function() {
+            alert("异常！");
+        }
+    });
+    $("#save").click(function(){
+        var param = JSON.parse(JSON.stringify(jobposParam));
 
-	$("#save").click(function(){
-		var param = JSON.parse(JSON.stringify(jobposParam));
-		
-					param.id=$("#id").val();
-					param.jobposName=$("#jobposName").val();
-					param.jobposCode=$("#jobposCode").val();
-					param.jobposLevel=$("#jobposLevel").val();
-					param.deptId=$("#deptId").val();
-					param.createTime=$("#createTime").val();
-				
-	    $.ajax({url:'<%=path %>/jobpos/update',
-       		type:'post',
-       		cache:false,
-       		dataType:'json',
-       		data: JSON.stringify(param),
-       		contentType: "application/json;charset=UTF-8",
-           	success:function(data){
-           		if(data.code == "OK"){
-           			alert("数据修改成功");
-               		window.location.href= "<%=path %>/jobpos/show";
-           		} else {
-           			alert(data.msg);
-           		}
-           	},
-           	error : function() {
-           		alert("异常！");
-           	}
-       });
-	});
-	
-	$("#back").click(function(){
-		window.location.href= "<%=path %>/jobpos/show";
-	});
+        param.id=$("#id").val();
+        param.jobposName=$("#jobposName").val();
+        param.jobposCode=$("#jobposCode").val();
+        param.jobposLevel=$("#jobposLevel").val();
+        param.deptId=$("#deptId").val();
+        param.createTime=$("#createTime").val();
 
+        $.ajax({url:'<%=path %>/jobpos/update',
+            type:'post',
+            cache:false,
+            dataType:'json',
+            data: JSON.stringify(param),
+            contentType: "application/json;charset=UTF-8",
+            success:function(data){
+                if(data.code == "OK"){
+                    alert("数据修改成功");
+                    window.location.href= "<%=path %>/jobpos/show";
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    });
+
+    $("#back").click(function(){
+        window.location.href= "<%=path %>/jobpos/show";
+    });
 </script>
 </html>

@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 
 
 /**
-* <p>服务层接口实现</p>
-*/
+ * @Author pengyd
+ * @Date 2018/3/22 17:00
+ * @function:
+ */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -245,8 +247,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.selectRealnameById(id);
     }
 
-
-
+    @Override
+    public Employee selectByEmpId(String empId) {
+        Employee employee = employeeMapper.selectByEmpId(empId);
+        return employee;
+    }
 
 
 }

@@ -39,35 +39,35 @@
 	<select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.EmployeeEvection">
 		select count(*) from employee_evection
 		<if test="_parameter != null">
-			<where>
-				<trim suffixOverrides="and">
-					<if test="id != null and id != ''">
-						id = #{id,jdbcType=INTEGER} and
-					</if>
-					<if test="empId != null and empId != ''">
-						emp_id = #{empId,jdbcType=VARCHAR} and
-					</if>
-					<if test="empName != null and empName != ''">
-						emp_name = #{empName,jdbcType=VARCHAR} and
-					</if>
-					<if test="evectionTimebegin != null and evectionTimebegin != ''">
-						evection_timebegin = #{evectionTimebegin,jdbcType=VARCHAR} and
-					</if>
-					<if test="evectionTimeover != null and evectionTimeover != ''">
-						evection_timeover = #{evectionTimeover,jdbcType=VARCHAR} and
-					</if>
-					<if test="evectionReason != null and evectionReason != ''">
-						evection_reason = #{evectionReason,jdbcType=DATE} and
-					</if>
-					<if test="createTime != null and createTime != ''">
-						create_time = #{createTime,jdbcType=INTEGER} and
-					</if>
-					<if test="updateTime != null and updateTime != ''">
-						update_time = #{updateTime,jdbcType=TIMESTAMP} and
-					</if>
-				</trim>
-			</where>
-		</if>
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null and id != ''">
+					id = #{id,jdbcType=INTEGER} and
+				</if>
+				<if test="empId != null and empId != ''">
+					emp_id = #{empId,jdbcType=VARCHAR} and
+				</if>
+				<if test="empName != null and empName != ''">
+					emp_name = #{empName,jdbcType=VARCHAR} and
+				</if>
+				<if test="evectionTimebegin != null and evectionTimebegin != ''">
+					evection_timebegin = #{employeeEvection.evectionTimebegin,jdbcType=DATE} and
+				</if>
+				<if test="evectionTimeover != null and evectionTimeover != ''">
+					evection_timeover = #{evectionTimeover,jdbcType=DATE} and
+				</if>
+				<if test="evectionReason != null and evectionReason != ''">
+					evection_reason = #{evectionReason,jdbcType=VARCHAR} and
+				</if>
+				<if test="createTime != null and createTime != ''">
+					create_time = #{createTime,jdbcType=TIMESTAMP} and
+				</if>
+				<if test="updateTime != null and updateTime != ''">
+					update_time = #{updateTime,jdbcType=TIMESTAMP} and
+				</if>
+			</trim>
+		</where>
+	</if>
 	</select>
 
 
@@ -77,41 +77,105 @@
 		<if test="_parameter != null">
 			<where>
 				<trim suffixOverrides="and">
-					<if test="id != null and id != ''">
-						id = #{id,jdbcType=INTEGER} and
+					<if test="employeeEvection.id != null and employeeEvection.id != ''">
+						id = #{employeeEvection.id,jdbcType=INTEGER} and
 					</if>
-					<if test="empId != null and empId != ''">
-						emp_id = #{empId,jdbcType=VARCHAR} and
+					<if test="employeeEvection.empId != null and employeeEvection.empId != ''">
+						emp_id = #{employeeEvection.empId,jdbcType=VARCHAR} and
 					</if>
-					<if test="empName != null and empName != ''">
-						emp_name = #{empName,jdbcType=VARCHAR} and
+					<if test="employeeEvection.empName != null and employeeEvection.empName != ''">
+						emp_name = #{employeeEvection.empName,jdbcType=VARCHAR} and
 					</if>
-					<if test="evectionTimebegin != null and evectionTimebegin != ''">
-						evection_timebegin = #{evectionTimebegin,jdbcType=VARCHAR} and
+					<if test="employeeEvection.evectionTimebegin != null and employeeEvection.evectionTimebegin != ''">
+						evection_timebegin = #{employeeEvection.evectionTimebegin,jdbcType=DATE} and
 					</if>
-					<if test="evectionTimeover != null and evectionTimeover != ''">
-						evection_timeover = #{evectionTimeover,jdbcType=VARCHAR} and
+					<if test="employeeEvection.evectionTimeover != null and employeeEvection.evectionTimeover != ''">
+						evection_timeover = #{employeeEvection.evectionTimeover,jdbcType=DATE} and
 					</if>
-					<if test="evectionReason != null and evectionReason != ''">
-						evection_reason = #{evectionReason,jdbcType=DATE} and
+					<if test="employeeEvection.evectionReason != null and employeeEvection.evectionReason != ''">
+						evection_reason = #{employeeEvection.evectionReason,jdbcType=VARCHAR} and
 					</if>
-					<if test="createTime != null and createTime != ''">
-						create_time = #{createTime,jdbcType=INTEGER} and
+					<if test="employeeEvection.createTime != null and employeeEvection.createTime != ''">
+						create_time = #{employeeEvection.createTime,jdbcType=TIMESTAMP} and
 					</if>
-					<if test="updateTime != null and updateTime != ''">
-						update_time = #{updateTime,jdbcType=TIMESTAMP} and
+					<if test="employeeEvection.updateTime != null and employeeEvection.updateTime != ''">
+						update_time = #{employeeEvection.updateTime,jdbcType=TIMESTAMP} and
 					</if>
 				</trim>
 			</where>
 		</if>
-		order by ${order_by} desc limit #{limit} offset #{offset}
+		order by #{order_by} desc limit #{limit} offset #{offset}
 	</select>
 
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.EmployeeEvection">
+		select *
+		from employee_evection
+		<if test="_parameter != null">
+			<where>
+				<trim suffixOverrides="and">
+					<if test="employeeEvection.id != null and employeeEvection.id != ''">
+						id = #{employeeEvection.id,jdbcType=INTEGER} and
+					</if>
+					<if test="employeeEvection.empId != null and employeeEvection.empId != ''">
+						emp_id = #{employeeEvection.empId,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeEvection.empName != null and employeeEvection.empName != ''">
+						emp_name = #{employeeEvection.empName,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeEvection.evectionTimebegin != null and employeeEvection.evectionTimebegin != ''">
+						evection_timebegin = #{employeeEvection.evectionTimebegin,jdbcType=DATE} and
+					</if>
+					<if test="employeeEvection.evectionTimeover != null and employeeEvection.evectionTimeover != ''">
+						evection_timeover = #{employeeEvection.evectionTimeover,jdbcType=DATE} and
+					</if>
+					<if test="employeeEvection.evectionReason != null and employeeEvection.evectionReason != ''">
+						evection_reason = #{employeeEvection.evectionReason,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeEvection.createTime != null and employeeEvection.createTime != ''">
+						create_time = #{employeeEvection.createTime,jdbcType=TIMESTAMP} and
+					</if>
+					<if test="employeeEvection.updateTime != null and employeeEvection.updateTime != ''">
+						update_time = #{employeeEvection.updateTime,jdbcType=TIMESTAMP} and
+					</if>
+				</trim>
+			</where>
+		</if>
+		order by #{order_by} desc
+	</select>
 
+	<update id="update" parameterType="com.pengyd.bean.EmployeeEvection">
+		UPDATE employee_evection
+		<set>
+			<if test="empId != null and empId != ''">
+				emp_id = #{empId,jdbcType=VARCHAR},
+			</if>
+			<if test="empName != null and empName != ''">
+				emp_name = #{empName,jdbcType=VARCHAR},
+			</if>
+			<if test="evectionTimebegin != null and evectionTimebegin != ''">
+				evection_timebegin = #{evectionTimebegin,jdbcType=DATE},
+			</if>
+			<if test="evectionTimeover != null and evectionTimeover != ''">
+				evection_timeover = #{evectionTimeover,jdbcType=DATE},
+			</if>
+			<if test="evectionReason != null and evectionReason != ''">
+				evection_reason = #{evectionReason,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteBatch">
+		DELETE from employee_evection where id IN
+		<foreach collection="ids" item="id" separator="," open="(" close=")">
+			#{id}
+		</foreach>
+	</delete>
 
-
-
-
+	<select id="selectByRealName" resultMap="BaseResultMap" parameterType="java.lang.String">
+ 	 select * from employee_evection
+ 	 where emp_name = #{realName}
+	</select>
 
 
 

@@ -34,72 +34,64 @@ public class EmployeeEvection {
         return id;
     }
 
-    public EmployeeEvection setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
-        return this;
     }
 
     public String getEmpId() {
         return empId;
     }
 
-    public EmployeeEvection setEmpId(String empId) {
+    public void setEmpId(String empId) {
         this.empId = empId;
-        return this;
     }
 
     public String getEmpName() {
         return empName;
     }
 
-    public EmployeeEvection setEmpName(String empName) {
+    public void setEmpName(String empName) {
         this.empName = empName;
-        return this;
     }
 
     public Date getEvectionTimebegin() {
         return evectionTimebegin;
     }
 
-    public EmployeeEvection setEvectionTimebegin(Date evectionTimebegin) {
+    public void setEvectionTimebegin(Date evectionTimebegin) {
         this.evectionTimebegin = evectionTimebegin;
-        return this;
     }
 
     public Date getEvectionTimeover() {
         return evectionTimeover;
     }
 
-    public EmployeeEvection setEvectionTimeover(Date evectionTimeover) {
+    public void setEvectionTimeover(Date evectionTimeover) {
         this.evectionTimeover = evectionTimeover;
-        return this;
     }
 
     public String getEvectionReason() {
         return evectionReason;
     }
 
-    public EmployeeEvection setEvectionReason(String evectionReason) {
+    public void setEvectionReason(String evectionReason) {
         this.evectionReason = evectionReason;
-        return this;
     }
 
     public Date getCreateTime() {
         return createTime;
     }
 
-    public EmployeeEvection setCreateTime(Date createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-        return this;
     }
 
     public Date getUpdateTime() {
         return updateTime;
     }
 
-    public EmployeeEvection setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-        return this;
     }
 
     @Override

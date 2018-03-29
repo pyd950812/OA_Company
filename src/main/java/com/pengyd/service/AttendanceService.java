@@ -6,10 +6,9 @@ import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
 
 /**
- * <p>服务层接口</p>
- * <p>Table: attendance - </p>
- *
- * @since ${.now}
+ * @Author pengyd
+ * @Date 2018/3/22 17:00
+ * @function:
  */
 public interface AttendanceService {
 

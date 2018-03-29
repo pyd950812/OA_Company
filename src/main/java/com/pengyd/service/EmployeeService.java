@@ -6,10 +6,9 @@ import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
 
 /**
- * <p>服务层接口</p>
- * <p>Table: employee - </p>
- *
- * @since ${.now}
+ * @Author pengyd
+ * @Date 2018/3/22 17:00
+ * @function:
  */
 public interface EmployeeService {
 
@@ -50,4 +49,9 @@ public interface EmployeeService {
     ReturnData ajaxSelectEmpByJobposId(String jobposId);
 
     String selectRealnameById(Integer id);
+
+    /**
+     *  根据empId查询员工是否存在
+     */
+    Employee selectByEmpId(String empId);
 }

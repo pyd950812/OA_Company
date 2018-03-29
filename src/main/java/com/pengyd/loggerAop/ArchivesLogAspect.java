@@ -21,9 +21,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 /**
- * @description: TODO - 
- * @author: pengyd
- * @createTime: 2018年3月9日 下午12:11:47
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Aspect
 public class ArchivesLogAspect {

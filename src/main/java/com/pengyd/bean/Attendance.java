@@ -3,7 +3,11 @@ package com.pengyd.bean;
 import java.sql.Date;
 
 import org.apache.ibatis.type.Alias;
-
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 16:18
+ * @function:  考勤信息
+ */
 @Alias("Attendance")
 public class Attendance {
 

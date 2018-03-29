@@ -27,10 +27,9 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * @description: TODO - 
- * @author:  pengyd
- * @createTime: 2018年3月9日 上午11:34:27
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Component("securityRealm")
 public class SecurityRealm extends AuthorizingRealm {

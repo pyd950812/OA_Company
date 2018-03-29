@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @description: TODO - 
- * @author: pengyd
- * @createTime: 2018年3月9日 下午12:11:04
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Target({ java.lang.annotation.ElementType.PARAMETER, java.lang.annotation.ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

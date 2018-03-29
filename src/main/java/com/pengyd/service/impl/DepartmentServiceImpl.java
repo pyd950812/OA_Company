@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 
 
 /**
-* <p>服务层接口实现</p>
-* <p>Table: department - </p>
-* @since ${.now}
-*/
+ * @Author pengyd
+ * @Date 2018/3/22 17:00
+ * @function:
+ */
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 

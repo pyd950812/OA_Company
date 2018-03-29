@@ -11,17 +11,13 @@
     <title>公司OA系统</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
-    <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
-
-    <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
-
+    <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
     <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
-    <script src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
+    <script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+    <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <script src="<%=path %>/assets/js/layer/laydate.js"></script>
 
 </head>
 

@@ -10,6 +10,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.pengyd.bean.Employee;
 import com.pengyd.service.EmployeeService;
 import com.pengyd.util.JqGridJsonBean;
@@ -36,9 +37,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 /**
- * @description: TODO -
- * @author: pengyd
- * @createTime: 2018年3月9日 上午11:32:10
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Controller
 @RequestMapping(value = "/employee")
@@ -76,6 +77,17 @@ public class EmployeeController {
     @RequiresPermissions(value = "employee_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
+        String id = request.getParameter("id");
+
+        Employee employee = new Employee();
+        employee.setId(Integer.valueOf(Integer.parseInt(id)));
+
+        ReturnData rd = employeeService.selectByParam(null, employee);
+        if (rd.getCode().equals("OK")) {
+            List<Employee> data = (List<Employee>) rd.getData().get("data");
+
+            model.addAttribute("olddata", JSON.toJSONString(data.get(0)));
+        }
         return "employee/edit";
     }
 
@@ -139,6 +151,23 @@ public class EmployeeController {
         //分页查询
         return employeeService.select(page, rows, order_by, employee);
     }
+
+    /**
+     * 对 employee 的数据分页查询操作
+     */
+    @RequestMapping(value = "/selectRelationData", method = RequestMethod.POST)
+    @ResponseBody
+    public JqGridJsonBean selectRelationData(String GridParam, Model model, HttpServletRequest request) {
+        Employee employee = new Gson().fromJson(GridParam, Employee.class);//json 转对象
+
+        String page = request.getParameter("page");//第几页
+        String rows = request.getParameter("rows");//一页有几行
+        String order_by = request.getParameter("order_by");//排序
+
+        //分页查询
+        return employeeService.selectRelationData(page, rows, order_by, employee);
+    }
+
 
     @RequestMapping({ "/ajaxSelectMaxEmpCode" })
     @ResponseBody

@@ -46,45 +46,73 @@
             <li class="active">员工出差管理</li>
         </ol>
     </div>
+    <!--提示必填项部分-->
+    <div class="filter panel panel-default">
+        <div class="panel-heading" style="border-bottom:0px;">
+            <span>温馨提示：带*的为必填部分，请核对完成后点击添加</span>
+            <c:if test="${function == 'add'}">
+            <span type = "button" id ="add" class="save">添加</span>
+            </c:if>
+            <c:if test="${function != 'add'}">
+            <span type = "button" id ="save" class="save">保存</span>
+            </c:if>
+            <span type = "button" id= "back" class="back">返回</span>
+
+        </div>
+    </div>
 
 
     <div class="filter panel panel-default">
         <div class="panel-heading">
             <span>出差信息</span>
-                <div id="evec_over">
-                    <c:if test="${sessionScope.name == 'admin' }">
-                    <button class="tianjia-button right bg-filter" id ="emp_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
-                    <button class="tianjia-button right bg-filter" id ="emp_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
-                    <button class="tianjia-button right bg-filter" id ="emp_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
-                    </c:if>
-                </div>
+
             <div class="GL-danger-info" id="GLDangerInfo">
 
             </div>
         </div>
+
         <!--添加 -->
-        <c:if test="${sessionScope.name == 'admin' }">
         <div class="panel-body pad-tb-25" id="jcxx">
             <div class="row">
+                <c:if test="${function != 'add'}">
+                <div class="col-xs-6 row ie-col-6">
+                    <span class="col-xs-3 glyphicon">* 员工id：
+                    </span>
+                    <div class="col-xs-9 pad-0 row">
+                        <input type="number" class="col-xs-12 GL-add-require" id="id" value="${olddata.id}" readonly="readonly">
+                    </div>
+                </div>
+                </c:if>
+
                 <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 员工编码：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="number" class="col-xs-12 GL-add-require" id="empId" value="">
+                        <c:if test="${function == 'add'}">
+                        <input type="number" class="col-xs-12 GL-add-require" id="empId" value="${olddata.empId}" >
+                        </c:if>
+                        <c:if test="${function != 'add'}">
+                        <input type="number" class="col-xs-12 GL-add-require" id="empId" value="${olddata.empId}" readonly="readonly">
+                        </c:if>
                     </div>
                 </div>
                 <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 员工姓名：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="empName" value="">
+                        <c:if test="${function == 'add'}">
+                        <input type="text" class="col-xs-12 GL-add-require" id="empName" value="${olddata.empName}" >
+                        </c:if>
+                        <c:if test="${function != 'add'}">
+                        <input type="text" class="col-xs-12 GL-add-require" id="empName" value="${olddata.empName}" readonly="readonly">
+                        </c:if>
                     </div>
                 </div>
                 <div class="col-xs-6 row ie-col-6" style="margin-left: 10px">
                     <span class="col-xs-3 glyphicon" >* 出差开始时间：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="demo-input" placeholder="请选择出差开始时间" id="evectionTimebegin" style="width:380px;" >
+                        <input type="text" class="demo-input" placeholder="请选择出差开始时间" id="evectionTimebegin" style="width:350px;" value="${olddata.evectionTimebegin}">
 
                     </div>
                 </div>
@@ -92,24 +120,18 @@
                     <span class="col-xs-3 glyphicon">* 出差结束时间：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="demo-input" placeholder="请选择出差结束时间" id="evectionTimeover" style="width:380px;" >
+                        <input type="text" class="demo-input" placeholder="请选择出差结束时间" id="evectionTimeover" style="width:350px;" value="${olddata.evectionTimeover}">
 
                     </div>
                 </div>
                 <div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 出差理由：
                     </span>
-                    <input type="text" class="col-xs-12 GL-add-require" id="evectionReason" style="width:380px;">
+                    <input type="text" class="col-xs-12 GL-add-require" id="evectionReason" style="width:380px;" value="${olddata.evectionReason}">
                 </div>
-
-
             </div>
-
-            <button class="tianjia-button right bg-filter" id ="evec_save"><span class="glyphicon glyphicon-plus"></span> 保存</button>
-            <button class="tianjia-button right bg-filter" id ="evec_cancel"><span class="glyphicon glyphicon-edit"></span> 取消</button>
-
            </div>
-        </c:if>
+
 
 
         <%-- 表格 --%>
@@ -133,91 +155,98 @@
         elem: '#evectionTimeover' //出差结束时间
     });
 
-    $("#evec_save").click(function () {
-        alert("11111");
+
+
+    var evectionParam ={};
+    evectionParam.id;
+    evectionParam.empId;
+    evectionParam.empName;
+    evectionParam.evectionTimebegin;
+    evectionParam.evectionTimeover;
+    evectionParam.evectionReason;
+
+
+
+    $("#save").click(function () {
+        var param = JSON.parse(JSON.stringify(evectionParam));
+        param.id = $("#id").val();
+        param.empId = $("#empId").val();
+        param.empName = $("#empName").val();
+        param.evectionTimebegin = $("#evectionTimebegin").val();
+        param.evectionTimeover = $("#evectionTimeover").val();
+        param.evectionReason = $("#evectionReason").val();
+
+        $.ajax({
+            url:'<%=path %>/employeeEvection/update',
+            type:'post',
+            cache:false,
+            data : JSON.stringify(param),
+            dataType:'json',
+            contentType: "application/json;charset=UTF-8",
+            success:function(data) {
+                if(data.code == "OK"){
+                    alert("修改数据成功！");
+                    window.location.href="<%=path %>/employeeEvection/admin";
+                }else{
+                    alert(data.msg);
+                }
+
+            }
+        });
+    });
+
+    $("#back").click(function () {
+       window.location.href = "<%=path %>/employeeEvection/admin";
+    });
+
+    //根据empId查看员工是否存在
+    $("#empId").change(function () {
+        var empId = $("#empId").val();
+        $.ajax({
+            url:'<%=path %>/employeeEvection/selectByEmpId',
+            type:'post',
+            cache:false,
+            data : {"empId":empId},
+            dataType:'json',
+            success:function(data) {
+            if(data.realname != "ERROR"){
+                $("#empName").val(data.realname);
+            }else {
+                alert("员工不存在，请重新填写！");
+                $("#empId").val("");
+                $("#empName").val("");
+            }
+            }
+        });
+
+    });
+
+    $("#add").click(function () {
+        var param = JSON.parse(JSON.stringify(evectionParam));
+        param.empId = $("#empId").val();
+        param.empName = $("#empName").val();
+        param.evectionTimebegin = $("#evectionTimebegin").val();
+        param.evectionTimeover = $("#evectionTimeover").val();
+        param.evectionReason = $("#evectionReason").val();
         $.ajax({
             url:'<%=path %>/employeeEvection/insert',
             type:'post',
             cache:false,
-            data : JSON.stringify(""),
+            data : JSON.stringify(param),
             dataType:'json',
             contentType: "application/json;charset=UTF-8",
             success:function(data) {
-                alert(data);
+                if(data.code == "OK"){
+                    alert("插入数据成功！");
+                    window.location.href="<%=path %>/employeeEvection/admin";
+                }else{
+                    alert("插入数据失败！");
+                }
             }
         });
     });
 
 
-
-    var employeeEvection = {};
-    employeeEvection.id;
-    employeeEvection.empId;
-    employeeEvection.empName;
-    employeeEvection.evectionTimebegin;
-    employeeEvection.evectionTimeover;
-    employeeEvection.evectionReason;
-    employeeEvection.createTime;
-    employeeEvection.updateTime;
-
-
-    $(function(){
-        var GridParam = JSON.parse(JSON.stringify(employeeEvection));
-        $("#GRIDTABLE").jqGrid({
-            //caption:'权限管理',
-            url: '<%=path %>/employeeEvection/adminSelect', //若修改url地址，可将此url对应的本地json文件删除
-            styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
-            datatype: "json", //数据类型
-            mtype: "post",//提交方式
-            postData: {GridParam: JSON.stringify(GridParam)},
-            //width: $(".jqGrid_wrapper").css("width"),,
-            autowidth: true,//自动宽
-            //shrinkToFit: true,
-            height: '70%',//高度，表格高度。可为数值、百分比或'auto'
-            sortorder: 'asc',
-            viewrecords: true,//是否在浏览导航栏显示记录总数
-            altRows: true,//设置为交替行表格,默认为false
-            //rownumbers : true,//是否显示行号
-            //rownumWidth : '80px', //设置行号的宽度
-
-            multiselect: true,//定义多选选择框
-            multiboxonly : true,//单选框
-
-            colNames: [
-                "id",
-                "员工编码",
-                "员工姓名",
-                "出差开始时间",
-                "出差结束时间",
-                "出差理由",
-                "创建时间",
-                "修改时间"
-            ],
-            colModel: [
-                {name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
-                {name: "empId", index: "empId", sortable: false, width: 60, align: "center"},
-                {name: "empName", index: "empName", sortable: false, width: 60, align: "center"},
-                {name: "evectionTimebegin", index: "evectionTimebegin", sortable: false, width: 60, align: "center"},
-                {name: "evectionTimeover", index: "evectionTimeover", sortable: false, width: 60, align: "center"},
-                {name: "evectionReason", index: "evectionReason", sortable: false, width: 60, align: "center"},
-                {name: "createTime", index: "createTime", sortable: false, width: 60, align: "center"},
-                {name: "updateTime", index: "updateTime", sortable: false, width: 60, align: "center"}
-            ],
-            viewrecords: true, //是否在浏览导航栏显示记录总数
-            rowNum:15,
-            rowList:[15,30,50],
-            //loadonce: true,
-            jsonReader : {
-                root:"root", //结果集
-                page: "page", //第几页
-                total: "total", //总页数
-                    records: "records", //数据总数
-                    repeatitems: false
-            },
-            pager: "#GRIDPAGE"
-        });
-        $("#GRIDPAGE").css("height", "45px");
-    });
 
 
 </script>

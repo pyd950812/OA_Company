@@ -12,18 +12,14 @@
     <title>公司OA系统</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
-    <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
-
-    <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
-
+    <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
     <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
-    <script src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
+    <script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+    <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <script src="<%=path %>/assets/js/layer/laydate.js"></script>
-
 </head>
 
 <style>
@@ -51,16 +47,6 @@
     <div class="filter panel panel-default">
         <div class="panel-heading">
             <span>出差信息</span>
-                <div id="evec_over">
-                    <c:if test="${sessionScope.name == 'admin' }">
-                    <button class="tianjia-button right bg-filter" id ="emp_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
-                    <button class="tianjia-button right bg-filter" id ="emp_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
-                    <button class="tianjia-button right bg-filter" id ="emp_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
-                    </c:if>
-                </div>
-            <div class="GL-danger-info" id="GLDangerInfo">
-
-            </div>
         </div>
 
         <%-- 表格 --%>
@@ -72,27 +58,25 @@
     </div>
 </div>
 <script>
-
-    var employeeEvection = {};
-    employeeEvection.id;
-    employeeEvection.empId;
-    employeeEvection.empName;
-    employeeEvection.evectionTimebegin;
-    employeeEvection.evectionTimeover;
-    employeeEvection.evectionReason;
-    employeeEvection.createTime;
-    employeeEvection.updateTime;
-
+    var evectionParam = {};
+    evectionParam.id;
+    evectionParam.empId;
+    evectionParam.empName;
+    evectionParam.evectionTimebegin;
+    evectionParam.evectionTimeover;
+    evectionParam.evectionReason;
+    evectionParam.createTime;
+    evectionParam.updateTime;
 
     $(function(){
-        var GridParam = JSON.parse(JSON.stringify(employeeEvection));
+        var GridParam = JSON.parse(JSON.stringify(evectionParam));
         $("#GRIDTABLE").jqGrid({
             //caption:'权限管理',
-            url: '<%=path %>/employeeEvection/select', //若修改url地址，可将此url对应的本地json文件删除
+            url: "<%=path %>/employeeEvection/otherSelect", //请求路径
             styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
-            datatype: "json", //数据类型
-            mtype: "post",//提交方式
-            postData: {GridParam: JSON.stringify(GridParam)},
+            datatype: "json", //从服务器端返回的数据类型
+            mtype: "post",//ajax提交方式
+            postData: {GridParam: JSON.stringify(GridParam)}, //此数组内容直接赋值到url上
             //width: $(".jqGrid_wrapper").css("width"),,
             autowidth: true,//自动宽
             //shrinkToFit: true,
@@ -107,7 +91,7 @@
             multiboxonly : true,//单选框
 
             colNames: [
-                "id",
+                "",
                 "员工编码",
                 "员工姓名",
                 "出差开始时间",
@@ -134,14 +118,13 @@
                 root:"root", //结果集
                 page: "page", //第几页
                 total: "total", //总页数
-                    records: "records", //数据总数
-                    repeatitems: false
+                records: "records", //数据总数
+                repeatitems: false
             },
             pager: "#GRIDPAGE"
         });
         $("#GRIDPAGE").css("height", "45px");
     });
-
 
 </script>
 </body>

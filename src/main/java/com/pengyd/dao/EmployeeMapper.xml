@@ -111,28 +111,28 @@
             <where>
             <trim suffixOverrides="and">
 			<if test="id != null and id != ''">
-                id = #{id,jdbcType=INTEGER} and
+                id = #{employee.id,jdbcType=INTEGER} and
             </if>
 			<if test="empCode != null and empCode != ''">
-                emp_code = #{empCode,jdbcType=VARCHAR} and
+                emp_code = #{employee.empCode,jdbcType=VARCHAR} and
             </if>
 			<if test="loginname != null and loginname != ''">
-                loginname = #{loginname,jdbcType=VARCHAR} and
+                loginname = #{employee.loginname,jdbcType=VARCHAR} and
             </if>
 			<if test="password != null and password != ''">
-                password = #{password,jdbcType=VARCHAR} and
+                password = #{employee.password,jdbcType=VARCHAR} and
             </if>
 			<if test="realname != null and realname != ''">
-                realname = #{realname,jdbcType=VARCHAR} and
+                realname = #{employee.realname,jdbcType=VARCHAR} and
             </if>
 			<if test="entryTime != null and entryTime != ''">
-                entry_time = #{entryTime,jdbcType=DATE} and
+                entry_time = #{employee.entryTime,jdbcType=DATE} and
             </if>
 			<if test="jobposId != null and jobposId != ''">
-                jobpos_id = #{jobposId,jdbcType=INTEGER} and
+                jobpos_id = #{employee.jobposId,jdbcType=INTEGER} and
             </if>
 			<if test="registerTime != null and registerTime != ''">
-                register_time = #{registerTime,jdbcType=TIMESTAMP} and
+                register_time = #{employee.registerTime,jdbcType=TIMESTAMP} and
             </if>
             </trim>
             </where>
@@ -171,6 +171,77 @@
                 register_time = #{employee.registerTime,jdbcType=TIMESTAMP} and
             </if>
             </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Employee">
+        select count(*) from employee
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="id != null and id != ''">
+                        id = #{id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="empCode != null and empCode != ''">
+                        emp_code = #{empCode,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="loginname != null and loginname != ''">
+                        loginname LIKE CONCAT(CONCAT('%', #{loginname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                    <if test="password != null and password != ''">
+                        password = #{password,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="realname != null and realname != ''">
+                        realname LIKE CONCAT(CONCAT('%', #{realname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                    <if test="entryTime != null and entryTime != ''">
+                        entry_time = #{entryTime,jdbcType=DATE} and
+                    </if>
+                    <if test="jobposId != null and jobposId != ''">
+                        jobpos_id = #{jobposId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="registerTime != null and registerTime != ''">
+                        register_time = #{registerTime,jdbcType=TIMESTAMP} and
+                    </if>
+                </trim>
+            </where>
+        </if>
+    </select>
+
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.Employee">
+        select e.*, j.jobpos_name
+        from employee e, jobpos j
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="employee.id != null and employee.id != ''">
+                        e.id = #{employee.id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="employee.empCode != null and employee.empCode != ''">
+                        e.emp_code = #{employee.empCode,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="employee.loginname != null and employee.loginname != ''">
+                        e.loginname LIKE CONCAT(CONCAT('%', #{employee.loginname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                    <if test="employee.password != null and employee.password != ''">
+                        e.password = #{employee.password,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="employee.realname != null and employee.realname != ''">
+                        e.realname LIKE CONCAT(CONCAT('%', #{employee.realname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                    <if test="employee.entryTime != null and employee.entryTime != ''">
+                        e.entry_time = #{employee.entryTime,jdbcType=DATE} and
+                    </if>
+                    <if test="employee.jobposId != null and employee.jobposId != ''">
+                        e.jobpos_id = #{employee.jobposId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="employee.registerTime != null and employee.registerTime != ''">
+                        e.register_time = #{employee.registerTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    e.jobpos_id = j.id and
+                </trim>
             </where>
         </if>
         order by ${order_by} desc limit #{limit} offset #{offset}
@@ -224,6 +295,10 @@
 
     <select id="selectRealnameById" resultType="java.lang.String">
         select realname from employee WHERE id=${id};
+    </select>
+
+    <select id="selectByEmpId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * from employee WHERE  emp_code = ${empId};
     </select>
 	
 </mapper>

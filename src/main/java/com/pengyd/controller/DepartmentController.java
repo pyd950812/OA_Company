@@ -9,6 +9,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.pengyd.bean.Department;
 import com.pengyd.service.DepartmentService;
 import com.pengyd.util.JqGridJsonBean;
@@ -35,10 +36,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 /**
- * @description: TODO -
- * @author: pengyd
- * @createTime: 2018年3月9日 上午11:32:10
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Controller
 @RequestMapping(value = "/department")
@@ -76,6 +76,17 @@ public class DepartmentController {
     @RequiresPermissions(value = "department_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
+        String id = request.getParameter("id");
+
+        Department department = new Department();
+        department.setId(Integer.valueOf(Integer.parseInt(id)));
+
+        ReturnData rd = departmentService.selectByParam(null, department);
+        if (rd.getCode().equals("OK")) {
+            List<Department> data = (List<Department>) rd.getData().get("data");
+
+            model.addAttribute("olddata", JSON.toJSONString(data.get(0)));
+        }
         return "department/edit";
     }
 

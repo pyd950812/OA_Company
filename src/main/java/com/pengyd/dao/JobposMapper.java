@@ -9,10 +9,9 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * <p>数据层接口</p>
- * <p>Table: jobpos - </p>
- *
- * @since ${.now}
+ * @Author pengyd
+ * @Date 2018/3/22 16:32
+ * @function:
  */
 @Repository
 public interface JobposMapper {

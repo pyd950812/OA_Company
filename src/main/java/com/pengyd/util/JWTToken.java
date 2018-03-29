@@ -14,10 +14,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
- * @description: TODO - 
- * @author:
- * @createTime: 2018年3月9日 上午10:43:56
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Component("jwtToken")
 public class JWTToken {

@@ -8,10 +8,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @description: TODO - 拦截器
- * @author:  pengyd
- * @createTime: 2018年3月9日 下午12:18:21
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 public class ApplicationInterceptor implements HandlerInterceptor {
 

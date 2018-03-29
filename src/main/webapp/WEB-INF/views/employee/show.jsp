@@ -12,13 +12,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>公司OA系统</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
-    <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
-    <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
-	<script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
-    <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
-    <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
+
+      <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
+      <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
+      <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
+      <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
+      <script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+      <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
+      <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
+
+
 </head>
 <style>
 	span.glyphicon{
@@ -44,12 +47,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span>查询</span>
         </div>
         <div class="panel-body pad-tb-25">
-            <div class="row">
-                
-                <div class="col-xs-2">
-                    <button class="chaxun-bottom" id="chaxun">查询</button>
-                </div>
-            </div>
+            <span>用户名：</span>
+            <input type="text" placeholder="请输入用户名" id="searchSelectRealname">
+            <button class="chaxun-bottom" id="employee_chaxun">查询</button>
         </div>
         
         <div class="panel panel-default">
@@ -136,11 +136,83 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
         $("#GRIDPAGE").css("height", "45px");
 	});
+
+
+    var searchGridParam = JSON.stringify(employeeParam);
+
+    //查询
+    $("#employee_chaxun").click(function(){
+        var param = JSON.parse(searchGridParam);
+        param.realname= $("#searchSelectRealname").val();
+        //为param 赋值
+        var GridParam = JSON.stringify(param);
+        searchFun(GridParam);
+    });
+
+    function searchFun(GridParam){
+        $("#GRIDTABLE").jqGrid("setGridParam",{
+            url:"<%=path %>/employee/selectRelationData",
+            postData:{GridParam:GridParam},  //发送数据
+            page:1    //当前页
+        }).trigger("reloadGrid");   //重新载入
+    }
 	
     //新增
 	$("#emp_plus").click(function(){
 		window.location.href= "<%=path %>/employee/add";
 	});
+
+    //修改 - 判定只能修改一条数据
+    $("#emp_edit").click(function(){
+        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+        alert(ids)
+        if(ids.length == 0){
+            alert("先选择一条数据");
+            return;
+        } else if(ids.length > 1){
+            alert("请您只选择一条需要修改的数据");
+            return;
+        } else {
+            if (confirm("确认修改当前选中数据的信息吗？")) {
+                window.location.href= "<%=path %>/employee/edit?id="+ids;
+            }
+        }
+    });
+
+
+    /*
+    删除 - 支持批量选中的删除 - 支持联动删除别的表中的数据
+    */
+    $("#emp_remove").click(function(){
+        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+        alert(ids);//3,2,1
+        if(ids == ""){
+            alert("先选择一条数据");
+            return;
+        } else {
+            if (confirm("确认删除当前选中数据吗？")) {
+                $.ajax({url:'<%=path %>/employee/deleteBatch',
+                    type:'post',
+                    cache:false,
+                    dataType:'json',
+                    data:{
+                        ids:ids+""
+                    },
+                    success:function(data){
+                        if(data.code == "OK"){
+                            alert("数据删除成功");
+                            window.location.reload();
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error : function() {
+                        alert("异常！");
+                    }
+                });
+            }
+        }
+    });
     
     //表格自适应屏幕
     $(function(){

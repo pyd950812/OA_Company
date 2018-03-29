@@ -2,6 +2,11 @@ package com.pengyd.util;
 
 import java.util.Map;
 
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
+ */
 public class ReturnData {
     private String code;
 

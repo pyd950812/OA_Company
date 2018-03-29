@@ -12,18 +12,14 @@
     <title>公司OA系统</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
-    <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
-
-    <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
-
+    <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
     <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
-    <script src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
+    <script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+    <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <script src="<%=path %>/assets/js/layer/laydate.js"></script>
-
 </head>
 
 <style>
@@ -53,9 +49,9 @@
             <span>出差信息</span>
             <c:if test="${sessionScope.name == 'admin' }">
                 <%--<div id="evec_over">--%>
-                    <button class="tianjia-button right bg-filter" id ="emp_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
-                    <button class="tianjia-button right bg-filter" id ="emp_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
-                    <button class="tianjia-button right bg-filter" id ="emp_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+                    <button class="tianjia-button right bg-filter" id ="evection_add"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+                    <button class="tianjia-button right bg-filter" id ="evection_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
+                    <button class="tianjia-button right bg-filter" id ="evection_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
                 <%--</div>--%>
             </c:if>
 
@@ -103,7 +99,7 @@
             multiboxonly : true,//单选框
 
             colNames: [
-                "id",
+                "",
                 "员工编码",
                 "员工姓名",
                 "出差开始时间",
@@ -137,6 +133,65 @@
         });
         $("#GRIDPAGE").css("height", "45px");
     });
+
+    $("#evection_edit").click(function () {
+        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+        if(ids.length == 0){
+            alert("先选择一条数据");
+            return;
+        } else if(ids.length > 1){
+            alert("请您只选择一条需要修改的数据");
+            return;
+        } else {
+            if (confirm("确认修改当前选中数据的信息吗？")) {
+                window.location.href= "<%=path %>/employeeEvection/edit?id="+ids;
+            }
+        }
+    });
+
+    $("#evection_add").click(function () {
+        window.location.href = "<%=path %>/employeeEvection/add?function=add";
+    });
+
+    /*
+   删除 - 支持批量选中的删除 - 支持联动删除别的表中的数据
+   */
+    $("#evection_remove").click(function(){
+        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+        if(ids == ""){
+            alert("先选择一条数据");
+            return;
+        } else {
+            if (confirm("确认删除当前选中数据吗？")) {
+                $.ajax({url:'<%=path %>/employeeEvection/deleteBatch',
+                    type:'post',
+                    cache:false,
+                    dataType:'json',
+                    data:{"ids":ids+""},
+                    success:function(data){
+                        if(data.code == "OK"){
+                            alert("数据删除成功");
+                            window.location.reload();
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error : function() {
+                        alert("异常！");
+                    }
+                });
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
 
 
 

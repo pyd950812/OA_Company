@@ -1,10 +1,9 @@
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.httpclient.HttpConstants;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author pengyd
@@ -19,7 +18,6 @@ public class MapTest {
     public static void main(String[] args) {
 
     }
-
 
 
 }

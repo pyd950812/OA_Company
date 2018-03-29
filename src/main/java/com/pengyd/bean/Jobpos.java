@@ -1,9 +1,3 @@
-/**
- * 版权所有, 
- * Author: 郭 荣誉出品
- * E-mail:gwq20521@163.com
- * copyright: 2018
- */
 package com.pengyd.bean;
 
 import java.sql.Date;
@@ -11,10 +5,9 @@ import java.sql.Date;
 import org.apache.ibatis.type.Alias;
 
 /**
- * <p>实体类</p>
- * <p>Table: jobpos - </p>
- *
- * @since ${.now}
+ * @Author pengyd
+ * @Date 2018/3/22 16:18
+ * @function:  工作信息
  */
 @Alias("Jobpos")
 public class Jobpos {

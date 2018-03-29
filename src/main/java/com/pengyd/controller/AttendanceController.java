@@ -35,10 +35,9 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
 /**
- * @description: TODO -
- * @author: pengyd
- * @createTime: 2018年3月9日 上午11:32:10
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Controller
 @RequestMapping(value = "/attendance")
@@ -97,7 +96,6 @@ public class AttendanceController {
     @ResponseBody
     public ReturnData insert(HttpServletRequest request) {
         Employee currentEmp = ((Employee) request.getSession().getAttribute("current_emp"));
-        System.out.println(currentEmp.getId());
 
         Attendance attendance = new Attendance();
 
@@ -219,19 +217,19 @@ public class AttendanceController {
         //分页查询
         JqGridJsonBean rd = attendanceService.select(page, rows, order_by, attendance);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("attendance");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("所属员工");
         row1.createCell(3 - 1).setCellValue("考勤状态 - 0-缺勤(旷工) - 1-正常 2-迟到 3-请假 4-调休");
         row1.createCell(4 - 1).setCellValue("考核日期");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<Attendance> maps = (List<Attendance>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -243,7 +241,7 @@ public class AttendanceController {
             row.createCell(4 - 1).setCellValue(map.getCreateTime() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出attendance").getBytes(), "ISO8859_1");
@@ -265,7 +263,7 @@ public class AttendanceController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -290,7 +288,7 @@ public class AttendanceController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //attendanceService.insert(attendance);  
+                    //attendanceService.insert(attendance);
                 }
 
             }
@@ -298,7 +296,7 @@ public class AttendanceController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");

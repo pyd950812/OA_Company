@@ -5,9 +5,9 @@ import java.sql.Date;
 import org.apache.ibatis.type.Alias;
 
 /**
- * <p>实体类</p>
- * <p>Table: department - </p>
- * @since ${.now}
+ * @Author pengyd
+ * @Date 2018/3/22 16:18
+ * @function:  部门信息
  */
 @Alias("Department")
 public class Department {
@@ -22,6 +22,8 @@ public class Department {
     private String deptinfo;
     /** 创建时间 */
     private Date createTime;
+    /** 是否能直接分配所属工作-1-分配，2-不分配 */
+    private Integer isDis;
 
 
     public Integer getId(){
@@ -58,16 +60,24 @@ public class Department {
     public void setCreateTime(Date createTime){
         this.createTime = createTime;
     }
- 	@Override
-    public String toString() {
-    String toString = "Department ["+
-    					"id = "+id+","+
-						"dept_code = "+deptCode+","+
-						"deptname = "+deptname+","+
-						"deptinfo = "+deptinfo+","+
-						"create_time = "+createTime+","+
-						"]";
-        return toString;
-	}
 
+    public Integer getIsDis() {
+        return isDis;
+    }
+
+    public void setIsDis(Integer isDis) {
+        this.isDis = isDis;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", deptCode='" + deptCode + '\'' +
+                ", deptname='" + deptname + '\'' +
+                ", deptinfo='" + deptinfo + '\'' +
+                ", createTime=" + createTime +
+                ", isDis=" + isDis +
+                '}';
+    }
 }

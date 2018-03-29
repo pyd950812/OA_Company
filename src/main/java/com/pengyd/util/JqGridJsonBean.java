@@ -3,11 +3,9 @@ package com.pengyd.util;
 import java.util.List;
 
 /**
-
- * @description: TODO -  分页
- * @author:  pengyd
- * @createTime: 2018年3月9日 上午10:41:00
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 public class JqGridJsonBean {
     private int page;

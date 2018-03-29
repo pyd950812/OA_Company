@@ -204,7 +204,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			return;
 		} else {
 			if (confirm("确认修改当前选中数据的信息吗？")) {
-				//暂时不涉及经纬度的信息加载 - 暂不涉及相关网格码的修改
 				window.location.href= "<%=path %>/attendance/edit?id="+ids;
 			}
 		}

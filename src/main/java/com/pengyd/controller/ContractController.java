@@ -42,10 +42,9 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
 /**
- * @description: TODO -
- * @author: pengyd
- * @createTime: 2018年3月9日 上午11:32:10
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Controller
 @RequestMapping(value = "/contract")
@@ -148,7 +147,7 @@ public class ContractController {
             MultipartFile file = multiRequest.getFile("contractFileName");
 
             if (file != null) {
-                String pathName = "F:/graduationdoc/empContract/";
+                String pathName = "H:/graduationdoc/empContract/";
                 File dirFile = new File(pathName);
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
@@ -180,9 +179,6 @@ public class ContractController {
         return contractService.insert(contract);//执行插入 Contract 操作
     }
 
-    /**
-     *  下载合同
-     */
     @RequiresPermissions(value = "contract_downFileById")
     @RequestMapping(value = "/downFileById", method = RequestMethod.GET)
     public void downFileById(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -195,15 +191,15 @@ public class ContractController {
         List<Contract> data = (List<Contract>) rd.getData().get("data");
         if (data.size() >= 1) {
             Contract contract2 = data.get(0);
-            //获取输入流  
+            //获取输入流
             try {
                 InputStream bis = new BufferedInputStream(new FileInputStream(new File(contract2.getContractUrl())));
 
                 String fileName = new String((contract2.getContractName()).getBytes(), "ISO8859_1");
                 //设置文件下载头
                 response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-                //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型    
-                //response.setContentType("multipart/form-data");   
+                //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+                //response.setContentType("multipart/form-data");
                 response.setContentType("application/binary;charset=utf-8");
                 BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
                 int len = 0;
@@ -284,7 +280,7 @@ public class ContractController {
             MultipartFile file = multiRequest.getFile("contractFileName");
 
             if (file != null) {
-                String pathName = "F:/graduationdoc/empContract/";
+                String pathName = "H:/OACompanyFile/empContract/";
                 File dirFile = new File(pathName);
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
@@ -387,14 +383,14 @@ public class ContractController {
         //分页查询
         JqGridJsonBean rd = contractService.select(page, rows, order_by, contract);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("contract");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("所属员工");
         row1.createCell(3 - 1).setCellValue("合同存储的路径");
@@ -403,7 +399,7 @@ public class ContractController {
         row1.createCell(6 - 1).setCellValue("创建时间");
         row1.createCell(7 - 1).setCellValue("修改用户的ID");
         row1.createCell(8 - 1).setCellValue("修改日期");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<Contract> maps = (List<Contract>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -419,7 +415,7 @@ public class ContractController {
             row.createCell(8 - 1).setCellValue(map.getModifyTime() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出contract").getBytes(), "ISO8859_1");
@@ -441,7 +437,7 @@ public class ContractController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -466,7 +462,7 @@ public class ContractController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //contractService.insert(contract);  
+                    //contractService.insert(contract);
                 }
 
             }
@@ -474,7 +470,7 @@ public class ContractController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");

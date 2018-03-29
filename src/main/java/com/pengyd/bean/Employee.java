@@ -4,6 +4,11 @@ import java.sql.Date;
 
 import org.apache.ibatis.type.Alias;
 
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 16:18
+ * @function:  员工信息
+ */
 @Alias("Employee")
 public class Employee {
 

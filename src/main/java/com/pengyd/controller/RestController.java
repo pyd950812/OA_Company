@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
- * @description: TODO - 登录
- * @author: pengyd
- * @createTime: 2018年3月9日 上午11:32:10
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Controller
 @RequestMapping({ "/rest" })

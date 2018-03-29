@@ -8,6 +8,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.pengyd.bean.Jobpos;
 import com.pengyd.service.JobposService;
 import com.pengyd.util.JqGridJsonBean;
@@ -34,10 +35,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 /**
- * @description: TODO -
- * @author: pengyd
- * @createTime: 2018年3月9日 上午11:32:10
- *
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
  */
 @Controller
 @RequestMapping(value = "/jobpos")
@@ -75,6 +75,18 @@ public class JobposController {
     @RequiresPermissions(value = "jobpos_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
+        String id = request.getParameter("id");
+
+        Jobpos jobpos = new Jobpos();
+        jobpos.setId(Integer.valueOf(Integer.parseInt(id)));
+
+        ReturnData rd = jobposService.selectByParam(null, jobpos);
+        if (rd.getCode().equals("OK")) {
+            List<Jobpos> data = (List<Jobpos>) rd.getData().get("data");
+
+            model.addAttribute("olddata", JSON.toJSONString(data.get(0)));
+        }
+
         return "jobpos/edit";
     }
 
@@ -139,11 +151,38 @@ public class JobposController {
         return jobposService.select(page, rows, order_by, jobpos);
     }
 
+    /**
+     * 对 jobpos 的数据分页查询操作
+     */
+    @RequestMapping(value = "/selectRelationData", method = RequestMethod.POST)
+    @ResponseBody
+    public JqGridJsonBean selectRelationData(String GridParam, Model model, HttpServletRequest request) {
+        Jobpos jobpos = new Gson().fromJson(GridParam, Jobpos.class);//json 转对象
+
+        String page = request.getParameter("page");//第几页
+        String rows = request.getParameter("rows");//一页有几行
+        String order_by = request.getParameter("order_by");//排序
+
+        //分页查询
+        return jobposService.selectRelationData(page, rows, order_by, jobpos);
+    }
+
     @RequestMapping({ "/ajaxSelectJobposByDeptId" })
     @ResponseBody
     public ReturnData ajaxSelectJobposByDeptId(HttpServletRequest request) {
         String deptId = request.getParameter("deptId");//
         return jobposService.ajaxSelectJobposByDeptId(deptId);
+    }
+
+    @RequestMapping({ "/ajaxSelectJobposById" })
+    @ResponseBody
+    public ReturnData ajaxSelectJobposById(HttpServletRequest request) {
+        String id = request.getParameter("id");
+
+        Jobpos jobpos = new Jobpos();
+        jobpos.setId(Integer.valueOf(Integer.parseInt(id)));
+
+        return jobposService.selectByParam(null, jobpos);
     }
 
     /**
