@@ -300,5 +300,9 @@
     <select id="selectByEmpId" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * from employee WHERE  emp_code = ${empId};
     </select>
+
+    <select id="selectByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * from employee WHERE  loginname = #{loginName};
+    </select>
 	
 </mapper>

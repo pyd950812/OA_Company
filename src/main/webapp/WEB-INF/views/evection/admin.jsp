@@ -15,11 +15,15 @@
 
     <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
+
     <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
+
     <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
     <script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
     <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <script src="<%=path %>/assets/js/user_common.js"></script>
 </head>
 
 <style>
@@ -42,6 +46,17 @@
             <li class="active">员工出差管理</li>
         </ol>
     </div>
+    <!--过滤条件-->
+    <div class="filter panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-search"></span>
+            <span>查询</span>
+        </div>
+        <div class="panel-body pad-tb-25">
+            <span>员工姓名：</span>
+            <input type="text" placeholder="请输入员工姓名" id="searchSelectEmpName">
+            <button class="chaxun-bottom" id="evection_chaxun">查询</button>
+        </div>
 
 
     <div class="filter panel panel-default">
@@ -133,6 +148,28 @@
         });
         $("#GRIDPAGE").css("height", "45px");
     });
+
+    var searchGridParam = JSON.stringify(evectionParam);
+
+    //查询
+    $("#evection_chaxun").click(function(){
+        var param = JSON.parse(searchGridParam);
+
+        param.empName= $("#searchSelectEmpName").val();
+
+        //为param 赋值
+        var GridParam = JSON.stringify(param);
+        console.log(GridParam);
+        searchFun(GridParam);
+    });
+
+    function searchFun(GridParam){
+        $("#GRIDTABLE").jqGrid("setGridParam",{
+            url:"<%=path %>/employeeEvection/selectEmpNameData",
+            postData:{GridParam:GridParam},
+            page:1
+        }).trigger("reloadGrid");
+    }
 
     $("#evection_edit").click(function () {
         var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");

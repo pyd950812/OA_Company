@@ -157,8 +157,8 @@ public class EmployeeEvectionController {
     @ResponseBody
     public JqGridJsonBean otherSelect(String GridParam, Model model, HttpServletRequest request){
         EmployeeEvection employeeEvection = new Gson().fromJson(GridParam, EmployeeEvection.class);
-        String name =(String) request.getSession().getAttribute("name");
-        employeeEvection.setEmpName(name);
+        Employee employee =(Employee) request.getSession().getAttribute("employee");
+        employeeEvection.setEmpName(employee.getRealname());
 
         String page = request.getParameter("page");//第几页
         String rows = request.getParameter("rows");//一页有几行
@@ -171,6 +171,36 @@ public class EmployeeEvectionController {
         }
         return employeeEvectionService.adminSelect(page,rows,order_by,employeeEvection);
     }
+
+
+
+    /**
+     * 按empName条件查询 分页
+     */
+    @RequestMapping(value = "/selectEmpNameData", method = RequestMethod.POST)
+    @ResponseBody
+    public JqGridJsonBean selectEmpNameData(String GridParam, Model model, HttpServletRequest request) {
+        EmployeeEvection employeeEvection = new Gson().fromJson(GridParam, EmployeeEvection.class);//json 转对象
+        String empName = employeeEvection.getEmpName();
+        if(!"".equals(empName)){
+            empName = "%"+empName+"%";
+        }
+        employeeEvection.setEmpName(empName);
+
+        String page = request.getParameter("page");//第几页
+        String rows = request.getParameter("rows");//一页有几行
+        String order_by = request.getParameter("order_by");//排序
+
+        //分页查询
+        return employeeEvectionService.adminSelect(page, rows, order_by, employeeEvection);
+    }
+
+
+
+
+
+
+
 
 
 

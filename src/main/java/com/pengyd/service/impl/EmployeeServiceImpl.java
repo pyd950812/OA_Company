@@ -253,5 +253,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    @Override
+    public Employee selectByLoginName(String loginName) {
+        Employee employee = employeeMapper.selectByLoginName(loginName);
+        return employee;
+    }
+
 
 }

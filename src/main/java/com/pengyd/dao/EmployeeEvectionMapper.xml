@@ -48,7 +48,7 @@
 					emp_id = #{empId,jdbcType=VARCHAR} and
 				</if>
 				<if test="empName != null and empName != ''">
-					emp_name = #{empName,jdbcType=VARCHAR} and
+					emp_name like #{empName,jdbcType=VARCHAR} and
 				</if>
 				<if test="evectionTimebegin != null and evectionTimebegin != ''">
 					evection_timebegin = #{employeeEvection.evectionTimebegin,jdbcType=DATE} and
@@ -84,7 +84,7 @@
 						emp_id = #{employeeEvection.empId,jdbcType=VARCHAR} and
 					</if>
 					<if test="employeeEvection.empName != null and employeeEvection.empName != ''">
-						emp_name = #{employeeEvection.empName,jdbcType=VARCHAR} and
+						emp_name like #{employeeEvection.empName,jdbcType=VARCHAR} and
 					</if>
 					<if test="employeeEvection.evectionTimebegin != null and employeeEvection.evectionTimebegin != ''">
 						evection_timebegin = #{employeeEvection.evectionTimebegin,jdbcType=DATE} and

@@ -68,4 +68,9 @@ public interface EmployeeMapper {
      *  根据empId查询员工是否存在
      */
     Employee selectByEmpId(@Param("empId") String empId);
+
+    /**
+     *  根据loginName找到对应的员工
+     */
+    Employee selectByLoginName(@Param("loginName") String loginName);
 }

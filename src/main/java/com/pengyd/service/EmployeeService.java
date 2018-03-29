@@ -54,4 +54,9 @@ public interface EmployeeService {
      *  根据empId查询员工是否存在
      */
     Employee selectByEmpId(String empId);
+
+    /**
+     *  根据loginName找到对应的员工
+     */
+    Employee selectByLoginName(String loginName);
 }

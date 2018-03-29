@@ -3,12 +3,15 @@ package com.pengyd.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.pengyd.bean.Employee;
+import com.pengyd.service.EmployeeService;
 import com.pengyd.util.ReturnData;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping({ "/rest" })
 public class RestController {
     private Logger logger = Logger.getLogger(getClass().getName());
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @RequestMapping({ "/login" })
     public String login(HttpServletRequest request) {
@@ -112,7 +118,9 @@ public class RestController {
 
             subject.login(new UsernamePasswordToken(username, password));
 
+            Employee employee = employeeService.selectByLoginName(username);
             session.setAttribute("name",username);
+            session.setAttribute("employee",employee);
 
             rd.setCode("OK");
             rd.setMsg("登录成功");
