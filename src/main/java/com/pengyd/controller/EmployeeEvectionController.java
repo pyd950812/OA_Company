@@ -175,7 +175,7 @@ public class EmployeeEvectionController {
 
 
     /**
-     * 按empName条件查询 分页
+     * 按 empName 模糊查询 分页
      */
     @RequestMapping(value = "/selectEmpNameData", method = RequestMethod.POST)
     @ResponseBody
@@ -194,6 +194,10 @@ public class EmployeeEvectionController {
         //分页查询
         return employeeEvectionService.adminSelect(page, rows, order_by, employeeEvection);
     }
+
+
+
+
 
 
 

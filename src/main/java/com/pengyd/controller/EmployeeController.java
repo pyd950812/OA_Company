@@ -133,7 +133,7 @@ public class EmployeeController {
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ReturnData update(@RequestBody Employee employee, Model model, HttpServletRequest request) {
-        return employeeService.update(employee);//执行 Employee  操作
+        return employeeService.update(employee);
     }
 
     /**

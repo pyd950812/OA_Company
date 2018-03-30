@@ -78,30 +78,27 @@
     </delete>
     
     <update id="update" parameterType="com.pengyd.bean.Employee">
-    	update employee
-    	<set>
-			<if test="empCode != null and empCode != ''">
+        update employee
+        <set>
+            <if test="empCode != null and empCode != ''">
                 emp_code = #{empCode,jdbcType=VARCHAR},
             </if>
-			<if test="loginname != null and loginname != ''">
+            <if test="loginname != null and loginname != ''">
                 loginname = #{loginname,jdbcType=VARCHAR},
             </if>
-			<if test="password != null and password != ''">
+            <if test="password != null and password != ''">
                 password = #{password,jdbcType=VARCHAR},
             </if>
-			<if test="realname != null and realname != ''">
+            <if test="realname != null and realname != ''">
                 realname = #{realname,jdbcType=VARCHAR},
             </if>
-			<if test="entryTime != null and entryTime != ''">
+            <if test="entryTime != null">
                 entry_time = #{entryTime,jdbcType=DATE},
             </if>
-			<if test="jobposId != null and jobposId != ''">
+            <if test="jobposId != null and jobposId != ''">
                 jobpos_id = #{jobposId,jdbcType=INTEGER},
             </if>
-			<if test="registerTime != null and registerTime != ''">
-                register_time = #{registerTime,jdbcType=TIMESTAMP},
-            </if>
-    	</set>
+        </set>
     	where id = #{id,jdbcType=INTEGER}
     </update>
     

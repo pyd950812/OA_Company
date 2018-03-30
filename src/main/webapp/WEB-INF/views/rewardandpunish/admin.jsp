@@ -1,0 +1,236 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<html>
+<head>
+    <base href="<%=basePath%>">
+    <title>公司OA系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
+
+    <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
+
+    <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
+    <script src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+    <script src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <script src="<%=path %>/assets/js/user_common.js"></script>
+</head>
+
+<style>
+    .amap-sug-result{
+        z-index:100000;
+    }
+    /* #fieldHidden{
+        display: none;
+    } */
+</style>
+<body>
+<div class="container-fluid GL-hzs">
+    <!--头部内容-->
+    <div class="header">
+        <ol class="breadcrumb">
+            <li><a>首页</a></li>
+            <li>></li>
+            <li>薪资管理</li>
+            <li>></li>
+            <li class="active">员工奖罚管理</li>
+        </ol>
+    </div>
+    <!--过滤条件-->
+    <div class="filter panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-search"></span>
+            <span>查询</span>
+        </div>
+        <div class="panel-body pad-tb-25">
+            <span>员工姓名：</span>
+            <input type="text" placeholder="请输入员工姓名" id="searchSelectEmpName">
+            <button class="chaxun-bottom" id="evection_chaxun">查询</button>
+        </div>
+
+
+    <div class="filter panel panel-default">
+        <div class="panel-heading">
+            <span>奖罚信息</span>
+            <c:if test="${sessionScope.name == 'admin' }">
+                <%--<div id="evec_over">--%>
+                    <button class="tianjia-button right bg-filter" id ="evection_add"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+                    <button class="tianjia-button right bg-filter" id ="evection_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
+                    <button class="tianjia-button right bg-filter" id ="evection_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+                <%--</div>--%>
+            </c:if>
+
+        </div>
+
+        <%-- 表格 --%>
+        <div class="panel-body">
+            <table id="GRIDTABLE" style="border-collapse: collapse"></table>
+            <div id="GRIDPAGE"></div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var evectionParam = {};
+        evectionParam.id;
+        evectionParam.empId;
+        evectionParam.empName;
+        evectionParam.evectionTimebegin;
+        evectionParam.evectionTimeover;
+        evectionParam.evectionReason;
+        evectionParam.createTime;
+        evectionParam.updateTime;
+
+    $(function(){
+        var GridParam = JSON.parse(JSON.stringify(evectionParam));
+        $("#GRIDTABLE").jqGrid({
+            //caption:'权限管理',
+            url: "<%=path %>/employeeEvection/adminSelect", //请求路径
+            styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
+            datatype: "json", //从服务器端返回的数据类型
+            mtype: "post",//ajax提交方式
+            postData: {GridParam: JSON.stringify(GridParam)}, //此数组内容直接赋值到url上
+            //width: $(".jqGrid_wrapper").css("width"),,
+            autowidth: true,//自动宽
+            //shrinkToFit: true,
+            height: '70%',//高度，表格高度。可为数值、百分比或'auto'
+            sortorder: 'asc',
+            viewrecords: true,//是否在浏览导航栏显示记录总数
+            altRows: true,//设置为交替行表格,默认为false
+            //rownumbers : true,//是否显示行号
+            //rownumWidth : '80px', //设置行号的宽度
+
+            multiselect: true,//定义多选选择框
+            multiboxonly : true,//单选框
+
+            colNames: [
+                "",
+                "员工编码",
+                "员工姓名",
+                "出差开始时间",
+                "出差结束时间",
+                "出差理由",
+                "创建时间",
+                "修改时间"
+            ],
+            colModel: [
+                {name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
+                {name: "empId", index: "empId", sortable: false, width: 60, align: "center"},
+                {name: "empName", index: "empName", sortable: false, width: 60, align: "center"},
+                {name: "evectionTimebegin", index: "evectionTimebegin", sortable: false, width: 60, align: "center"},
+                {name: "evectionTimeover", index: "evectionTimeover", sortable: false, width: 60, align: "center"},
+                {name: "evectionReason", index: "evectionReason", sortable: false, width: 60, align: "center"},
+                {name: "createTime", index: "createTime", sortable: false, width: 60, align: "center"},
+                {name: "updateTime", index: "updateTime", sortable: false, width: 60, align: "center"}
+            ],
+            viewrecords: true, //是否在浏览导航栏显示记录总数
+            rowNum:15,
+            rowList:[15,30,50],
+            //loadonce: true,
+            jsonReader : {
+                root:"root", //结果集
+                page: "page", //第几页
+                total: "total", //总页数
+                    records: "records", //数据总数
+                    repeatitems: false
+            },
+            pager: "#GRIDPAGE"
+        });
+        $("#GRIDPAGE").css("height", "45px");
+    });
+
+    var searchGridParam = JSON.stringify(evectionParam);
+
+    //查询
+    $("#evection_chaxun").click(function(){
+        var param = JSON.parse(searchGridParam);
+
+        param.empName= $("#searchSelectEmpName").val();
+
+        //为param 赋值
+        var GridParam = JSON.stringify(param);
+        console.log(GridParam);
+        searchFun(GridParam);
+    });
+
+    function searchFun(GridParam){
+        $("#GRIDTABLE").jqGrid("setGridParam",{
+            url:"<%=path %>/employeeEvection/selectEmpNameData",
+            postData:{GridParam:GridParam},
+            page:1
+        }).trigger("reloadGrid");
+    }
+
+    $("#evection_edit").click(function () {
+        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+        if(ids.length == 0){
+            alert("先选择一条数据");
+            return;
+        } else if(ids.length > 1){
+            alert("请您只选择一条需要修改的数据");
+            return;
+        } else {
+            if (confirm("确认修改当前选中数据的信息吗？")) {
+                window.location.href= "<%=path %>/employeeEvection/edit?id="+ids;
+            }
+        }
+    });
+
+    $("#evection_add").click(function () {
+        window.location.href = "<%=path %>/employeeEvection/add?function=add";
+    });
+
+    /*
+   删除 - 支持批量选中的删除 - 支持联动删除别的表中的数据
+   */
+    $("#evection_remove").click(function(){
+        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+        if(ids == ""){
+            alert("先选择一条数据");
+            return;
+        } else {
+            if (confirm("确认删除当前选中数据吗？")) {
+                $.ajax({url:'<%=path %>/employeeEvection/deleteBatch',
+                    type:'post',
+                    cache:false,
+                    dataType:'json',
+                    data:{"ids":ids+""},
+                    success:function(data){
+                        if(data.code == "OK"){
+                            alert("数据删除成功");
+                            window.location.reload();
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error : function() {
+                        alert("异常！");
+                    }
+                });
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>

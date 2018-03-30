@@ -278,7 +278,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         param.entryTime=$("#entryTime").val();
         param.jobposId=$("#jobposId").val();
 
-        $.ajax({url:'<%=path %>/employee/update',
+        $.ajax({
+            url:'<%=path %>/employee/update',
             type:'post',
             cache:false,
             dataType:'json',

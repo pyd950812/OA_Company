@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     </c:if>
 
                     <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工加班管理</span></a></li>
-                    <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工处罚管理</span></a></li>
+                    <li><a onclick="jumpIframe('reward/admin')"><span class="glyphicon glyphicon-menu-right"></span><span>员工奖罚管理</span></a></li>
                 </ul>
             </li>
 
@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div class="side-right" style="overflow:hidden;">
         <%-- <Iframe src="<%=path %>/rest/welcome" width="100%" height="99.5%" frameborder="0" id="plc-iframe" onload="iframeonload()"></Iframe> --%>
-        <Iframe src="<%=path %>/employee/add" width="100%" height="99.5%" frameborder="0" id="plc-iframe" onload="iframeonload()"></Iframe>
+        <Iframe src="<%=path %>/rest/welcome" width="100%" height="99.5%" frameborder="0" id="plc-iframe" onload="iframeonload()"></Iframe>
     </div>
 
 </div>

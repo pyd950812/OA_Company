@@ -94,9 +94,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         // TODO Auto-generated method stub
         ReturnData rd = new ReturnData();
         try {
+            Employee employee1 = employeeMapper.selectByLoginName(employee.getLoginname());
+            employee.setId(employee1.getId());
             employeeMapper.update(employee);
             rd.setCode("OK");
-            rd.setMsg("数据删除成功 ");
+            rd.setMsg("数据修改成功");
         }
         catch (Exception e) {
             logger.error(e.getMessage());

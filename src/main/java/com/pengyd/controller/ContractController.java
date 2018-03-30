@@ -123,12 +123,6 @@ public class ContractController {
             //将request变成多部分request
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 
-            /*Enumeration<String> params2 = multiRequest.getParameterNames();
-            while (params2.hasMoreElements()) {
-                String value = (String) params2.nextElement();//调用nextElement方法获得元素
-                System.out.println(value);
-                System.out.println(multiRequest.getParameter(value));
-            }*/
 
             String empId = multiRequest.getParameter("empIdName");
 
@@ -153,10 +147,6 @@ public class ContractController {
                     dirFile.mkdirs();
                 }
 
-                /*System.out.println(file.getContentType());//application/vnd.openxmlformats-officedocument.wordprocessingml.document
-                System.out.println(file.getName());//file
-                System.out.println(file.getOriginalFilename());//xxx.docx
-                System.out.println(file.getSize());*///11078
 
                 String fileName = file.getOriginalFilename();
                 String fileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
@@ -226,7 +216,6 @@ public class ContractController {
 
     /**
      * 对 contract 的数据批量删除操作
-     * @param request 请求数据
      */
     @RequestMapping({ "/deleteBatch" })
     @ResponseBody

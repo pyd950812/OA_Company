@@ -226,7 +226,6 @@ var contractParam = {};
 		
 	    $.ajax({url:'<%=path %>/contract/insert',
        		type:'post',
-            data: formData, 
        		cache:false,
        		data: formData,
        		//JSON.stringify(param),
