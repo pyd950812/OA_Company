@@ -51,7 +51,7 @@
 					emp_name like #{empName,jdbcType=VARCHAR} and
 				</if>
 				<if test="evectionTimebegin != null and evectionTimebegin != ''">
-					evection_timebegin = #{employeeEvection.evectionTimebegin,jdbcType=DATE} and
+					evection_timebegin = #{evectionTimebegin,jdbcType=DATE} and
 				</if>
 				<if test="evectionTimeover != null and evectionTimeover != ''">
 					evection_timeover = #{evectionTimeover,jdbcType=DATE} and

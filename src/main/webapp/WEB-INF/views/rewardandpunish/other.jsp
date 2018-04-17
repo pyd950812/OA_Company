@@ -40,15 +40,15 @@
     </div>
     <!--过滤条件-->
     <div class="filter panel panel-default">
-        <div class="panel-heading">
-            <span class="glyphicon glyphicon-search"></span>
-            <span>查询</span>
-        </div>
-        <div class="panel-body pad-tb-25">
-            <span>员工姓名：</span>
-            <input type="text" placeholder="请输入员工姓名" id="searchSelectEmpName">
-            <button class="chaxun-bottom" id="reward_chaxun">查询</button>
-        </div>
+        <%--<div class="panel-heading">--%>
+            <%--<span class="glyphicon glyphicon-search"></span>--%>
+            <%--<span>查询</span>--%>
+        <%--</div>--%>
+        <%--<div class="panel-body pad-tb-25">--%>
+            <%--<span>员工姓名：</span>--%>
+            <%--<input type="text" placeholder="请输入员工姓名" id="searchSelectEmpName">--%>
+            <%--<button class="chaxun-bottom" id="reward_chaxun">查询</button>--%>
+        <%--</div>--%>
 
 
     <div class="filter panel panel-default">
@@ -85,7 +85,7 @@
         var GridParam = JSON.parse(JSON.stringify(rewardParam));
         $("#GRIDTABLE").jqGrid({
             //caption:'权限管理',
-            url: "<%=path %>/employeeReward/adminSelect", //请求路径
+            url: "<%=path %>/employeeReward/otherSelect", //请求路径
             styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
             datatype: "json", //从服务器端返回的数据类型
             mtype: "post",//ajax提交方式
@@ -140,83 +140,6 @@
         });
         $("#GRIDPAGE").css("height", "45px");
     });
-
-    var searchGridParam = JSON.stringify(rewardParam);
-
-    //查询
-    $("#reward_chaxun").click(function(){
-        var param = JSON.parse(searchGridParam);
-
-        param.empName= $("#searchSelectEmpName").val();
-        //为param 赋值
-        var GridParam = JSON.stringify(param);
-        console.log(GridParam);
-        searchFun(GridParam);
-    });
-
-    function searchFun(GridParam){
-        $("#GRIDTABLE").jqGrid("setGridParam",{
-            url:"<%=path %>/employeeReward/selectEmpNameData",
-            postData:{GridParam:GridParam},
-            page:1
-        }).trigger("reloadGrid");
-    }
-
-    $("#reward_edit").click(function () {
-        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
-        if(ids.length == 0){
-            alert("先选择一条数据");
-            return;
-        } else if(ids.length > 1){
-            alert("请您只选择一条需要修改的数据");
-            return;
-        } else {
-            if (confirm("确认修改当前选中数据的信息吗？")) {
-                window.location.href= "<%=path %>/employeeReward/edit?id="+ids;
-            }
-        }
-    });
-
-    $("#reward_add").click(function () {
-        window.location.href = "<%=path %>/employeeReward/add?function=add";
-    });
-
-
-
-    /*
-   删除 - 支持批量选中的删除 - 支持联动删除别的表中的数据
-   */
-    $("#reward_remove").click(function(){
-        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
-        if(ids == ""){
-            alert("先选择一条数据");
-            return;
-        } else {
-            if (confirm("确认删除当前选中数据吗？")) {
-                $.ajax({url:'<%=path %>/employeeReward/deleteBatch',
-                    type:'post',
-                    cache:false,
-                    dataType:'json',
-                    data:{"ids":ids+""},
-                    success:function(data){
-                        if(data.code == "OK"){
-                            alert("数据删除成功");
-                            window.location.reload();
-                        } else {
-                            alert(data.msg);
-                        }
-                    },
-                    error : function() {
-                        alert("异常！");
-                    }
-                });
-            }
-        }
-    });
-
-
-
-
 
 </script>
 </div>

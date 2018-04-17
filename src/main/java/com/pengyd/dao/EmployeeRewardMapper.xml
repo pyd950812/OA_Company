@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.EmployeeRewardMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.EmployeeReward">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_id" property="empId" jdbcType="VARCHAR" />
+	    	<result column="emp_name" property="empName" jdbcType="VARCHAR" />
+	    	<result column="reward_state" property="rewardState" jdbcType="VARCHAR" />
+	    	<result column="reward_time" property="rewardTime" jdbcType="DATE" />
+	    	<result column="reward_money" property="rewardMoney" jdbcType="VARCHAR" />
+	    	<result column="reward_reason" property="rewardReason" jdbcType="VARCHAR" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_id,
+			emp_name,
+			reward_state,
+			reward_time,
+			reward_money,
+			reward_reason,
+			create_time,
+			update_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.EmployeeReward">
+        insert into employee_reward (
+			<include refid="Base_Column_List" />
+		)values(
+        	#{empId,jdbcType=VARCHAR},
+        	#{empName,jdbcType=VARCHAR},
+        	#{rewardState,jdbcType=VARCHAR},
+        	#{rewardTime,jdbcType=DATE},
+        	#{rewardMoney,jdbcType=VARCHAR},
+        	#{rewardReason,jdbcType=VARCHAR},
+			NOW(),
+            NOW()
+        )
+    </insert>
+
+
+
+	<select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.EmployeeReward">
+		select *
+		from employee_reward
+		<if test="_parameter != null">
+			<where>
+				<trim suffixOverrides="and">
+					<if test="employeeReward.id != null and employeeReward.id != ''">
+						id = #{employeeReward.id,jdbcType=INTEGER} and
+					</if>
+					<if test="employeeReward.empId != null and employeeReward.empId != ''">
+						emp_id = #{employeeReward.empId,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.empName != null and employeeReward.empName != ''">
+						emp_name like #{employeeReward.empName,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.rewardState != null and employeeReward.rewardState != ''">
+						reward_state = #{employeeReward.rewardState,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.rewardTime != null and employeeReward.rewardTime != ''">
+						reward_time = #{employeeReward.rewardTime,jdbcType=DATE} and
+					</if>
+					<if test="employeeReward.rewardMoney != null and employeeReward.rewardMoney != ''">
+						reward_money = #{employeeReward.rewardMoney,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.rewardReason != null and employeeReward.rewardReason != ''">
+						reward_reason = #{employeeReward.rewardReason,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.createTime != null and employeeReward.createTime != ''">
+						create_time = #{employeeReward.createTime,jdbcType=TIMESTAMP} and
+					</if>
+					<if test="employeeReward.updateTime != null and employeeReward.updateTime != ''">
+						update_time = #{employeeReward.updateTime,jdbcType=TIMESTAMP} and
+					</if>
+				</trim>
+			</where>
+		</if>
+		order by #{order_by} desc limit #{limit} offset #{offset}
+	</select>
+
+
+	<select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.EmployeeReward">
+		select count(*) from employee_reward
+		<if test="_parameter != null">
+			<where>
+				<trim suffixOverrides="and">
+					<if test="id != null and id != ''">
+						id = #{id,jdbcType=INTEGER} and
+					</if>
+					<if test="empId != null and empId != ''">
+						emp_id = #{empId,jdbcType=VARCHAR} and
+					</if>
+					<if test="empName != null and empName != ''">
+						emp_name like #{empName,jdbcType=VARCHAR} and
+					</if>
+					<if test="rewardState != null and rewardState != ''">
+						reward_state = #{rewardState,jdbcType=VARCHAR} and
+					</if>
+					<if test="rewardTime != null and rewardTime != ''">
+						reward_time = #{rewardTime,jdbcType=DATE} and
+					</if>
+					<if test="rewardMoney != null and rewardMoney != ''">
+						reward_money = #{rewardMoney,jdbcType=VARCHAR} and
+					</if>
+					<if test="rewardReason != null and rewardReason != ''">
+						reward_reason = #{rewardReason,jdbcType=VARCHAR} and
+					</if>
+					<if test="createTime != null and createTime != ''">
+						create_time = #{createTime,jdbcType=TIMESTAMP} and
+					</if>
+					<if test="updateTime != null and updateTime != ''">
+						update_time = #{updateTime,jdbcType=TIMESTAMP} and
+					</if>
+				</trim>
+			</where>
+		</if>
+	</select>
+
+
+	<update id="update" parameterType="com.pengyd.bean.EmployeeReward">
+		UPDATE employee_reward
+		<set>
+			<if test="empId != null and empId != ''">
+				emp_id = #{empId,jdbcType=VARCHAR},
+			</if>
+			<if test="empName != null and empName != ''">
+				emp_name = #{empName,jdbcType=VARCHAR},
+			</if>
+			<if test="rewardState != null and rewardState != ''">
+				reward_state = #{rewardState,jdbcType=VARCHAR},
+			</if>
+			<if test="rewardTime != null and rewardTime != ''">
+				reward_time = #{rewardTime,jdbcType=DATE},
+			</if>
+			<if test="rewardMoney != null and rewardMoney != ''">
+				reward_money = #{rewardMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="rewardReason != null and rewardReason != ''">
+				reward_reason = #{rewardReason,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="seleteByParam" parameterType="com.pengyd.bean.EmployeeReward" resultMap="BaseResultMap">
+		select *
+		from employee_reward
+		<if test="_parameter != null">
+			<where>
+				<trim suffixOverrides="and">
+					<if test="employeeReward.id != null and employeeReward.id != ''">
+						id = #{employeeReward.id,jdbcType=INTEGER} and
+					</if>
+					<if test="employeeReward.empId != null and employeeReward.empId != ''">
+						emp_id = #{employeeReward.empId,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.empName != null and employeeReward.empName != ''">
+						emp_name = #{employeeReward.empName,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.rewardState != null and employeeReward.rewardState != ''">
+						reward_state = #{employeeReward.rewardState,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.rewardTime != null and employeeReward.rewardTime != ''">
+						reward_time = #{employeeReward.rewardTime,jdbcType=DATE} and
+					</if>
+					<if test="employeeReward.rewardMoney != null and employeeReward.rewardMoney != ''">
+						reward_money = #{employeeReward.rewardMoney,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.rewardReason != null and employeeReward.rewardReason != ''">
+						reward_reason = #{employeeReward.rewardReason,jdbcType=VARCHAR} and
+					</if>
+					<if test="employeeReward.createTime != null and employeeReward.createTime != ''">
+						create_time = #{employeeReward.createTime,jdbcType=TIMESTAMP} and
+					</if>
+					<if test="employeeReward.updateTime != null and employeeReward.updateTime != ''">
+						update_time = #{employeeReward.updateTime,jdbcType=TIMESTAMP} and
+					</if>
+				</trim>
+			</where>
+		</if>
+		order by #{order_by} desc
+	</select>
+
+	<delete id="deleteBatch">
+		DELETE from employee_reward where id IN
+		<foreach collection="ids" item="id" separator="," open="(" close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+	
+</mapper>

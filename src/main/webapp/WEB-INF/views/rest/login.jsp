@@ -44,12 +44,12 @@
             <%--  <form action = "<%=path %>/rest/loginAction" method = "post"> --%>
             <div class="LG-r-xm">
                 <span>用户名:</span><br/>
-                <input type="text" placeholder="请输入用户名" id="username">
+                <input type="text" placeholder="请输入用户名" id="username" >
                 <img src="<%=path %>/assets/image/login-u.png" class="login-input-img">
             </div>
             <div class="LG-r-mm">
                 <span>密码:</span><br/>
-                <input type="password" placeholder="请输入密码" id="password">
+                <input type="password" placeholder="请输入密码" id="password" >
                 <img src="<%=path %>/assets/image/login-p.png" class="login-input-img">
             </div>
             <div class="LG-r-bot">

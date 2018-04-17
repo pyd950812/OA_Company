@@ -85,8 +85,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <li><a onclick="jumpIframe('employeeEvection/other')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
                     </c:if>
 
-                    <li><a onclick="jumpIframe('')"><span class="glyphicon glyphicon-menu-right"></span><span>员工加班管理</span></a></li>
-                    <li><a onclick="jumpIframe('reward/admin')"><span class="glyphicon glyphicon-menu-right"></span><span>员工奖罚管理</span></a></li>
+                    <c:if test="${sessionScope.name == 'admin' }">
+                    <li><a onclick="jumpIframe('employeeReward/admin')"><span class="glyphicon glyphicon-menu-right"></span><span>员工奖罚管理</span></a></li>
+                    </c:if>
+                    <c:if test="${sessionScope.name != 'admin' }">
+                        <li><a onclick="jumpIframe('employeeReward/other')"><span class="glyphicon glyphicon-menu-right"></span><span>员工奖罚管理</span></a></li>
+                    </c:if>
                 </ul>
             </li>
 

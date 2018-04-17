@@ -154,6 +154,14 @@ public class ContractController {
                 String docName = empRealname + fileNameSuffix;
                 String docPathName = pathName + empRealname + fileNameSuffix;
 
+                File empContract = new File(docPathName);
+                if(empContract.exists()){
+                    ReturnData rd = new ReturnData();
+                    rd.setCode("11");
+                    rd.setMsg("员工合同已存在，请勿重复添加！");
+                    return rd;
+                }
+
                 contract.setContractName(docName);
                 contract.setContractUrl(docPathName);
 
@@ -166,7 +174,9 @@ public class ContractController {
                 }
             }
         }
-        return contractService.insert(contract);//执行插入 Contract 操作
+        //执行插入 Contract 操作
+        ReturnData rd = contractService.insert(contract);
+        return rd;
     }
 
     @RequiresPermissions(value = "contract_downFileById")
@@ -269,7 +279,7 @@ public class ContractController {
             MultipartFile file = multiRequest.getFile("contractFileName");
 
             if (file != null) {
-                String pathName = "H:/OACompanyFile/empContract/";
+                String pathName = "H:/graduationdoc/empContract/";
                 File dirFile = new File(pathName);
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
@@ -280,6 +290,7 @@ public class ContractController {
 
                 String docName = empRealname + fileNameSuffix;
                 String docPathName = pathName + empRealname + fileNameSuffix;
+
 
                 contract.setContractName(docName);
                 contract.setContractUrl(docPathName);

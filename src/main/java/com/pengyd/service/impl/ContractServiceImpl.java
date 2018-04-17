@@ -1,5 +1,6 @@
 package com.pengyd.service.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,12 @@ public class ContractServiceImpl implements ContractService {
         // TODO Auto-generated method stub
         ReturnData rd = new ReturnData();
         try {
+            String contractUrl = contract.getContractUrl();
+            System.out.println(contractUrl);
+            File file = new File(contractUrl);
+            if(file.exists()){
+                file.delete();
+            }
             contractMapper.delete(contract);
             rd.setCode("OK");
             rd.setMsg("数据删除成功 ");
@@ -75,6 +82,14 @@ public class ContractServiceImpl implements ContractService {
     public ReturnData deleteBatch(String[] ids) {
         ReturnData rd = new ReturnData();
         try {
+            for(String id : ids){
+                Contract contract = contractMapper.selectById(id);
+                String contractUrl = contract.getContractUrl();
+                File file = new File(contractUrl);
+                if(file.exists()){
+                    file.delete();
+                }
+            }
             contractMapper.deleteBatch(ids);
             rd.setCode("OK");
             rd.setMsg("数据删除成功 ");
@@ -96,7 +111,7 @@ public class ContractServiceImpl implements ContractService {
         try {
             contractMapper.update(contract);
             rd.setCode("OK");
-            rd.setMsg("数据删除成功 ");
+            rd.setMsg("数据修改成功！");
         }
         catch (Exception e) {
             logger.error(e.getMessage());
@@ -207,6 +222,11 @@ public class ContractServiceImpl implements ContractService {
             //操作异常,返回错误信息
         }
         return jgjb;
+    }
+
+    @Override
+    public Contract selectById(String id) {
+        return contractMapper.selectById(id);
     }
 
     /**

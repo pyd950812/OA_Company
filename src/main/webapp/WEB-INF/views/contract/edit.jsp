@@ -14,28 +14,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
-    
+
     <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
-    
+
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-	
-    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
-	
-    <style type="text/css">
-		.amap-sug-result{
-			z-index:100000;
-		}
-		#fieldHidden{
-			display: none;
-		}
-	</style>
-	
-	<script type="text/javascript">
-		var olddata = JSON.parse('${olddata}');
 
-	</script>
+    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
+
+    <style type="text/css">
+        .amap-sug-result{
+            z-index:100000;
+        }
+        #fieldHidden{
+            display: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var olddata = JSON.parse('${olddata}');
+
+    </script>
 
 </head>
    
@@ -138,32 +138,31 @@ var contractParam = {};
        		alert("异常！");
        	}
     });
+$("#save").click(function () {
+    var formData = new FormData($('#uploadForm')[0]);
 
-	$("#save").click(function(){
-
-		var formData = new FormData($('#uploadForm')[0]);
-		
-	    $.ajax({url:'<%=path %>/contract/update',
-       		type:'post',
-            data: formData, 
-       		cache:false,
-       		data: formData,
-       		//JSON.stringify(param),
-            processData: false,  
-            contentType: false, 
-           	success:function(data){
-           		if(data.code == "OK"){
-           			alert("数据修改成功");
-               		window.location.href= "<%=path %>/contract/show";
-           		} else {
-           			alert(data.msg);
-           		}
-           	},
-           	error : function() {
-           		alert("异常！");
-           	}
-       });
-	});
+    $.ajax({
+        url:'<%=path %>/contract/update',
+        type:'post',
+        data: formData,
+        cache:false,
+        data: formData,
+        //JSON.stringify(param),
+        processData: false,
+        contentType: false,
+       success:function(data) {
+                if(data.code == "OK"){
+                    alert("修改数据成功！");
+                    window.location.href="<%=path %>/contract/show";
+                }else{
+                    alert(data.msg);
+                }
+        },
+        error : function() {
+            alert("异常！");
+        }
+    });
+});
 	
 	$("#back").click(function(){
 		window.location.href= "<%=path %>/contract/show";

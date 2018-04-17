@@ -7,7 +7,8 @@ import java.util.Map;
  * @Date 2018/3/22 17:08
  * @function:
  */
-public class ReturnData {
+public class
+ReturnData {
     private String code;
 
     private String msg;

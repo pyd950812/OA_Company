@@ -4,6 +4,8 @@ package com.pengyd.service;
 import com.pengyd.bean.Contract;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
+import org.apache.ibatis.annotations.Param;
+
 /**
  * @Author pengyd
  * @Date 2018/3/22 17:00
@@ -48,5 +50,10 @@ public interface ContractService {
 
     JqGridJsonBean selectRelationDataByEmpRealname(String page, String rows, String order_by, Contract contract,
                                                    String empRealname);
+
+    /**
+     * 根据id查询contract
+     */
+    Contract selectById(String id);
 
 }

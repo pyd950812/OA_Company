@@ -14,25 +14,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
-    
+
     <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
-    
+
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-	
+
     <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
-	
+
     <style type="text/css">
-		.amap-sug-result{
-			z-index:100000;
-		}
-		
-		#fieldHidden{
-			display: none;
-		}
-	</style>
-	
+        .amap-sug-result{
+            z-index:100000;
+        }
+
+        #fieldHidden{
+            display: none;
+        }
+    </style>
+
 </head>
    
 <body>
@@ -225,20 +225,22 @@ var contractParam = {};
 		var formData = new FormData($('#uploadForm')[0]);
 		
 	    $.ajax({url:'<%=path %>/contract/insert',
-       		type:'post',
+       		type:'POST',
        		cache:false,
        		data: formData,
-       		//JSON.stringify(param),
-            processData: false,  
-            contentType: false, 
-           	success:function(data){
-           		if(data.code == "OK"){
-           			alert("数据保存成功");
-               		window.location.href= "<%=path %>/contract/show";
-           		} else {
-           			alert(data.msg);
-           		}
-           	},
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success:function (data) {
+                if(data.code == "OK"){
+                    alert(data.msg);
+                    window.location.href = "<%=path %>/contract/show";
+                }else if(data.code == "11") {
+                    alert(data.msg);
+                }else {
+                    alert(data.msg);
+                }
+            },
            	error : function() {
            		alert("异常！");
            	}

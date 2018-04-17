@@ -76,6 +76,8 @@
         	#{id}
         </foreach>
     </delete>
+
+
     
     <update id="update" parameterType="com.pengyd.bean.Contract">
     	update contract
@@ -362,5 +364,11 @@
             </where>
         </if>
         order by ${order_by} desc
+    </select>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT *
+        FROM contract
+        where id = #{id}
     </select>
 </mapper>

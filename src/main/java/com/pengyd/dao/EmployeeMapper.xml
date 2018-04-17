@@ -245,7 +245,8 @@
     </select>
 	
 	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Employee">
-    	select 
+    	select
+        id,
 			<include refid="Base_Column_List" />
 		from employee 
 		<if test="_parameter != null">
