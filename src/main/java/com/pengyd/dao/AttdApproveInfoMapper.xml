@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.AttdApproveInfoMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.AttdApproveInfo">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_id" property="empId" jdbcType="INTEGER" />
+	    	<result column="approve_days" property="approveDays" jdbcType="DOUBLE" />
+	    	<result column="approve_content" property="approveContent" jdbcType="VARCHAR" />
+	    	<result column="approve_remark" property="approveRemark" jdbcType="VARCHAR" />
+	    	<result column="approve_type" property="approveType" jdbcType="INTEGER" />
+	    	<result column="approve_time_start" property="approveTimeStart" jdbcType="TIMESTAMP" />
+	    	<result column="approve_time_end" property="approveTimeEnd" jdbcType="TIMESTAMP" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    	<result column="approve_state" property="approveState" jdbcType="INTEGER" />
+	    	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_id,
+			approve_days,
+			approve_content,
+			approve_remark,
+			approve_type,
+			approve_time_start,
+			approve_time_end,
+			create_time,
+			approve_state,
+			update_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.AttdApproveInfo">
+        insert into attd_approve_info (
+			<include refid="Base_Column_List" />
+		)values(
+        	#{empId,jdbcType=INTEGER},
+        	#{approveDays,jdbcType=DOUBLE},
+        	#{approveContent,jdbcType=VARCHAR},
+        	#{approveRemark,jdbcType=VARCHAR},
+        	#{approveType,jdbcType=INTEGER},
+        	#{approveTimeStart,jdbcType=TIMESTAMP},
+        	#{approveTimeEnd,jdbcType=TIMESTAMP},
+			NOW(),
+        	#{approveState,jdbcType=INTEGER},
+        	NOW()
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.AttdApproveInfo">
+        delete from attd_approve_info
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="approveDays != null and approveDays != ''">
+                approve_days = #{approveDays,jdbcType=DOUBLE} and
+            </if>
+			<if test="approveContent != null and approveContent != ''">
+                approve_content = #{approveContent,jdbcType=VARCHAR} and
+            </if>
+			<if test="approveRemark != null and approveRemark != ''">
+                approve_remark = #{approveRemark,jdbcType=VARCHAR} and
+            </if>
+			<if test="approveType != null and approveType != ''">
+                approve_type = #{approveType,jdbcType=INTEGER} and
+            </if>
+			<if test="approveTimeStart != null and approveTimeStart != ''">
+                approve_time_start = #{approveTimeStart,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="approveTimeEnd != null and approveTimeEnd != ''">
+                approve_time_end = #{approveTimeEnd,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="approveState != null and approveState != ''">
+                approve_state = #{approveState,jdbcType=INTEGER} and
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM attd_approve_info WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.AttdApproveInfo">
+    	update attd_approve_info
+    	<set>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER},
+            </if>
+			<if test="approveDays != null and approveDays != ''">
+                approve_days = #{approveDays,jdbcType=DOUBLE},
+            </if>
+			<if test="approveContent != null and approveContent != ''">
+                approve_content = #{approveContent,jdbcType=VARCHAR},
+            </if>
+			<if test="approveRemark != null and approveRemark != ''">
+                approve_remark = #{approveRemark,jdbcType=VARCHAR},
+            </if>
+			<if test="approveType != null and approveType != ''">
+                approve_type = #{approveType,jdbcType=INTEGER},
+            </if>
+			<if test="approveTimeStart != null"><!--  and approveTimeStart != '' -->
+                approve_time_start = #{approveTimeStart,jdbcType=TIMESTAMP},
+            </if>
+			<if test="approveTimeEnd != null"><!--  and approveTimeEnd != '' -->
+                approve_time_end = #{approveTimeEnd,jdbcType=TIMESTAMP},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+			<if test="approveState != null and approveState != ''">
+                approve_state = #{approveState,jdbcType=INTEGER},
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = NOW(),
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.AttdApproveInfo">
+    	select count(*) from attd_approve_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="approveDays != null and approveDays != ''">
+                approve_days = #{approveDays,jdbcType=DOUBLE} and
+            </if>
+			<if test="approveContent != null and approveContent != ''">
+                approve_content = #{approveContent,jdbcType=VARCHAR} and
+            </if>
+			<if test="approveRemark != null and approveRemark != ''">
+                approve_remark = #{approveRemark,jdbcType=VARCHAR} and
+            </if>
+			<if test="approveType != null and approveType != ''">
+                approve_type = #{approveType,jdbcType=INTEGER} and
+            </if>
+			<if test="approveTimeStart != null and approveTimeStart != ''">
+                approve_time_start = #{approveTimeStart,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="approveTimeEnd != null and approveTimeEnd != ''">
+                approve_time_end = #{approveTimeEnd,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="approveState != null and approveState != ''">
+                approve_state = #{approveState,jdbcType=INTEGER} and
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.AttdApproveInfo">
+    	select id,
+			<include refid="Base_Column_List" />
+		from attd_approve_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="attdApproveInfo.id != null and attdApproveInfo.id != ''">
+                id = #{attdApproveInfo.id,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.empId != null and attdApproveInfo.empId != ''">
+                emp_id = #{attdApproveInfo.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.approveDays != null and attdApproveInfo.approveDays != ''">
+                approve_days = #{attdApproveInfo.approveDays,jdbcType=DOUBLE} and
+            </if>
+			<if test="attdApproveInfo.approveContent != null and attdApproveInfo.approveContent != ''">
+                approve_content = #{attdApproveInfo.approveContent,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveInfo.approveRemark != null and attdApproveInfo.approveRemark != ''">
+                approve_remark = #{attdApproveInfo.approveRemark,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveInfo.approveType != null and attdApproveInfo.approveType != ''">
+                approve_type = #{attdApproveInfo.approveType,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.approveTimeStart != null and attdApproveInfo.approveTimeStart != ''">
+                approve_time_start = #{attdApproveInfo.approveTimeStart,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.approveTimeEnd != null and attdApproveInfo.approveTimeEnd != ''">
+                approve_time_end = #{attdApproveInfo.approveTimeEnd,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.createTime != null and attdApproveInfo.createTime != ''">
+                create_time = #{attdApproveInfo.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.approveState != null and attdApproveInfo.approveState != ''">
+                approve_state = #{attdApproveInfo.approveState,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.updateTime != null and attdApproveInfo.updateTime != ''">
+                update_time = #{attdApproveInfo.updateTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.AttdApproveInfo">
+    	select count(*) from attd_approve_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="approveDays != null and approveDays != ''">
+                approve_days = #{approveDays,jdbcType=DOUBLE} and
+            </if>
+			<if test="approveContent != null and approveContent != ''">
+                approve_content = #{approveContent,jdbcType=VARCHAR} and
+            </if>
+			<if test="approveRemark != null and approveRemark != ''">
+                approve_remark = #{approveRemark,jdbcType=VARCHAR} and
+            </if>
+			<if test="approveType != null and approveType != ''">
+                approve_type = #{approveType,jdbcType=INTEGER} and
+            </if>
+			<if test="approveTimeStart != null and approveTimeStart != ''">
+                approve_time_start = #{approveTimeStart,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="approveTimeEnd != null and approveTimeEnd != ''">
+                approve_time_end = #{approveTimeEnd,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="approveState != null and approveState != ''">
+                approve_state = #{approveState,jdbcType=INTEGER} and
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.AttdApproveInfo">
+    	select xtx.*, e.realname
+		from attd_approve_info xtx, employee e
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="attdApproveInfo.id != null and attdApproveInfo.id != ''">
+                xtx.id = #{attdApproveInfo.id,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.empId != null and attdApproveInfo.empId != ''">
+                xtx.emp_id = #{attdApproveInfo.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.approveDays != null and attdApproveInfo.approveDays != ''">
+                xtx.approve_days = #{attdApproveInfo.approveDays,jdbcType=DOUBLE} and
+            </if>
+			<if test="attdApproveInfo.approveContent != null and attdApproveInfo.approveContent != ''">
+                xtx.approve_content = #{attdApproveInfo.approveContent,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveInfo.approveRemark != null and attdApproveInfo.approveRemark != ''">
+                xtx.approve_remark = #{attdApproveInfo.approveRemark,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveInfo.approveType != null and attdApproveInfo.approveType != ''">
+                xtx.approve_type = #{attdApproveInfo.approveType,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.approveTimeStart != null and attdApproveInfo.approveTimeStart != ''">
+                xtx.approve_time_start = #{attdApproveInfo.approveTimeStart,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.approveTimeEnd != null and attdApproveInfo.approveTimeEnd != ''">
+                xtx.approve_time_end = #{attdApproveInfo.approveTimeEnd,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.createTime != null and attdApproveInfo.createTime != ''">
+                xtx.create_time = #{attdApproveInfo.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.approveState != null and attdApproveInfo.approveState != ''">
+                xtx.approve_state = #{attdApproveInfo.approveState,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.updateTime != null and attdApproveInfo.updateTime != ''">
+                xtx.update_time = #{attdApproveInfo.updateTime,jdbcType=TIMESTAMP} and
+            </if>
+            xtx.emp_id = e.id
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.AttdApproveInfo">
+    	select id,
+			<include refid="Base_Column_List" />
+		from attd_approve_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="attdApproveInfo.id != null and attdApproveInfo.id != ''">
+                id = #{attdApproveInfo.id,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.empId != null and attdApproveInfo.empId != ''">
+                emp_id = #{attdApproveInfo.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.approveDays != null and attdApproveInfo.approveDays != ''">
+                approve_days = #{attdApproveInfo.approveDays,jdbcType=DOUBLE} and
+            </if>
+			<if test="attdApproveInfo.approveContent != null and attdApproveInfo.approveContent != ''">
+                approve_content = #{attdApproveInfo.approveContent,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveInfo.approveRemark != null and attdApproveInfo.approveRemark != ''">
+                approve_remark = #{attdApproveInfo.approveRemark,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveInfo.approveType != null and attdApproveInfo.approveType != ''">
+                approve_type = #{attdApproveInfo.approveType,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.approveTimeStart != null and attdApproveInfo.approveTimeStart != ''">
+                approve_time_start = #{attdApproveInfo.approveTimeStart,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.approveTimeEnd != null and attdApproveInfo.approveTimeEnd != ''">
+                approve_time_end = #{attdApproveInfo.approveTimeEnd,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.createTime != null and attdApproveInfo.createTime != ''">
+                create_time = #{attdApproveInfo.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveInfo.approveState != null and attdApproveInfo.approveState != ''">
+                approve_state = #{attdApproveInfo.approveState,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveInfo.updateTime != null and attdApproveInfo.updateTime != ''">
+                update_time = #{attdApproveInfo.updateTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+</mapper>

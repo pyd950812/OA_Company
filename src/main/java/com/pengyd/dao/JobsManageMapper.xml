@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.JobsManageMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.JobsManage">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+	    	<result column="work_user_id" property="workUserId" jdbcType="INTEGER" />
+	    	<result column="job_info" property="jobInfo" jdbcType="VARCHAR" />
+	    	<result column="job_state" property="jobState" jdbcType="INTEGER" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    	<result column="job_work_info" property="jobWorkInfo" jdbcType="VARCHAR" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			create_user_id,
+			work_user_id,
+			job_info,
+			job_state,
+			create_time,
+			update_time,
+			job_work_info
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.JobsManage">
+        insert into jobs_manage (
+			<include refid="Base_Column_List" />
+		)values(
+			NOW(),
+        	#{createUserId,jdbcType=INTEGER},
+        	#{workUserId,jdbcType=INTEGER},
+        	#{jobInfo,jdbcType=VARCHAR},
+        	#{jobState,jdbcType=INTEGER},
+			NOW(),
+        	#{updateTime,jdbcType=TIMESTAMP},
+        	#{jobWorkInfo,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.JobsManage">
+        delete from jobs_manage
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="workUserId != null and workUserId != ''">
+                work_user_id = #{workUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobInfo != null and jobInfo != ''">
+                job_info = #{jobInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobState != null and jobState != ''">
+                job_state = #{jobState,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobWorkInfo != null and jobWorkInfo != ''">
+                job_work_info = #{jobWorkInfo,jdbcType=VARCHAR} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM jobs_manage WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.JobsManage">
+    	update jobs_manage
+    	<set>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+			<if test="workUserId != null and workUserId != ''">
+                work_user_id = #{workUserId,jdbcType=INTEGER},
+            </if>
+			<if test="jobInfo != null and jobInfo != ''">
+                job_info = #{jobInfo,jdbcType=VARCHAR},
+            </if>
+			<if test="jobState != null and jobState != ''">
+                job_state = #{jobState,jdbcType=INTEGER},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+			<if test="jobWorkInfo != null and jobWorkInfo != ''">
+                job_work_info = #{jobWorkInfo,jdbcType=VARCHAR},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.JobsManage">
+    	select count(*) from jobs_manage 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="workUserId != null and workUserId != ''">
+                work_user_id = #{workUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobInfo != null and jobInfo != ''">
+                job_info = #{jobInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobState != null and jobState != ''">
+                job_state = #{jobState,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobWorkInfo != null and jobWorkInfo != ''">
+                job_work_info = #{jobWorkInfo,jdbcType=VARCHAR} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.JobsManage">
+    	select id,
+			<include refid="Base_Column_List" />
+		from jobs_manage 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="jobsManage.id != null and jobsManage.id != ''">
+                id = #{jobsManage.id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.createUserId != null and jobsManage.createUserId != ''">
+                create_user_id = #{jobsManage.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.workUserId != null and jobsManage.workUserId != ''">
+                work_user_id = #{jobsManage.workUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.jobInfo != null and jobsManage.jobInfo != ''">
+                job_info = #{jobsManage.jobInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobsManage.jobState != null and jobsManage.jobState != ''">
+                job_state = #{jobsManage.jobState,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.createTime != null and jobsManage.createTime != ''">
+                create_time = #{jobsManage.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobsManage.updateTime != null and jobsManage.updateTime != ''">
+                update_time = #{jobsManage.updateTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobsManage.jobWorkInfo != null and jobsManage.jobWorkInfo != ''">
+                job_work_info = #{jobsManage.jobWorkInfo,jdbcType=VARCHAR} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.JobsManage">
+    	select count(*) from jobs_manage 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="workUserId != null and workUserId != ''">
+                work_user_id = #{workUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobInfo != null and jobInfo != ''">
+                job_info = #{jobInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobState != null and jobState != ''">
+                job_state = #{jobState,jdbcType=INTEGER} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobWorkInfo != null and jobWorkInfo != ''">
+                job_work_info = #{jobWorkInfo,jdbcType=VARCHAR} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.JobsManage">
+    	select xtx.*, 
+		from jobs_manage xtx, 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="jobsManage.id != null and jobsManage.id != ''">
+                xtx.id = #{jobsManage.id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.createUserId != null and jobsManage.createUserId != ''">
+                xtx.create_user_id = #{jobsManage.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.workUserId != null and jobsManage.workUserId != ''">
+                xtx.work_user_id = #{jobsManage.workUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.jobInfo != null and jobsManage.jobInfo != ''">
+                xtx.job_info = #{jobsManage.jobInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobsManage.jobState != null and jobsManage.jobState != ''">
+                xtx.job_state = #{jobsManage.jobState,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.createTime != null and jobsManage.createTime != ''">
+                xtx.create_time = #{jobsManage.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobsManage.updateTime != null and jobsManage.updateTime != ''">
+                xtx.update_time = #{jobsManage.updateTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobsManage.jobWorkInfo != null and jobsManage.jobWorkInfo != ''">
+                xtx.job_work_info = #{jobsManage.jobWorkInfo,jdbcType=VARCHAR} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.JobsManage">
+    	select id,
+			<include refid="Base_Column_List" />
+		from jobs_manage 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="jobsManage.id != null and jobsManage.id != ''">
+                id = #{jobsManage.id,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.createUserId != null and jobsManage.createUserId != ''">
+                create_user_id = #{jobsManage.createUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.workUserId != null and jobsManage.workUserId != ''">
+                work_user_id = #{jobsManage.workUserId,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.jobInfo != null and jobsManage.jobInfo != ''">
+                job_info = #{jobsManage.jobInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="jobsManage.jobState != null and jobsManage.jobState != ''">
+                job_state = #{jobsManage.jobState,jdbcType=INTEGER} and
+            </if>
+			<if test="jobsManage.createTime != null and jobsManage.createTime != ''">
+                create_time = #{jobsManage.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobsManage.updateTime != null and jobsManage.updateTime != ''">
+                update_time = #{jobsManage.updateTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="jobsManage.jobWorkInfo != null and jobsManage.jobWorkInfo != ''">
+                job_work_info = #{jobsManage.jobWorkInfo,jdbcType=VARCHAR} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+</mapper>

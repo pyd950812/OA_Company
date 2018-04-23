@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.AttdApproveListMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.AttdApproveList">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_id" property="empId" jdbcType="INTEGER" />
+	    	<result column="annotation" property="annotation" jdbcType="VARCHAR" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    	<result column="a_a_info_id" property="aAInfoId" jdbcType="INTEGER" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_id,
+			annotation,
+			create_time,
+			a_a_info_id
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.AttdApproveList">
+        insert into attd_approve_list (
+			<include refid="Base_Column_List" />
+		)values(
+        	#{empId,jdbcType=INTEGER},
+        	#{annotation,jdbcType=VARCHAR},
+			NOW(),
+        	#{aAInfoId,jdbcType=INTEGER}
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.AttdApproveList">
+        delete from attd_approve_list
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="annotation != null and annotation != ''">
+                annotation = #{annotation,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="aAInfoId != null and aAInfoId != ''">
+                a_a_info_id = #{aAInfoId,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM attd_approve_list WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.AttdApproveList">
+    	update attd_approve_list
+    	<set>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER},
+            </if>
+			<if test="annotation != null and annotation != ''">
+                annotation = #{annotation,jdbcType=VARCHAR},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+			<if test="aAInfoId != null and aAInfoId != ''">
+                a_a_info_id = #{aAInfoId,jdbcType=INTEGER},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.AttdApproveList">
+    	select count(*) from attd_approve_list 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="annotation != null and annotation != ''">
+                annotation = #{annotation,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="aAInfoId != null and aAInfoId != ''">
+                a_a_info_id = #{aAInfoId,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.AttdApproveList">
+    	select id,
+			<include refid="Base_Column_List" />
+		from attd_approve_list 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="attdApproveList.id != null and attdApproveList.id != ''">
+                id = #{attdApproveList.id,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveList.empId != null and attdApproveList.empId != ''">
+                emp_id = #{attdApproveList.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveList.annotation != null and attdApproveList.annotation != ''">
+                annotation = #{attdApproveList.annotation,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveList.createTime != null and attdApproveList.createTime != ''">
+                create_time = #{attdApproveList.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveList.aAInfoId != null and attdApproveList.aAInfoId != ''">
+                a_a_info_id = #{attdApproveList.aAInfoId,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.AttdApproveList">
+    	select count(*) from attd_approve_list 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="annotation != null and annotation != ''">
+                annotation = #{annotation,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="aAInfoId != null and aAInfoId != ''">
+                a_a_info_id = #{aAInfoId,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.AttdApproveList">
+    	select xtx.*, e.realname
+		from attd_approve_list xtx, employee e
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="attdApproveList.id != null and attdApproveList.id != ''">
+                xtx.id = #{attdApproveList.id,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveList.empId != null and attdApproveList.empId != ''">
+                xtx.emp_id = #{attdApproveList.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveList.annotation != null and attdApproveList.annotation != ''">
+                xtx.annotation = #{attdApproveList.annotation,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveList.createTime != null and attdApproveList.createTime != ''">
+                xtx.create_time = #{attdApproveList.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveList.aAInfoId != null and attdApproveList.aAInfoId != ''">
+                xtx.a_a_info_id = #{attdApproveList.aAInfoId,jdbcType=INTEGER} and
+            </if>
+            xtx.emp_id = e.id
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.AttdApproveList">
+    	select id,
+			<include refid="Base_Column_List" />
+		from attd_approve_list 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="attdApproveList.id != null and attdApproveList.id != ''">
+                id = #{attdApproveList.id,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveList.empId != null and attdApproveList.empId != ''">
+                emp_id = #{attdApproveList.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="attdApproveList.annotation != null and attdApproveList.annotation != ''">
+                annotation = #{attdApproveList.annotation,jdbcType=VARCHAR} and
+            </if>
+			<if test="attdApproveList.createTime != null and attdApproveList.createTime != ''">
+                create_time = #{attdApproveList.createTime,jdbcType=TIMESTAMP} and
+            </if>
+			<if test="attdApproveList.aAInfoId != null and attdApproveList.aAInfoId != ''">
+                a_a_info_id = #{attdApproveList.aAInfoId,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+</mapper>

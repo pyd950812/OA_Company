@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -20,9 +21,8 @@ public class MapTest {
     private String sss;
 
     public static void main(String[] args) {
-    MapTest s = new MapTest();
-        String s1 = s.s();
-        System.out.println(s1);
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        System.out.println("执行结束时间："+s.format(new Date())+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     public String  s (){

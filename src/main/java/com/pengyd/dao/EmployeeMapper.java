@@ -73,4 +73,7 @@ public interface EmployeeMapper {
      *  根据loginName找到对应的员工
      */
     Employee selectByLoginName(@Param("loginName") String loginName);
+
+
+    List<Integer> selectEmpIds();
 }

@@ -302,5 +302,10 @@
     <select id="selectByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * from employee WHERE  loginname = #{loginName};
     </select>
-	
+
+    <select id="selectEmpIds" resultType="java.lang.Integer">
+        select id from employee
+    </select>
+
+
 </mapper>

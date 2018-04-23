@@ -50,6 +50,24 @@ public class AttendanceServiceImpl implements AttendanceService {
         return rd;
     }
 
+    @Override
+    public ReturnData insertByTime(Attendance attendance) {
+        ReturnData rd = new ReturnData();
+        try {
+            attendanceMapper.insertByTime(attendance);
+            rd.setCode("OK");
+            rd.setMsg("数据插入成功 ");
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            //操作异常,返回错误信息
+            rd.setCode("ERROR");
+            rd.setMsg(e.getMessage());
+        }
+
+        return rd;
+    }
+
     /**
      * 将 Attendance 中的参数 删除数据库中的数据
      */
@@ -179,7 +197,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public JqGridJsonBean selectRelationDataByEmpRealname(String page, String rows, String order_by,
-            Attendance attendance, String empRealname) {
+                                                          Attendance attendance, String empRealname, String createTimeStr) {
         // TODO Auto-generated method stub
         JqGridJsonBean jgjb = new JqGridJsonBean();
         try {
@@ -194,11 +212,11 @@ public class AttendanceServiceImpl implements AttendanceService {
             }
 
             //查询Attendance总数据量
-            int count = attendanceMapper.selectRelationCountByEmpRealname(attendance, empRealname);
+            int count = attendanceMapper.selectRelationCountByEmpRealname(attendance, empRealname, createTimeStr);
             //根据查询条件查询总页数
             int pages = (count % Integer.parseInt(rows)) == 0 ? (count / _rows) : ((count / _rows) + 1);
             List<Map<String, Object>> data = attendanceMapper.selectRelationDataByEmpRealname(attendance, _rows,
-                    (_page - 1) * _rows, order_by, empRealname);
+                    (_page - 1) * _rows, order_by, empRealname, createTimeStr);
             jgjb.setPage(_page);// 第几页
             jgjb.setRecords(count);// 总数据量
             jgjb.setTotal(pages);// 总页数
@@ -241,4 +259,42 @@ public class AttendanceServiceImpl implements AttendanceService {
         return rd;
     }
 
+    @Override
+    public ReturnData selectByNowDateStr(Attendance attendance, String nowDateStr) {
+        // TODO Auto-generated method stub
+        ReturnData rd = new ReturnData();
+        try {
+            List<Attendance> data = attendanceMapper.selectByNowDateStr(attendance, nowDateStr);
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("data", data);
+            rd.setCode("OK");
+            rd.setData(dataMap);
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            //操作异常,返回错误信息
+            rd.setCode("ERROR");
+            rd.setMsg(e.getMessage());
+        }
+        return rd;
+    }
+
+    @Override
+    public ReturnData selectEmpIdsByCreateTime(String createTime) {
+        ReturnData rd = new ReturnData();
+        try {
+            List<Integer> data = attendanceMapper.selectEmpIdsByCreateTime(createTime);
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("data", data);
+            rd.setCode("OK");
+            rd.setData(dataMap);
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            //操作异常,返回错误信息
+            rd.setCode("ERROR");
+            rd.setMsg(e.getMessage());
+        }
+        return rd;
+    }
 }

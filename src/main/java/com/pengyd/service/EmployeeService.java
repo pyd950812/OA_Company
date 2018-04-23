@@ -59,4 +59,6 @@ public interface EmployeeService {
      *  根据loginName找到对应的员工
      */
     Employee selectByLoginName(String loginName);
+
+    ReturnData selectEmpIds();
 }

@@ -68,4 +68,8 @@
 		<bean class="com.pengyd.util.ApplicationInterceptor"/>
 	</mvc:interceptors>
 
+	<!-- 新增全局监听设置类 -->
+	<bean class= "com.pengyd.util.ApplicationInit"></bean>
+	<bean class= "com.pengyd.util.ApplicationEnd"></bean>
+
 </beans>

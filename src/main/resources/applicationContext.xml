@@ -101,4 +101,11 @@
           p:configLocation="classpath:ehcache.xml"/>
     <bean id="cacheManagerDB" class="org.springframework.cache.ehcache.EhCacheCacheManager"
           p:cacheManager-ref="ehCacheManagerFactory"/>
+
+
+    <!-- 全局代理类 -->
+    <bean class="com.pengyd.util.SpringContextUtil"/>
+
+    <!-- 导入相关配置 -->
+    <import resource="classpath:activiti-context.xml"/>
 </beans>

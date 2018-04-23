@@ -25,6 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <script src="<%=path %>/assets/js/user_common.js"></script>
     
+    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
+	
 	<style type="text/css">
 		span.glyphicon{
 			height:30px;
@@ -43,12 +45,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!--头部内容-->
     <div class="header">
         <ol class="breadcrumb">
-            <li><a>首页</a></li>
-            <li>></li>
             <li>工作管理</li>
             <li>></li>
             <li class="active">考勤数据统计</li>
-	        <button class="chaxun-bottom" id="attendance_add">签到</button>
+	        <button class="chaxun-bottom" id="attendance_onDuty">签到【早9点上班】</button>
+	        <button class="chaxun-bottom" id="attendance_offDuty">下班【晚6点下班】</button>
+	        <button class="chaxun-bottom" id="attendance_add">补卡</button>
         </ol>
     </div>
     <!--过滤条件-->
@@ -60,6 +62,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="panel-body pad-tb-25">
             <span>用户名：</span>
 	        <input type="text" placeholder="请输入用户名" id="searchSelectRealname">
+            <span>考勤日期：</span>
+	        <input type="text" placeholder="请输入日期" id="searchSelectCreateTime">
 	        <button class="chaxun-bottom" id="attendance_chaxun">查询</button>
         </div>
         
@@ -68,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span class="iconstate left bg-filter"></span>
             <span class="left bg-filter">考勤数据统计</span>
             
-            <!-- <button class="tianjia-button right bg-filter" id="attendance_plus"><span class="glyphicon glyphicon-plus"></span>签到</button> -->
+            <!-- <button class="tianjia-button right bg-filter" id="attendance_plus"><span class="glyphicon glyphicon-plus"></span>添加</button> -->
             
 			<button class="tianjia-button right bg-filter" id="attendance_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
 			<button class="tianjia-button right bg-filter" id="attendance_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
@@ -84,6 +88,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </body>
 
 <script type="text/javascript">
+
+//执行一个laydate实例
+laydate.render({
+	elem: '#searchSelectCreateTime' //指定元素
+});
+
 	var attendanceParam = {};
 	attendanceParam.id;
 	attendanceParam.empId;
@@ -121,12 +131,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			{name: "realname", index: "realname", sortable: false, width: 60, align: "center"},
 			{name: "attd_state", index: "attd_state", sortable: false, width: 60, align: "center",formatter:function(value,options,rowData){
 				var attdStateStr = "";
-				switch(value){  
-				    case 0:attdStateStr = "旷工";break;  
-				    case 1:attdStateStr = "正常";break;  
-				    case 2:attdStateStr = "迟到";break;  
-				    case 3:attdStateStr = "请假";break;
-				    case 4:attdStateStr = "调休";break;
+				switch(value){  //1 缺勤(全天旷工) - 2 半天旷工 - 3 正常上班 - 4 正常下班 - 5 迟到 - 6 早退 - 7 请假 - 8 调休 - 9 出差
+				    case 0:attdStateStr = "未知状态";break;  
+				    case 1:attdStateStr = "缺勤";break;  
+				    case 2:attdStateStr = "旷工半天";break;  
+				    case 3:attdStateStr = "正常上班";break;
+				    case 4:attdStateStr = "正常下班";break;
+				    case 5:attdStateStr = "迟到";break;
+				    case 6:attdStateStr = "早退";break;
+				    case 7:attdStateStr = "请假";break;
+				    case 8:attdStateStr = "调休";break;
+				    case 9:attdStateStr = "出差";break;
 				    
 				    //早退 - ……
 				    
@@ -134,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				return attdStateStr;
 			}},
 			{name: "create_time", index: "create_time", sortable: false, width: 60, align: "center",formatter:function(value,options,rowData){
-				return getFormatDateNohms(value);
+				return getFormatDate(value);
 			}}
             ],
             rowNum:15, 
@@ -159,6 +174,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var param = JSON.parse(searchGridParam);
 
 		var empRealname = $("#searchSelectRealname").val();
+
+		var selectCreateTime = $("#searchSelectCreateTime").val();
+		param.createTime = selectCreateTime+ " 00:00:00";
 		
 		//为param 赋值
 		var GridParam = JSON.stringify(param);
@@ -173,24 +191,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}).trigger("reloadGrid");
 	}
 
-    //新增
-	$("#attendance_add").click(function(){
-	    $.ajax({url:'<%=path %>/attendance/insert',
+    //签到【早9点上班】
+	$("#attendance_onDuty").click(function(){
+	    $.ajax({url:'<%=path %>/attendance/insertByOnDuty',
+       		type:'post',
+       		cache:false,
+       		contentType: "application/json",
+            dataType: "json",
+           	success:function(data){
+           		if(data.code == "OK"){
+           			alert("打卡成功");
+               		window.location.href= "<%=path %>/attendance/show";
+           		} else {
+           			alert("已打过，无需再次打卡");
+           		}
+           	},
+           	error : function() {
+           		alert("打卡异常！");
+           	}
+       });
+	});
+
+    //下班【晚6点下班】
+	$("#attendance_offDuty").click(function(){
+	    $.ajax({url:'<%=path %>/attendance/insertByOffDuty',
        		type:'post',
        		cache:false,
        		contentType: "application/json;charset=UTF-8",
+            dataType: "json",
            	success:function(data){
            		if(data.code == "OK"){
-           			alert("!!签到成功");
+           			alert("打卡成功");
                		window.location.href= "<%=path %>/attendance/show";
            		} else {
            			alert(data.msg);
            		}
            	},
            	error : function() {
-           		alert("异常！");
+           		alert("打卡异常！");
            	}
        });
+	});
+
+    //补卡 - 新增
+	$("#attendance_add").click(function(){
+		window.location.href= "<%=path %>/attendance/add";
 	});
     
     //修改 - 判定只能修改一条数据
@@ -204,6 +249,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			return;
 		} else {
 			if (confirm("确认修改当前选中数据的信息吗？")) {
+				//暂时不涉及经纬度的信息加载 - 暂不涉及相关网格码的修改
 				window.location.href= "<%=path %>/attendance/edit?id="+ids;
 			}
 		}

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.EmpFriendInfoMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.EmpFriendInfo">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="emp_fri_id" property="empFriId" jdbcType="INTEGER" />
+	    	<result column="emp_id" property="empId" jdbcType="INTEGER" />
+	    	<result column="chat_info" property="chatInfo" jdbcType="VARCHAR" />
+	    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			emp_fri_id,
+			emp_id,
+			chat_info,
+			create_time
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.EmpFriendInfo">
+        insert into emp_friend_info (
+			<include refid="Base_Column_List" />
+		)values(
+			NOW(),
+        	#{empFriId,jdbcType=INTEGER},
+        	#{empId,jdbcType=INTEGER},
+        	#{chatInfo,jdbcType=VARCHAR},
+			NOW(),
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.EmpFriendInfo">
+        delete from emp_friend_info
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriId != null and empFriId != ''">
+                emp_fri_id = #{empFriId,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="chatInfo != null and chatInfo != ''">
+                chat_info = #{chatInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM emp_friend_info WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.EmpFriendInfo">
+    	update emp_friend_info
+    	<set>
+			<if test="empFriId != null and empFriId != ''">
+                emp_fri_id = #{empFriId,jdbcType=INTEGER},
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER},
+            </if>
+			<if test="chatInfo != null and chatInfo != ''">
+                chat_info = #{chatInfo,jdbcType=VARCHAR},
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.EmpFriendInfo">
+    	select count(*) from emp_friend_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriId != null and empFriId != ''">
+                emp_fri_id = #{empFriId,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="chatInfo != null and chatInfo != ''">
+                chat_info = #{chatInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.EmpFriendInfo">
+    	select id,
+			<include refid="Base_Column_List" />
+		from emp_friend_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="empFriendInfo.id != null and empFriendInfo.id != ''">
+                id = #{empFriendInfo.id,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.empFriId != null and empFriendInfo.empFriId != ''">
+                emp_fri_id = #{empFriendInfo.empFriId,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.empId != null and empFriendInfo.empId != ''">
+                emp_id = #{empFriendInfo.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.chatInfo != null and empFriendInfo.chatInfo != ''">
+                chat_info = #{empFriendInfo.chatInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="empFriendInfo.createTime != null and empFriendInfo.createTime != ''">
+                create_time = #{empFriendInfo.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.EmpFriendInfo">
+    	select count(*) from emp_friend_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriId != null and empFriId != ''">
+                emp_fri_id = #{empFriId,jdbcType=INTEGER} and
+            </if>
+			<if test="empId != null and empId != ''">
+                emp_id = #{empId,jdbcType=INTEGER} and
+            </if>
+			<if test="chatInfo != null and chatInfo != ''">
+                chat_info = #{chatInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.EmpFriendInfo">
+    	select xtx.*, 
+		from emp_friend_info xtx, 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="empFriendInfo.id != null and empFriendInfo.id != ''">
+                xtx.id = #{empFriendInfo.id,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.empFriId != null and empFriendInfo.empFriId != ''">
+                xtx.emp_fri_id = #{empFriendInfo.empFriId,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.empId != null and empFriendInfo.empId != ''">
+                xtx.emp_id = #{empFriendInfo.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.chatInfo != null and empFriendInfo.chatInfo != ''">
+                xtx.chat_info = #{empFriendInfo.chatInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="empFriendInfo.createTime != null and empFriendInfo.createTime != ''">
+                xtx.create_time = #{empFriendInfo.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.EmpFriendInfo">
+    	select id,
+			<include refid="Base_Column_List" />
+		from emp_friend_info 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="empFriendInfo.id != null and empFriendInfo.id != ''">
+                id = #{empFriendInfo.id,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.empFriId != null and empFriendInfo.empFriId != ''">
+                emp_fri_id = #{empFriendInfo.empFriId,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.empId != null and empFriendInfo.empId != ''">
+                emp_id = #{empFriendInfo.empId,jdbcType=INTEGER} and
+            </if>
+			<if test="empFriendInfo.chatInfo != null and empFriendInfo.chatInfo != ''">
+                chat_info = #{empFriendInfo.chatInfo,jdbcType=VARCHAR} and
+            </if>
+			<if test="empFriendInfo.createTime != null and empFriendInfo.createTime != ''">
+                create_time = #{empFriendInfo.createTime,jdbcType=TIMESTAMP} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+</mapper>

@@ -23,6 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
     <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
 	
+    <script src="<%=path %>/assets/js/user_common.js"></script>
+    
     <style type="text/css">
 		.amap-sug-result{
 			z-index:100000;
@@ -88,21 +90,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <span class="col-xs-3 glyphicon">* 所属员工：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="empId" value="">
+                        <select id="empId" name="empIdName" style="width:200px;" >
+                        </select>
                     </div>
                 </div>
+                
 				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 考勤状态 - 0-缺勤(旷工) - 1-正常 2-迟到 3-请假 4-调休：
+                    <span class="col-xs-3 glyphicon">* 考勤状态：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="attdState" value="">
+                        <select id="attdState" name="attdStateName" style="width:200px;" >
+                        	<option value="0">请先选择考勤状态</option>
+                        	<option value="1">缺勤</option>
+                        	<option value="2">旷工半天</option>
+                        	<option value="3">正常上班</option>
+                        	<option value="4">正常下班</option>
+                        	<option value="5">迟到</option>
+                        	<option value="6">早退</option>
+                        	<option value="7">请假</option>
+                        	<option value="8">调休</option>
+                        	<option value="9">出差</option>
+                        </select>
                     </div>
                 </div>
+                
 				<div class="col-xs-6 row ie-col-6">
                     <span class="col-xs-3 glyphicon">* 考核日期：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="createTime" value="">
+                        <input type="text" class="col-xs-12 GL-add-require" id="createTime" placeholder="请输入日期" value="">
                     </div>
                 </div>
         	 	
@@ -115,17 +131,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </body>
 
 <script type="text/javascript">
+
+//执行一个laydate实例
+laydate.render({
+	elem: '#createTime' //指定元素
+});
+
 var attendanceParam = {};
 	attendanceParam.id;
 	attendanceParam.empId;
+	
 	attendanceParam.attdState;
+	
 	attendanceParam.createTime;
 
 	$("#id").val(olddata.id);
-	$("#empId").val(olddata.empId);
+	
+	//$("#empId").val(olddata.empId);
+	//员工姓名的回显
+	$.ajax({
+		url:'<%=path %>/employee/ajaxSelectEmpById',
+   		type:'post',
+   		cache:false,
+   		dataType:'json',
+   		data: {"empId":olddata.empId},
+       	success:function(data){
+       		var list = data.data.data;
+		    $("#empId").html("<option value='"+olddata.empId+"'>"+list+"</option>");
+       	}, 
+       	error:function() {
+       		alert("异常！");
+       	}
+    });
+	
 	$("#attdState").val(olddata.attdState);
-	$("#createTime").val(olddata.createTime);
-
+	
+	//alert(getFormatDateNohms(olddata.createTime));
+	$("#createTime").val(getFormatDateNohms(olddata.createTime));
+	
 	$("#save").click(function(){
 		var param = JSON.parse(JSON.stringify(attendanceParam));
 		
