@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -12,25 +11,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>公司OA系统</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
+	
     <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
-
+	
     <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
-
+	
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+	<script type="text/javascript" src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
 
-    <style type="text/css">
-        span.glyphicon{
-            height:30px;
-            line-height:30px;
-        }
-
-    </style>
-
+	<style type="text/css">
+		span.glyphicon{
+			height:30px;
+			line-height:30px;
+		}
+		
+	</style>
+	
 </head>
 
 <body>
@@ -38,8 +37,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!--头部内容-->
     <div class="header">
         <ol class="breadcrumb">
-            <li><a>首页</a></li>
-            <li>></li>
             <li>人事信息管理</li>
             <li>></li>
             <li class="active">部门信息管理</li>
@@ -53,38 +50,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="panel-body pad-tb-25">
             <span>部门名称：</span>
-            <input type="text" placeholder="请输入部门名称" id="searchSelectDeptname">
-            <button class="chaxun-bottom" id="department_chaxun">查询</button>
+	        <input type="text" placeholder="请输入部门名称" id="searchSelectDeptname">
+	        <button class="chaxun-bottom" id="department_chaxun">查询</button>
         </div>
-
+        
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="iconstate left bg-filter"></span>
-                <span class="left bg-filter">部门信息</span>
-                <button class="tianjia-button right bg-filter" id="department_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
-                <button class="tianjia-button right bg-filter" id="department_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
-                <button class="tianjia-button right bg-filter" id="department_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
-            </div>
+        	<div class="panel-heading">
+            <span class="iconstate left bg-filter"></span>
+            <span class="left bg-filter">部门信息</span>
+            <button class="tianjia-button right bg-filter" id="department_plus"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+			<button class="tianjia-button right bg-filter" id="department_edit"><span class="glyphicon glyphicon-edit"></span> 修改</button>
+			<button class="tianjia-button right bg-filter" id="department_remove"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+        	</div>
         </div>
         <div class="panel-body">
             <table id="GRIDTABLE" style="border-collapse: collapse"></table>
             <div id="GRIDPAGE"></div>
         </div>
     </div>
-</div>
+</div>   
 </body>
 
 <script type="text/javascript">
-    var departmentParam = {};
-    departmentParam.id;
-    departmentParam.deptCode;
-    departmentParam.deptname;
-    departmentParam.deptinfo;
-    departmentParam.createTime;
-    departmentParam.isDis;
-    $(function(){
-        var GridParam = JSON.parse(JSON.stringify(departmentParam));
-        $("#GRIDTABLE").jqGrid({
+	var departmentParam = {};
+	departmentParam.id;
+	departmentParam.deptCode;
+	departmentParam.deptname;
+	departmentParam.deptinfo;
+	departmentParam.createTime;
+	departmentParam.isDis;
+
+	$(function(){
+		var GridParam = JSON.parse(JSON.stringify(departmentParam));
+		$("#GRIDTABLE").jqGrid({
             //caption:'权限管理',
             url: '<%=path %>/department/select',
             styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
@@ -103,140 +101,142 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             multiselect: true,//定义多选选择框
             multiboxonly : true,//单选框
             colNames: [
-                "",
-                "部门编码",
-                "部门名称",
-                "部门信息",
-                "创建时间",
-                "是否能直接分配所属工作"
-            ],
+				"",
+			"部门编码",
+			"部门名称",
+			"部门信息",
+			"创建时间",
+			"是否能直接分配所属工作"
+			],
             colModel: [
-                {name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
-                {name: "deptCode", index: "deptCode", sortable: false, width: 60, align: "center"},
-                {name: "deptname", index: "deptname", sortable: false, width: 60, align: "center"},
-                {name: "deptinfo", index: "deptinfo", sortable: false, width: 60, align: "center"},
-                {name: "createTime", index: "createTime", sortable: false, width: 60, align: "center"},
-                {name: "isDis", index: "isDis", sortable: false, width: 60, align: "center",formatter:function(value,options,rowData){
-                    return value == 1? "分配":"无法分配";
-                }}
+				{name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
+			{name: "deptCode", index: "deptCode", sortable: false, width: 60, align: "center"},
+			{name: "deptname", index: "deptname", sortable: false, width: 60, align: "center"},
+			{name: "deptinfo", index: "deptinfo", sortable: false, width: 60, align: "center"},
+			{name: "createTime", index: "createTime", sortable: false, width: 60, align: "center"},
+			{name: "isDis", index: "isDis", sortable: false, width: 60, align: "center",formatter:function(value,options,rowData){
+				return value == 1? "分配":"无法分配";
+			}}
             ],
-            rowNum:15,
-            rowList:[15,30,50],
-            //loadonce: true,
-            jsonReader : {
-                root:"root", //结果集
-                page: "page", //第几页
-                total: "total", //总页数
-                records: "records", //数据总数
-                repeatitems: false
-            },
+            rowNum:15, 
+    		rowList:[15,30,50], 
+    		//loadonce: true, 
+    		jsonReader : {  
+    			root:"root", //结果集
+    			page: "page", //第几页
+    			total: "total", //总页数
+    			records: "records", //数据总数
+    			repeatitems: false
+    			},
             pager: "#GRIDPAGE"
         });
         $("#GRIDPAGE").css("height", "45px");
-    });
-
-    var searchGridParam = JSON.stringify(departmentParam);
-
+	});
+	
+	var searchGridParam = JSON.stringify(departmentParam);
+	
     //查询
-    $("#department_chaxun").click(function(){
-        var param = JSON.parse(searchGridParam);
+	$("#department_chaxun").click(function(){
+		var param = JSON.parse(searchGridParam);
+		
+		param.deptname= $("#searchSelectDeptname").val();
+		
+		//为param 赋值
+		var GridParam = JSON.stringify(param);
+		searchFun(GridParam);
+	});
 
-        param.deptname= $("#searchSelectDeptname").val();
+	function searchFun(GridParam){
+		$("#GRIDTABLE").jqGrid("setGridParam",{
+			url:"<%=path %>/department/select",
+			postData:{GridParam:GridParam},
+			page:1
+		}).trigger("reloadGrid");
+	}
 
-        //为param 赋值
-        var GridParam = JSON.stringify(param);
-        searchFun(GridParam);
-    });
-    function searchFun(GridParam){
-        $("#GRIDTABLE").jqGrid("setGridParam",{
-            url:"<%=path %>/department/select",
-            postData:{GridParam:GridParam},
-            page:1
-        }).trigger("reloadGrid");
-    }
     //新增
-    $("#department_plus").click(function(){
-        window.location.href= "<%=path %>/department/add";
-    });
-
+	$("#department_plus").click(function(){
+		window.location.href= "<%=path %>/department/add";
+	});
+    
     //修改 - 判定只能修改一条数据
-    $("#department_edit").click(function(){
-        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
-        if(ids.length == 0){
-            alert("先选择一条数据");
-            return;
-        } else if(ids.length > 1){
-            alert("请您只选择一条需要修改的数据");
-            return;
-        } else {
-            if (confirm("确认修改当前选中数据的信息吗？")) {
-                //暂时不涉及经纬度的信息加载 - 暂不涉及相关网格码的修改
-                window.location.href= "<%=path %>/department/edit?id="+ids;
-            }
-        }
-    });
-
+	$("#department_edit").click(function(){
+		var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+		if(ids.length == 0){
+			alert("先选择一条数据");
+			return;
+		} else if(ids.length > 1){
+			alert("请您只选择一条需要修改的数据");
+			return;
+		} else {
+			if (confirm("确认修改当前选中数据的信息吗？")) {
+				//暂时不涉及经纬度的信息加载 - 暂不涉及相关网格码的修改
+				window.location.href= "<%=path %>/department/edit?id="+ids;
+			}
+		}
+	});
+    
     /*
     删除 - 支持批量选中的删除 - 支持联动删除别的表中的数据
     */
     $("#department_remove").click(function(){
-        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
-        if(ids == ""){
-            alert("先选择一条数据");
-            return;
-        } else {
-            if (confirm("确认删除当前选中数据吗？")) {
-                $.ajax({url:'<%=path %>/department/deleteBatch',
-                    type:'post',
-                    cache:false,
-                    dataType:'json',
-                    data:{
-                        ids:ids+""
-                    },
-                    success:function(data){
-                        if(data.code == "OK"){
-                            alert("数据删除成功");
-                            window.location.reload();
-                        } else {
-                            alert(data.msg);
-                        }
-                    },
-                    error : function() {
-                        alert("异常！");
-                    }
-                });
-            }
-        }
-    });
-
+		var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+		if(ids == ""){
+			alert("先选择一条数据");
+			return;
+		} else {
+			if (confirm("确认删除当前选中数据吗？")) {
+				$.ajax({url:'<%=path %>/department/deleteBatch',
+		       		type:'post',
+		       		cache:false,
+		       		dataType:'json',
+		       		data:{
+		       			ids:ids+""
+		       		},
+		           	success:function(data){
+		           		if(data.code == "OK"){
+		           			alert("数据删除成功");
+		           			window.location.reload();
+		           		} else {
+		           			alert(data.msg);
+		           		}
+		           	}, 
+		           	error : function() {
+		           		alert("异常！");
+		           	}
+		        });
+			}
+		}
+	});
+    
     //导入
     $("#department_import").click(function(){
-        alert("department_import");
-    });
-
+		alert("department_import");
+	});
+    
     //导出
     $("#cdepartment_export").click(function(){
-        var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
-        if(ids.length == 0){
-            if (confirm("确认导出当前表中的全部数据吗？")) {
-                window.location.href= "<%=path %>/department/export?page=1&rows=5&json={}";
-            }
-        } else if(ids.length > 0){
-            if (confirm("确认导出当前选中数据吗？")) {
-                window.location.href= "<%=path %>/department/export?page=1&rows=5&json={}";
-            }
-        }
-    });
-
+    	var ids = $("#GRIDTABLE").jqGrid("getGridParam","selarrrow");
+		if(ids.length == 0){
+			if (confirm("确认导出当前表中的全部数据吗？")) {
+				window.location.href= "<%=path %>/department/export?page=1&rows=5&json={}";
+			}
+		} else if(ids.length > 0){
+			if (confirm("确认导出当前选中数据吗？")) {
+				window.location.href= "<%=path %>/department/export?page=1&rows=5&json={}";
+			}
+		}
+	});
+    
     //表格自适应屏幕
     $(function(){
-        $(window).resize(function(){
-            $('#GRIDTABLE').setGridWidth($(window).width()*0.9);
-            $('#GRIDTABLE').setGridWidth(document.body.clientWidth*0.9);
-            $("GRIDTABLE").setGridHeight($(window).height()*0.9);
-            $("GRIDTABLE").setGridHeight($(window).height()*0.9);
-        })
+    	$(window).resize(function(){
+    		$('#GRIDTABLE').setGridWidth($(window).width()*0.9);
+    		$('#GRIDTABLE').setGridWidth(document.body.clientWidth*0.9);
+    		$("GRIDTABLE").setGridHeight($(window).height()*0.9);
+    		$("GRIDTABLE").setGridHeight($(window).height()*0.9);
+    	})
     });
-
+    
 </script>
 </html>

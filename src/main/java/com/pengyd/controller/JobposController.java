@@ -9,10 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
+import com.pengyd.bean.Employee;
 import com.pengyd.bean.Jobpos;
+import com.pengyd.bean.JobsManage;
+import com.pengyd.controller.activiti.ActivitiConsoleUtils;
 import com.pengyd.service.JobposService;
+import com.pengyd.service.JobsManageService;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -60,7 +67,7 @@ public class JobposController {
     /**
      * 数据新增页面
      */
-    @RequiresPermissions(value = "jobpos_add")
+    //@RequiresPermissions(value = "jobpos_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "jobpos/add";
@@ -69,7 +76,7 @@ public class JobposController {
     /**
      * 数据修改页面
      */
-    @RequiresPermissions(value = "jobpos_edit")
+    //@RequiresPermissions(value = "jobpos_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -297,4 +304,5 @@ public class JobposController {
         rd.setMsg("数据导入成功");
         return rd;
     }
+
 }

@@ -49,7 +49,6 @@ import com.google.gson.Gson;
 @Controller
 @RequestMapping(value = "/contract")
 public class ContractController {
-
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
@@ -60,6 +59,7 @@ public class ContractController {
 
     /**
      * 数据展示页面
+     * @return
      */
     @RequiresPermissions(value = "contract_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -69,8 +69,9 @@ public class ContractController {
 
     /**
      * 数据新增页面
+     * @return
      */
-    @RequiresPermissions(value = "contract_add")
+    //@RequiresPermissions(value = "contract_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "contract/add";
@@ -78,8 +79,9 @@ public class ContractController {
 
     /**
      * 数据修改页面
+     * @return
      */
-    @RequiresPermissions(value = "contract_edit")
+    //@RequiresPermissions(value = "contract_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -176,7 +178,7 @@ public class ContractController {
         return contractService.insert(contract);//执行插入 Contract 操作
     }
 
-    @RequiresPermissions(value = "contract_downFileById")
+    //@RequiresPermissions(value = "contract_downFileById")
     @RequestMapping(value = "/downFileById", method = RequestMethod.GET)
     public void downFileById(Model model, HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");

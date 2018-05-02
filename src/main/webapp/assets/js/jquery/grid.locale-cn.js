@@ -25,7 +25,7 @@ $.jgrid = $.jgrid || {};
 if(!$.jgrid.hasOwnProperty("regional")) {
 	$.jgrid.regional = [];
 }
-var load ='<img src="../../graduation_design/assets/js/layer/skin/default/loading-1.gif">';
+var load ='<img src="../../OA_Company/assets/js/layer/skin/default/loading-1.gif">';
 $.jgrid.regional["cn"] = {
     defaults : {
         recordtext: "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格

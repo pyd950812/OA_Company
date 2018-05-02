@@ -46,16 +46,25 @@ public class ActivitiConsoleUtils {
                 .deploy();
     }
 
-    public List<Deployment> getAllDeployment() {//查询所有的部署信息
+    /**
+     *  查询所有的部署信息
+     */
+    public List<Deployment> getAllDeployment() {
         return processEngine.getRepositoryService().createDeploymentQuery().orderByDeploymenTime().desc().list();
     }
 
-    public List<ProcessDefinition> getAllProcessDefinition() {//查询所有的流程定义的信息
+    /**
+     *  查询所有的流程定义的信息
+     */
+    public List<ProcessDefinition> getAllProcessDefinition() {
         return processEngine.getRepositoryService().createProcessDefinitionQuery().orderByProcessDefinitionVersion()
                 .desc().list();
     }
 
-    public ProcessDefinition getProcessDefinitionByDeploymentID(String deploymentID) {//查询所有的流程定义的信息
+    /**
+     *  查询所有的流程定义的信息
+     */
+    public ProcessDefinition getProcessDefinitionByDeploymentID(String deploymentID) {
         ProcessDefinitionQuery processDefinitionQuery = processEngine.getRepositoryService()
                 .createProcessDefinitionQuery();
         processDefinitionQuery = processDefinitionQuery.deploymentId(deploymentID);
@@ -63,10 +72,16 @@ public class ActivitiConsoleUtils {
         return processDefinitionQuery.orderByProcessDefinitionVersion().desc().list().get(0);
     }
 
-    public void deleteDeployment(String deploymentId) {//删除某一个部署
+    /**
+     *   删除某一个部署
+     */
+    public void deleteDeployment(String deploymentId) {
         processEngine.getRepositoryService().deleteDeployment(deploymentId, true);
     }
 
+    /**
+     *  显示图片
+     */
     public InputStream showImages(String pdid) {//查看流程图
         return processEngine.getRepositoryService().getProcessDiagram(pdid);
     }

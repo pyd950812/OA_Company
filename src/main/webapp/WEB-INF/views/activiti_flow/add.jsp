@@ -104,6 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#save").click(function(){
 
 		var formData = new FormData($('#uploadForm')[0]);
+		console.log(formData);
 		
 	    $.ajax({url:'<%=path %>/activiti_flow/insertActivitiFlow',
        		type:'post',

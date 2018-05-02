@@ -44,6 +44,7 @@ import com.google.gson.Gson;
 @RequestMapping(value = "/dept_perm")
 public class DeptPermController {
 
+
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
@@ -51,7 +52,6 @@ public class DeptPermController {
 
     /**
      * 数据展示页面
-     * @return
      */
     @RequiresPermissions(value = "dept_perm_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -61,9 +61,8 @@ public class DeptPermController {
 
     /**
      * 数据新增页面
-     * @return
      */
-    @RequiresPermissions(value = "dept_perm_add")
+    //@RequiresPermissions(value = "dept_perm_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "dept_perm/add";
@@ -71,9 +70,8 @@ public class DeptPermController {
 
     /**
      * 数据修改页面
-     * @return
      */
-    @RequiresPermissions(value = "dept_perm_edit")
+    //@RequiresPermissions(value = "dept_perm_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -112,7 +110,6 @@ public class DeptPermController {
 
     /**
      * 对 dept_perm 的数据批量删除操作
-     * @param request 请求数据
      */
     @RequestMapping({ "/deleteBatch" })
     @ResponseBody
@@ -198,18 +195,18 @@ public class DeptPermController {
         //分页查询
         JqGridJsonBean rd = deptPermService.select(page, rows, order_by, deptPerm);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("deptPerm");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("部门ID");
         row1.createCell(3 - 1).setCellValue("权限ID");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<DeptPerm> maps = (List<DeptPerm>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -220,7 +217,7 @@ public class DeptPermController {
             row.createCell(3 - 1).setCellValue(map.getPermId() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出deptPerm").getBytes(), "ISO8859_1");
@@ -242,7 +239,7 @@ public class DeptPermController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -267,7 +264,7 @@ public class DeptPermController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //deptPermService.insert(deptPerm);  
+                    //deptPermService.insert(deptPerm);
                 }
 
             }
@@ -275,7 +272,7 @@ public class DeptPermController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");

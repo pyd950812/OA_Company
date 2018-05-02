@@ -1,6 +1,8 @@
 package com.pengyd.controller;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,8 +10,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.pengyd.bean.DeptPerm;
 import com.pengyd.bean.Employee;
 import com.pengyd.bean.Permission;
+import com.pengyd.bean.XtreeData;
+import com.pengyd.service.DeptPermService;
 import com.pengyd.service.PermissionService;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
@@ -44,15 +50,20 @@ import com.google.gson.Gson;
 @RequestMapping(value = "/permission")
 public class PermissionController {
 
+
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
     private PermissionService permissionService;
 
+    @Resource
+    private DeptPermService deptPermService;
+
     /**
      * 数据展示页面
+
      */
-    @RequiresPermissions(value = "permission_show")
+    //@RequiresPermissions(value = "permission_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String show(Model model, HttpServletRequest request) {
         return "permission/show";
@@ -61,7 +72,7 @@ public class PermissionController {
     /**
      * 数据新增页面
      */
-    @RequiresPermissions(value = "permission_add")
+    //@RequiresPermissions(value = "permission_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "permission/add";
@@ -70,7 +81,7 @@ public class PermissionController {
     /**
      * 数据修改页面
      */
-    @RequiresPermissions(value = "permission_edit")
+    //@RequiresPermissions(value = "permission_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -194,14 +205,14 @@ public class PermissionController {
         //分页查询
         JqGridJsonBean rd = permissionService.select(page, rows, order_by, permission);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("permission");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("权限名称");
         row1.createCell(3 - 1).setCellValue("所属类别-1-菜单 2-权限");
@@ -209,7 +220,7 @@ public class PermissionController {
         row1.createCell(5 - 1).setCellValue("被访问的链接");
         row1.createCell(6 - 1).setCellValue("所属的上级菜单ID");
         row1.createCell(7 - 1).setCellValue("是否可用 - 0-不可用 1-可用");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<Permission> maps = (List<Permission>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -224,7 +235,7 @@ public class PermissionController {
             row.createCell(7 - 1).setCellValue(map.getAvailable() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出permission").getBytes(), "ISO8859_1");
@@ -246,7 +257,7 @@ public class PermissionController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -271,7 +282,7 @@ public class PermissionController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //permissionService.insert(permission);  
+                    //permissionService.insert(permission);
                 }
 
             }
@@ -279,7 +290,7 @@ public class PermissionController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");
@@ -291,6 +302,54 @@ public class PermissionController {
     @ResponseBody
     public ReturnData ajaxSelectMaxEmpCode(HttpServletRequest request) {
         return permissionService.ajaxSelectPermListByUse();
+    }
+
+    /**
+     * 得到指定角色权限树
+     */
+    @RequestMapping("/xtreedata")
+    @ResponseBody
+    public String xtreeData(HttpServletResponse response){
+//        response.setContentType("text/html;charset=utf-8");
+
+        List<XtreeData> xtreeDataList = permissionService.selXtreeData();
+        String xtreeDataArray = JSONArray.parseArray(JSON.toJSONString(xtreeDataList)).toString();
+//        String newStr = null;
+//        try {
+//            newStr = new String(xtreeDataArray.getBytes(), "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println(xtreeDataArray);
+        return xtreeDataArray;
+    }
+//    public List<XtreeData> xtreeData() {
+//        return permissionService.selXtreeData();
+//    }
+
+    /**
+     * 得到指定角色权限树
+     */
+    @RequestMapping("/ajaxSelectPermListByUseXtreeData")
+    @ResponseBody
+    public List<XtreeData> ajaxSelectPermListByUseXtreeData(HttpServletRequest request) {
+        String deptId = request.getParameter("deptId");
+        int deptIdI = Integer.valueOf(deptId);
+
+        //获取权限信息
+        DeptPerm deptPerm = new DeptPerm();
+        deptPerm.setDeptId(deptIdI);
+
+        List<Integer> permValue = new ArrayList<Integer>();
+        ReturnData rdDeptPerm = deptPermService.selectByParam(null, deptPerm);
+        List<DeptPerm> dataDeptPerm = (List<DeptPerm>) rdDeptPerm.getData().get("data");
+        if (dataDeptPerm.size() > 0) {
+            for (int i = 0; i < dataDeptPerm.size(); i++) {
+                permValue.add(dataDeptPerm.get(i).getPermId());
+            }
+        }
+
+        return permissionService.selXtreeData(permValue);
     }
 
 }

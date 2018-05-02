@@ -259,7 +259,7 @@ public class ActivitiFlowController {
 
                 File deployFile = new File(docPathName);
 
-                //部署
+                //zip文件 流程部署
                 if (deployFile.exists()) {
                     try {
                         activitiConsoleUtils.deploy(deployFile, activitiFlowName);

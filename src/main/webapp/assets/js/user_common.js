@@ -1,4 +1,8 @@
 
+/**
+ * @param value - JS时间戳的格式化工具
+ * @returns {String}
+ */
 function getFormatDate(value){
 	var date = new Date(value);
 	var M = date.getMonth()+1;
@@ -22,3 +26,15 @@ function getFormatDateNohms(value){
 	var dd = d<10?("0"+d):d;
 	return date.getFullYear()+"-"+MM+"-"+dd;
 }
+
+
+function isInArray(arr,value){
+    for(var i = 0; i < arr.length; i++){
+        if(value == arr[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
+

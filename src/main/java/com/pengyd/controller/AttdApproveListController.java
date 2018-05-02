@@ -47,7 +47,6 @@ import com.google.gson.Gson;
 @RequestMapping(value = "/attd_approve_list")
 public class AttdApproveListController {
 
-
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
@@ -61,6 +60,7 @@ public class AttdApproveListController {
 
     /**
      * 数据展示页面
+     * @return
      */
     @RequiresPermissions(value = "attd_approve_list_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -70,8 +70,9 @@ public class AttdApproveListController {
 
     /**
      * 数据新增页面
+     * @return
      */
-    @RequiresPermissions(value = "attd_approve_list_add")
+    //@RequiresPermissions(value = "attd_approve_list_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "attd_approve_list/add";
@@ -79,8 +80,9 @@ public class AttdApproveListController {
 
     /**
      * 数据修改页面
+     * @return
      */
-    @RequiresPermissions(value = "attd_approve_list_edit")
+    //@RequiresPermissions(value = "attd_approve_list_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");

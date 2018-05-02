@@ -58,9 +58,8 @@ public class EmployeeController {
 
     /**
      * 数据展示页面
-     * @return
      */
-    @RequiresPermissions(value = "employee_show")
+    //@RequiresPermissions(value = "employee_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String show(Model model, HttpServletRequest request) {
         return "employee/show";
@@ -68,9 +67,8 @@ public class EmployeeController {
 
     /**
      * 数据新增页面
-     * @return
      */
-    @RequiresPermissions(value = "employee_add")
+    //@RequiresPermissions(value = "employee_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "employee/add";
@@ -78,9 +76,8 @@ public class EmployeeController {
 
     /**
      * 数据修改页面
-     * @return
      */
-    @RequiresPermissions(value = "employee_edit")
+    //@RequiresPermissions(value = "employee_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");

@@ -242,4 +242,15 @@
         select id from jobpos WHERE jobpos_code LIKE CONCAT(CONCAT('%', ${subId}), '%');
     </select>
 
+
+    <select id="selectDeptIdById" resultType="java.lang.Integer">
+        select dept_id from jobpos
+        WHERE id = ${jobposId};
+    </select>
+
+    <select id="selectCodeById" resultType="java.lang.String">
+        select jobpos_code from jobpos
+        WHERE id = ${jobposId};
+    </select>
+
 </mapper>

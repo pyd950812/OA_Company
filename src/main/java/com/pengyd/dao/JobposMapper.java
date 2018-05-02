@@ -61,4 +61,8 @@ public interface JobposMapper {
 
     List<Integer> selectIdListBySubId(@Param("subId") String subId);
 
+    int selectDeptIdById(@Param("jobposId") Integer jobposId);
+
+    String selectCodeById(@Param("jobposId") Integer jobposId);
+
 }

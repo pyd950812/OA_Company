@@ -1,5 +1,6 @@
 package com.pengyd.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.pengyd.bean.Permission;
+import com.pengyd.bean.XtreeData;
 import com.pengyd.dao.PermissionMapper;
 import com.pengyd.service.PermissionService;
 import com.pengyd.util.JqGridJsonBean;
@@ -243,5 +245,167 @@ public class PermissionServiceImpl implements PermissionService {
             rd.setMsg(e.getMessage());
         }
         return rd;
+    }
+
+    @Override
+    public List<XtreeData> selXtreeData() {
+        List<XtreeData> list1 = new ArrayList<>();
+
+        Permission permission = new Permission();
+        List<Permission> permList = permissionMapper.selectByParam(permission, "id");
+
+        for (int i = 0; i < permList.size(); i++) {
+            Permission permission1 = permList.get(i);
+            if (permission1.getParentId() == 0) {//父菜单
+                XtreeData x1 = new XtreeData();
+                int permId1 = permission1.getId();
+                x1.setValue(permId1 + "");
+                x1.setTitle(permission1.getName());
+
+                List<XtreeData> list2 = new ArrayList<>();
+
+                for (int j = 0; j < permList.size(); j++) {
+                    Permission permission2 = permList.get(j);
+                    if (permission2.getParentId() == permId1) {
+                        XtreeData x2 = new XtreeData();
+                        int permId2 = permission2.getId();
+                        x2.setValue(permId2 + "");
+                        x2.setTitle(permission2.getName());
+
+                        List<XtreeData> list3 = new ArrayList<>();
+                        for (int k = 0; k < permList.size(); k++) {
+                            Permission permission3 = permList.get(k);
+                            if (permission3.getParentId() == permId2) {
+                                XtreeData x3 = new XtreeData();
+                                int permId3 = permission3.getId();
+                                x3.setValue(permId3 + "");
+                                x3.setTitle(permission3.getName());
+
+                                // 是否拥有权限
+                                //x3.setChecked(false);
+
+                                // 使数据data不为null
+                                List<XtreeData> l = new ArrayList<>();
+                                x3.setData(l);
+                                list3.add(x3);
+                            }
+                        }
+
+                        x2.setData(list3);
+                        // 是否拥有权限
+                        //x2.setChecked(false);
+
+                        list2.add(x2);
+                    }
+                }
+
+                x1.setData(list2);
+                // 是否拥有权限
+                //x1.setChecked(false);
+
+                list1.add(x1);
+            }
+        }
+
+        // 拥有没有子节点的节点，设置选中
+        for (XtreeData xd : list1) {
+            if (xd.getData() == null || xd.getData().size() == 0) {
+                for (Permission perm : permList) {
+                    if (perm.getId() == Long.parseLong(xd.getValue())) {
+                        xd.setChecked(true);
+                    }
+                }
+            }
+        }
+
+//        System.out.println(list1);
+
+        //默认拥有首页菜单权限
+        /*list1.get(0).setDisabled(true);
+        list1.get(0).setChecked(true);*/
+
+        return list1;
+    }
+
+    @Override
+    public List<XtreeData> selXtreeData(List<Integer> permValue) {
+        List<XtreeData> list1 = new ArrayList<>();
+
+        Permission permission = new Permission();
+        List<Permission> permList = permissionMapper.selectByParam(permission, "id");
+
+        for (int i = 0; i < permList.size(); i++) {
+            Permission permission1 = permList.get(i);
+            if (permission1.getParentId() == 0) {//父菜单
+                XtreeData x1 = new XtreeData();
+                int permId1 = permission1.getId();
+                x1.setValue(permId1 + "");
+                x1.setTitle(permission1.getName());
+
+                if (permValue.contains(permId1)) {
+                    x1.setChecked(true);
+                }
+
+                List<XtreeData> list2 = new ArrayList<>();
+
+                for (int j = 0; j < permList.size(); j++) {
+                    Permission permission2 = permList.get(j);
+                    if (permission2.getParentId() == permId1) {
+                        XtreeData x2 = new XtreeData();
+                        int permId2 = permission2.getId();
+                        x2.setValue(permId2 + "");
+                        x2.setTitle(permission2.getName());
+
+                        if (permValue.contains(permId2)) {
+                            x2.setChecked(true);
+                        }
+
+                        List<XtreeData> list3 = new ArrayList<>();
+                        for (int k = 0; k < permList.size(); k++) {
+                            Permission permission3 = permList.get(k);
+                            if (permission3.getParentId() == permId2) {
+                                XtreeData x3 = new XtreeData();
+                                int permId3 = permission3.getId();
+                                x3.setValue(permId3 + "");
+                                x3.setTitle(permission3.getName());
+
+                                //是否拥有权限
+                                //x3.setChecked(false);
+
+                                if (permValue.contains(permId3)) {
+                                    x3.setChecked(true);
+                                }
+
+                                // 使数据data不为null
+                                List<XtreeData> l = new ArrayList<>();
+                                x3.setData(l);
+                                list3.add(x3);
+                            }
+                        }
+
+                        x2.setData(list3);
+
+                        list2.add(x2);
+                    }
+                }
+
+                x1.setData(list2);
+
+                list1.add(x1);
+            }
+        }
+
+        // 拥有没有子节点的节点，设置选中
+        for (XtreeData xd : list1) {
+            if (xd.getData() == null || xd.getData().size() == 0) {
+                for (Permission perm : permList) {
+                    if (perm.getId() == Long.parseLong(xd.getValue())) {
+                        xd.setChecked(true);
+                    }
+                }
+            }
+        }
+
+        return list1;
     }
 }

@@ -43,7 +43,6 @@ import com.google.gson.Gson;
 @Controller
 @RequestMapping(value = "/attendance")
 public class AttendanceController {
-
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
@@ -51,6 +50,7 @@ public class AttendanceController {
 
     /**
      * 数据展示页面
+     * @return
      */
     @RequiresPermissions(value = "attendance_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -60,8 +60,9 @@ public class AttendanceController {
 
     /**
      * 数据新增页面
+     * @return
      */
-    @RequiresPermissions(value = "attendance_add")
+    //@RequiresPermissions(value = "attendance_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "attendance/add";
@@ -71,7 +72,7 @@ public class AttendanceController {
      * 数据修改页面
      * @return
      */
-    @RequiresPermissions(value = "attendance_edit")
+    //@RequiresPermissions(value = "attendance_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");

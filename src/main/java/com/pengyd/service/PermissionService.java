@@ -2,8 +2,11 @@ package com.pengyd.service;
 
 
 import com.pengyd.bean.Permission;
+import com.pengyd.bean.XtreeData;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
+
+import java.util.List;
 
 /**
  * <p>服务层接口</p>
@@ -51,5 +54,9 @@ public interface PermissionService {
     ReturnData ajaxSelectPermListByUse();
 
     ReturnData selectByPermIds(String permIds);
+
+    List<XtreeData> selXtreeData();
+
+    List<XtreeData> selXtreeData(List<Integer> permValue);
 
 }

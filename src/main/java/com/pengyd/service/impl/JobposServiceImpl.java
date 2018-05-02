@@ -244,6 +244,17 @@ public class JobposServiceImpl implements JobposService {
         return rd;
     }
 
+    @Override
+    public int selectDeptIdById(Integer jobposId) {
+        return jobposMapper.selectDeptIdById(jobposId);
+    }
+
+    @Override
+    public String selectCodeById(int jobposId) {
+        return jobposMapper.selectCodeById(jobposId);
+    }
+
+
 
 
 }
