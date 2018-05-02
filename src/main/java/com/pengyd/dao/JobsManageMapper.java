@@ -7,6 +7,11 @@ import com.pengyd.bean.JobsManage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 16:32
+ * @function:
+ */
 @Repository
 public interface JobsManageMapper{
 	
@@ -54,4 +59,12 @@ public interface JobsManageMapper{
 	 * 根据条件查询JobsManage数据不分页
 	 */
 	List<JobsManage> selectByParam(@Param("jobsManage") JobsManage jobsManage, @Param("order_by") String order_by);
+
+
+	int selectRelationCountByEmpRealname(@Param("jobsManage") JobsManage jobsManage,
+										 @Param("empRealname") String empRealname);
+
+	List<Map<String, Object>> selectRelationDataByEmpRealname(@Param("jobsManage") JobsManage jobsManage,
+															  @Param("limit") int limit, @Param("offset") int offset, @Param("order_by") String order_by,
+															  @Param("empRealname") String empRealname);
 }

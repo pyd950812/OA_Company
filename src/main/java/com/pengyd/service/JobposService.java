@@ -45,4 +45,6 @@ public interface JobposService {
     ReturnData ajaxSelectJobposByDeptId(String deptId);
 
     JqGridJsonBean selectRelationData(String page, String rows, String order_by, Jobpos jobpos);
+
+    ReturnData selectIdListBySubId(String subId);
 }

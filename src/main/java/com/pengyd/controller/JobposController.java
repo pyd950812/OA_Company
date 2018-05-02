@@ -50,7 +50,6 @@ public class JobposController {
 
     /**
      * 数据展示页面
-     * @return
      */
     @RequiresPermissions(value = "jobpos_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -60,7 +59,6 @@ public class JobposController {
 
     /**
      * 数据新增页面
-     * @return
      */
     @RequiresPermissions(value = "jobpos_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -70,7 +68,6 @@ public class JobposController {
 
     /**
      * 数据修改页面
-     * @return
      */
     @RequiresPermissions(value = "jobpos_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -86,7 +83,6 @@ public class JobposController {
 
             model.addAttribute("olddata", JSON.toJSONString(data.get(0)));
         }
-
         return "jobpos/edit";
     }
 
@@ -211,21 +207,21 @@ public class JobposController {
         //分页查询
         JqGridJsonBean rd = jobposService.select(page, rows, order_by, jobpos);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("jobpos");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("职位名称");
         row1.createCell(3 - 1).setCellValue("职位编码");
         row1.createCell(4 - 1).setCellValue("职位层级");
         row1.createCell(5 - 1).setCellValue("所属部门");
         row1.createCell(6 - 1).setCellValue("创建时间");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<Jobpos> maps = (List<Jobpos>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -239,7 +235,7 @@ public class JobposController {
             row.createCell(6 - 1).setCellValue(map.getCreateTime() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出jobpos").getBytes(), "ISO8859_1");
@@ -261,7 +257,7 @@ public class JobposController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -286,7 +282,7 @@ public class JobposController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //jobposService.insert(jobpos);  
+                    //jobposService.insert(jobpos);
                 }
 
             }
@@ -294,7 +290,7 @@ public class JobposController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");

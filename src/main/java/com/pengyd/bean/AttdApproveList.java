@@ -4,7 +4,11 @@ import java.sql.Date;
 
 import org.apache.ibatis.type.Alias;
 
-
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 16:18
+ * @function:  批注信息
+ */
 @Alias("AttdApproveList")
 public class AttdApproveList {
 

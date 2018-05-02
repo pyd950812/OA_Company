@@ -225,5 +225,25 @@ public class JobposServiceImpl implements JobposService {
         return rd;
     }
 
+    @Override
+    public ReturnData selectIdListBySubId(String subId) {
+        ReturnData rd = new ReturnData();
+        try {
+            List<Integer> data = jobposMapper.selectIdListBySubId(subId);
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("data", data);
+            rd.setCode("OK");
+            rd.setData(dataMap);
+        }
+        catch (Exception e) {
+            this.logger.error(e.getMessage());
+
+            rd.setCode("ERROR");
+            rd.setMsg(e.getMessage());
+        }
+        return rd;
+    }
+
+
 
 }

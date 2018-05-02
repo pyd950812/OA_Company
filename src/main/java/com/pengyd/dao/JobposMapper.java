@@ -58,4 +58,7 @@ public interface JobposMapper {
     List<Jobpos> selectByParam(@Param("jobpos") Jobpos jobpos, @Param("order_by") String order_by);
 
     List<Map<Integer, String>> ajaxSelectJobposByDeptId(@Param("deptId") String deptId);
+
+    List<Integer> selectIdListBySubId(@Param("subId") String subId);
+
 }

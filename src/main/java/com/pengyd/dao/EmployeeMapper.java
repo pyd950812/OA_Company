@@ -76,4 +76,6 @@ public interface EmployeeMapper {
 
 
     List<Integer> selectEmpIds();
+
+    List<Employee> selectSubEmpListByJobId(@Param("jobposId") String jobposId);
 }

@@ -8,6 +8,11 @@ import com.pengyd.bean.AttdApproveInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 16:32
+ * @function:
+ */
 @Repository
 public interface AttdApproveInfoMapper{
 	
@@ -48,13 +53,18 @@ public interface AttdApproveInfoMapper{
 	
 	/**
 	 * 根据条件查询AttdApproveInfo数据 - 关联查询
-	 * @param attdApproveInfo
 	 */
 	List<Map<String, Object>> selectRelationData(@Param("attdApproveInfo") AttdApproveInfo attdApproveInfo, @Param("limit") int limit, @Param("offset") int offset, @Param("order_by") String order_by);
 	
 	/**
 	 * 根据条件查询AttdApproveInfo数据不分页
-	 * @param attdApproveInfo
 	 */
 	List<AttdApproveInfo> selectByParam(@Param("attdApproveInfo") AttdApproveInfo attdApproveInfo, @Param("order_by") String order_by);
+
+	int selectRelationCountByEmpRealname(@Param("attdApproveInfo") AttdApproveInfo attdApproveInfo,
+										 @Param("empRealname") String empRealname);
+
+	List<Map<String, Object>> selectRelationDataByEmpRealname(@Param("attdApproveInfo") AttdApproveInfo attdApproveInfo,
+															  @Param("limit") int limit, @Param("offset") int offset, @Param("order_by") String order_by,
+															  @Param("empRealname") String empRealname);
 }

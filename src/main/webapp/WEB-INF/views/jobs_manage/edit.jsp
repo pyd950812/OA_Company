@@ -44,9 +44,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--头部内容-->
     <div class="header">
         <ol class="breadcrumb">
-            <li>人事信息管理</li>
+            <li><a>首页</a></li>
             <li>></li>
-            <li class="active">职位信息修改</li>
+            <li>工作管理</li>
+            <li>></li>
+            <li class="active">任务管理</li>
         </ol>
     </div>
     <!--提示必填项部分-->
@@ -85,33 +87,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              </div>
                 
 				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 职位名称：
+                    <span class="col-xs-3 glyphicon">* 指定员工：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="jobposName" value="">
-                    </div>
-                </div>
-				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 职位编码：
-                    </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="jobposCode" value="">
-                    </div>
-                </div>
-				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 职位层级：
-                    </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="jobposLevel" value="">
-                    </div>
-                </div>
-				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 所属部门：
-                    </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <select id="deptId" style="width:200px;" >
-                        	
+                        <!-- <input type="text" class="col-xs-12 GL-add-require" id="workUserId" value=""> -->
+                        <select id="workUserId" style="width:200px;" >
+                        	<option value="-1">请先选择员工</option>
                         </select>
+                    </div>
+                </div>
+				<div class="col-xs-6 row ie-col-6">
+                    <span class="col-xs-3 glyphicon">* 工作描述：
+                    </span>
+                    <div class="col-xs-9 pad-0 row">
+                        <input type="text" class="col-xs-12 GL-add-require" id="jobInfo" value="">
                     </div>
                 </div>
                 
@@ -123,55 +112,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </body>
 
 <script type="text/javascript">
-var jobposParam = {};
-	jobposParam.id;
-	jobposParam.jobposName;
-	jobposParam.jobposCode;
-	jobposParam.jobposLevel;
-	jobposParam.deptId;
-	jobposParam.createTime;
 
-	$("#id").val(olddata.id);
-	$("#jobposName").val(olddata.jobposName);
-	$("#jobposCode").val(olddata.jobposCode);
-	$("#jobposLevel").val(olddata.jobposLevel);
+$(function(){
+	//获取部门经理下的所属员工
+	$.ajax({
+		url:'<%=path %>/employee/ajaxSelectSubEmpBySup',
+   		type:'post',
+   		cache:false,
+   		dataType:'json',
+   		contentType: "application/json;charset=UTF-8",
+       	success:function(data){
+       		var list = data.data.data;
+       		var _html = "<option value='0'>请选择所属员工</option>";
+		    for(var i=0;i<list.length;i++){
+		    	if (olddata.workUserId == list[i].id) {
+		    		_html += "<option value='"+list[i].id+"' selected>"+list[i].realname+"</option>";
+				} else {
+					_html += "<option value='"+list[i].id+"'>"+list[i].realname+"</option>";
+				}
+		    }
+		    $("#workUserId").html(_html);
+       	}, 
+       	error:function() {
+       		alert("异常！");
+       	}
+    });
 	
-	//部门信息回显
-/* 获取到部门信息集合 */
-$.ajax({
-	url:'<%=path %>/department/ajaxSelectDept',
-		type:'post',
-		cache:false,
-		dataType:'json',
-		contentType: "application/json;charset=UTF-8",
-   	success:function(data){
-   		var list = data.data.data;
-   		var _html = "<option value='0'>请选择所属部门</option>";
-	    for(var i=0;i<list.length;i++){
-	    	if (list[i].id == olddata.deptId) {
-	    		_html += "<option value='"+list[i].id+"' selected>"+list[i].deptname+"</option>";
-			} else {
-				_html += "<option value='"+list[i].id+"'>"+list[i].deptname+"</option>";
-			}
-	    }
-	    $("#deptId").html(_html);
-   	}, 
-   	error:function() {
-   		alert("异常！");
-   	}
 });
 
+var jobs_manageParam = {};
+	jobs_manageParam.id;
+	jobs_manageParam.workUserId;
+	jobs_manageParam.jobInfo;
+
+	$("#id").val(olddata.id);
+	//$("#workUserId").val(olddata.workUserId);
+	$("#jobInfo").val(olddata.jobInfo);
+
 	$("#save").click(function(){
-		var param = JSON.parse(JSON.stringify(jobposParam));
+		var param = JSON.parse(JSON.stringify(jobs_manageParam));
 		
 					param.id=$("#id").val();
-					param.jobposName=$("#jobposName").val();
-					param.jobposCode=$("#jobposCode").val();
-					param.jobposLevel=$("#jobposLevel").val();
-					param.deptId=$("#deptId").val();
-					param.createTime=$("#createTime").val();
+					param.workUserId=$("#workUserId").val();
+					param.jobInfo=$("#jobInfo").val();
 				
-	    $.ajax({url:'<%=path %>/jobpos/update',
+	    $.ajax({url:'<%=path %>/jobs_manage/update',
        		type:'post',
        		cache:false,
        		dataType:'json',
@@ -180,7 +165,7 @@ $.ajax({
            	success:function(data){
            		if(data.code == "OK"){
            			alert("数据修改成功");
-               		window.location.href= "<%=path %>/jobpos/show";
+               		window.location.href= "<%=path %>/jobs_manage/show";
            		} else {
            			alert(data.msg);
            		}
@@ -192,7 +177,7 @@ $.ajax({
 	});
 	
 	$("#back").click(function(){
-		window.location.href= "<%=path %>/jobpos/show";
+		window.location.href= "<%=path %>/jobs_manage/show";
 	});
 
 </script>

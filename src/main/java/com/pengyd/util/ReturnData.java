@@ -5,10 +5,9 @@ import java.util.Map;
 /**
  * @Author pengyd
  * @Date 2018/3/22 17:08
- * @function:
+ * @function: 封装返回值
  */
-public class
-ReturnData {
+public class ReturnData {
     private String code;
 
     private String msg;

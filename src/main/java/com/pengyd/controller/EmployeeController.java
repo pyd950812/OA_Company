@@ -2,6 +2,7 @@ package com.pengyd.controller;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.pengyd.bean.Employee;
+import com.pengyd.bean.Jobpos;
 import com.pengyd.service.EmployeeService;
+import com.pengyd.service.JobposService;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
 import org.apache.log4j.Logger;
@@ -49,6 +52,9 @@ public class EmployeeController {
 
     @Resource
     private EmployeeService employeeService;
+
+    @Resource
+    private JobposService jobposService;
 
     /**
      * 数据展示页面
@@ -133,7 +139,7 @@ public class EmployeeController {
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ReturnData update(@RequestBody Employee employee, Model model, HttpServletRequest request) {
-        return employeeService.update(employee);
+        return employeeService.update(employee);//执行 Employee  操作
     }
 
     /**
@@ -168,11 +174,59 @@ public class EmployeeController {
         return employeeService.selectRelationData(page, rows, order_by, employee);
     }
 
-
     @RequestMapping({ "/ajaxSelectMaxEmpCode" })
     @ResponseBody
     public ReturnData ajaxSelectMaxEmpCode(HttpServletRequest request) {
         return employeeService.ajaxSelectMaxEmpCode();
+    }
+
+    @RequestMapping({ "/ajaxSelectSubEmpBySup" })
+    @ResponseBody
+    public ReturnData ajaxSelectSubEmpBySup(HttpServletRequest request) {
+        ReturnData rd = new ReturnData();
+
+        //首先获取到当前用户的jobId
+        Employee currentEmp = ((Employee) request.getSession().getAttribute("current_emp"));
+        int jobId = currentEmp.getJobposId();
+
+        //通过 jobId 查询出工作编码
+        Jobpos jobpos = new Jobpos();
+        jobpos.setId(jobId);
+        ReturnData rdJobpos = jobposService.selectByParam(null, jobpos);
+        List<Jobpos> dataJobpos = (List<Jobpos>) rdJobpos.getData().get("data");
+        String jobIdStr = dataJobpos.get(0).getJobposCode();
+
+        if (jobIdStr.length() != 6) {
+            rd.setCode("ERROR");
+            rd.setMsg("非部门经理");
+        }
+        else {
+            //获取到子工作职位的用户的jobpos编码的前缀
+            jobIdStr = jobIdStr.substring(0, 5);
+            ReturnData rdTemp = jobposService.selectIdListBySubId(jobIdStr);
+            List<Integer> data = (List<Integer>) rdTemp.getData().get("data");
+
+            //需要把部门经理自身给屏蔽掉
+            Iterator<Integer> iter = data.iterator();
+            while (iter.hasNext()) {
+                Integer item = iter.next();
+                if (jobId == item) {
+                    iter.remove();
+                }
+            }
+            //System.out.println(strList);
+
+            if (data.size() < 0) {
+                rd.setCode("ERROR");
+                rd.setMsg("没有所属员工");
+            }
+            else {
+                String strListStr = data.toString();
+                String jobIdListStr = strListStr.substring(1, (strListStr.length() - 1));
+                rd = employeeService.selectSubEmpListByJobId(jobIdListStr);
+            }
+        }
+        return rd;
     }
 
     /**
@@ -201,14 +255,14 @@ public class EmployeeController {
         //分页查询
         JqGridJsonBean rd = employeeService.select(page, rows, order_by, employee);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("employee");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("员工编码");
         row1.createCell(3 - 1).setCellValue("用户名");
@@ -217,7 +271,7 @@ public class EmployeeController {
         row1.createCell(6 - 1).setCellValue("入职时间");
         row1.createCell(7 - 1).setCellValue("所属职位");
         row1.createCell(8 - 1).setCellValue("注册时间");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<Employee> maps = (List<Employee>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -233,7 +287,7 @@ public class EmployeeController {
             row.createCell(8 - 1).setCellValue(map.getRegisterTime() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出employee").getBytes(), "ISO8859_1");
@@ -255,7 +309,7 @@ public class EmployeeController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -280,7 +334,7 @@ public class EmployeeController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //employeeService.insert(employee);  
+                    //employeeService.insert(employee);
                 }
 
             }
@@ -288,14 +342,13 @@ public class EmployeeController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");
         rd.setMsg("数据导入成功");
         return rd;
     }
-
 
     /**
      * 对 employee 的数据插入操作

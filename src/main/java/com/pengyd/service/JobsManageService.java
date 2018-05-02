@@ -42,4 +42,8 @@ public interface JobsManageService {
 	  * 执行 JobsManage 查询不分页操作
 	  */
 	ReturnData selectByParam(String order_by, JobsManage jobsManage);
+
+	JqGridJsonBean selectRelationDataByEmpRealname(String page, String rows, String order_by, JobsManage jobsManage,
+												   String empRealname);
+
 }

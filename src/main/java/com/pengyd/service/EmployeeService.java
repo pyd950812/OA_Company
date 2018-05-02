@@ -61,4 +61,6 @@ public interface EmployeeService {
     Employee selectByLoginName(String loginName);
 
     ReturnData selectEmpIds();
+
+    ReturnData selectSubEmpListByJobId(String jobposId);
 }

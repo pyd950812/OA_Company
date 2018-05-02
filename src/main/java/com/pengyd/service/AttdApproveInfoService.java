@@ -41,4 +41,7 @@ public interface AttdApproveInfoService {
 	  * 执行 AttdApproveInfo 查询不分页操作
 	  */
 	ReturnData selectByParam(String order_by, AttdApproveInfo attdApproveInfo);
+
+	JqGridJsonBean selectRelationDataByEmpRealname(String page, String rows, String order_by,
+												   AttdApproveInfo attdApproveInfo, String empRealname);
 }

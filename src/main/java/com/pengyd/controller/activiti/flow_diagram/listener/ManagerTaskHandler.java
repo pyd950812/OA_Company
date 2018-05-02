@@ -15,7 +15,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 
-
 public class ManagerTaskHandler implements TaskListener {
 
     /**
@@ -64,6 +63,11 @@ public class ManagerTaskHandler implements TaskListener {
             }
             else if (jobposCode.length() == 6) {
                 jobposCodeP = jobposCode.substring(0, 2) + "01";
+
+                if (!"0201".equals(jobposCodeP)) {//    //测试部和项管部的主要领导暂且替换为 - 技术总监
+                    //其它部长的直属领导暂且都归到总经理
+                    jobposCodeP = "0103";
+                }
             }
             else if (jobposCode.length() == 4) {
                 jobposCodeP = "0101";

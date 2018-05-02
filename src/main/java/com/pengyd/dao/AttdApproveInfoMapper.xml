@@ -355,4 +355,105 @@
         </if>
         order by ${order_by} desc
     </select>
+
+
+    <select id="selectRelationCountByEmpRealname" resultType="java.lang.Integer" parameterType="com.pengyd.bean.AttdApproveInfo">
+        select count(*) from
+        (
+        select xtx.*, e.realname
+        from attd_approve_info xtx, employee e
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="attdApproveInfo.id != null and attdApproveInfo.id != ''">
+                        xtx.id = #{attdApproveInfo.id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.empId != null and attdApproveInfo.empId != ''">
+                        xtx.emp_id = #{attdApproveInfo.empId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.approveDays != null and attdApproveInfo.approveDays != ''">
+                        xtx.approve_days = #{attdApproveInfo.approveDays,jdbcType=DOUBLE} and
+                    </if>
+                    <if test="attdApproveInfo.approveContent != null and attdApproveInfo.approveContent != ''">
+                        xtx.approve_content = #{attdApproveInfo.approveContent,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="attdApproveInfo.approveRemark != null and attdApproveInfo.approveRemark != ''">
+                        xtx.approve_remark = #{attdApproveInfo.approveRemark,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="attdApproveInfo.approveType != null and attdApproveInfo.approveType != ''">
+                        xtx.approve_type = #{attdApproveInfo.approveType,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.approveTimeStart != null and attdApproveInfo.approveTimeStart != ''">
+                        xtx.approve_time_start = #{attdApproveInfo.approveTimeStart,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="attdApproveInfo.approveTimeEnd != null and attdApproveInfo.approveTimeEnd != ''">
+                        xtx.approve_time_end = #{attdApproveInfo.approveTimeEnd,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="attdApproveInfo.createTime != null and attdApproveInfo.createTime != ''">
+                        xtx.create_time = #{attdApproveInfo.createTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="attdApproveInfo.approveState != null and attdApproveInfo.approveState != ''">
+                        xtx.approve_state = #{attdApproveInfo.approveState,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.updateTime != null and attdApproveInfo.updateTime != ''">
+                        xtx.update_time = #{attdApproveInfo.updateTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    xtx.emp_id = e.id and
+                    <if test="empRealname != null and empRealname != ''">
+                        e.realname LIKE CONCAT(CONCAT('%', #{empRealname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                </trim>
+            </where>
+        </if>
+        ) a
+    </select>
+
+    <select id="selectRelationDataByEmpRealname" resultType="java.util.Map" parameterType="com.pengyd.bean.AttdApproveInfo">
+        select xtx.*, e.realname
+        from attd_approve_info xtx, employee e
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="attdApproveInfo.id != null and attdApproveInfo.id != ''">
+                        xtx.id = #{attdApproveInfo.id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.empId != null and attdApproveInfo.empId != ''">
+                        xtx.emp_id = #{attdApproveInfo.empId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.approveDays != null and attdApproveInfo.approveDays != ''">
+                        xtx.approve_days = #{attdApproveInfo.approveDays,jdbcType=DOUBLE} and
+                    </if>
+                    <if test="attdApproveInfo.approveContent != null and attdApproveInfo.approveContent != ''">
+                        xtx.approve_content = #{attdApproveInfo.approveContent,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="attdApproveInfo.approveRemark != null and attdApproveInfo.approveRemark != ''">
+                        xtx.approve_remark = #{attdApproveInfo.approveRemark,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="attdApproveInfo.approveType != null and attdApproveInfo.approveType != ''">
+                        xtx.approve_type = #{attdApproveInfo.approveType,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.approveTimeStart != null and attdApproveInfo.approveTimeStart != ''">
+                        xtx.approve_time_start = #{attdApproveInfo.approveTimeStart,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="attdApproveInfo.approveTimeEnd != null and attdApproveInfo.approveTimeEnd != ''">
+                        xtx.approve_time_end = #{attdApproveInfo.approveTimeEnd,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="attdApproveInfo.createTime != null and attdApproveInfo.createTime != ''">
+                        xtx.create_time = #{attdApproveInfo.createTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="attdApproveInfo.approveState != null and attdApproveInfo.approveState != ''">
+                        xtx.approve_state = #{attdApproveInfo.approveState,jdbcType=INTEGER} and
+                    </if>
+                    <if test="attdApproveInfo.updateTime != null and attdApproveInfo.updateTime != ''">
+                        xtx.update_time = #{attdApproveInfo.updateTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    xtx.emp_id = e.id and
+                    <if test="empRealname != null and empRealname != ''">
+                        e.realname LIKE CONCAT(CONCAT('%', #{empRealname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
 </mapper>

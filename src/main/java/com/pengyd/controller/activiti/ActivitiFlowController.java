@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pengyd.bean.AttdApproveInfo;
 import com.pengyd.bean.Employee;
+import com.pengyd.bean.JobsManage;
 import com.pengyd.service.AttdApproveInfoService;
+import com.pengyd.service.EmployeeService;
+import com.pengyd.service.JobsManageService;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntity;
@@ -39,6 +42,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.alibaba.fastjson.JSONObject;
 
 
+
 @Controller
 @RequestMapping(value = "/activiti_flow")
 public class ActivitiFlowController {
@@ -50,6 +54,12 @@ public class ActivitiFlowController {
 
     @Resource
     private AttdApproveInfoService attdApproveInfoService;
+
+    @Resource
+    private JobsManageService jobsManageService;
+
+    @Resource
+    private EmployeeService employeeService;
 
     /**
      * 数据展示页面
@@ -90,9 +100,29 @@ public class ActivitiFlowController {
         return "activiti_flow/handleTask";
     }
 
+    @RequiresPermissions(value = "activiti_flow_finishTask")
+    @RequestMapping(value = "/finishTask", method = RequestMethod.GET)
+    public String finishTask(Model model, HttpServletRequest request) {
+        String taskId = request.getParameter("taskId");
+
+        model.addAttribute("taskId", taskId);
+
+        String businessKey = activitiConsoleUtils.getBusinessKeyByTaskId(taskId);
+
+        //更新相关的状态值为 进行中
+        /*JobsManage jobsManage = new JobsManage();
+        jobsManage.setId(Integer.valueOf(businessKey));*/
+
+        model.addAttribute("jobsManageId", businessKey);//该任务的sequenceFlow
+
+        List<PvmTransition> pvmTransitions = activitiConsoleUtils.getPvmTransitions(taskId);
+        model.addAttribute("outcomeListSize", pvmTransitions.size());//该任务的sequenceFlow
+
+        return "activiti_flow/finishTask";
+    }
+
     /**
      * 数据新增页面
-     * @return
      */
     @RequiresPermissions(value = "activiti_flow_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -329,6 +359,39 @@ public class ActivitiFlowController {
         attdApproveInfo.setApproveState(1);//开始审批
 
         attdApproveInfoService.update(attdApproveInfo);
+
+        ReturnData rd = new ReturnData();
+        rd.setCode("OK");
+        rd.setMsg("审批提交成功");
+        return rd;
+    }
+
+    /**
+     * 任务分配
+     */
+    @RequiresPermissions(value = "activiti_flow_commitJobsManage")
+    @RequestMapping(value = "/commitJobsManage")
+    @ResponseBody
+    public ReturnData commitJobsManage(Model model, HttpServletRequest request) {
+        //Employee currentEmp = ((Employee) request.getSession().getAttribute("current_emp"));
+        //String empName = currentEmp.getRealname();
+
+        String jobsManageId = request.getParameter("jobsManageId");
+        String workUserId = request.getParameter("workUserId");
+
+        Employee employee = new Employee();
+        employee.setId(Integer.valueOf(workUserId));
+        ReturnData rData = employeeService.selectByParam(null, employee);
+        List<Employee> employeeList = (List<Employee>) rData.getData().get("data");
+
+        activitiConsoleUtils.startPI(jobsManageId, "PublishTask", employeeList.get(0).getRealname());
+
+        //更新相关的状态值为 进行中
+        JobsManage jobsManage = new JobsManage();
+        jobsManage.setId(Integer.valueOf(jobsManageId));
+        jobsManage.setJobState(1);
+
+        jobsManageService.update(jobsManage);
 
         ReturnData rd = new ReturnData();
         rd.setCode("OK");

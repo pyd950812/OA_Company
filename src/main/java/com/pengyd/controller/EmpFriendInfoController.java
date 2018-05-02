@@ -34,7 +34,11 @@ import com.alibaba.fastjson.JSON;
 
 import com.google.gson.Gson;
 
-
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:
+ */
 @Controller
 @RequestMapping(value = "/emp_friend_info")
 public class EmpFriendInfoController {

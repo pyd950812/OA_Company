@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pengyd.dao.PermissionMapper">
+	<resultMap id="BaseResultMap" type="com.pengyd.bean.Permission">
+	    	<result column="id" property="id" jdbcType="INTEGER" />
+	    	<result column="name" property="name" jdbcType="VARCHAR" />
+	    	<result column="type" property="type" jdbcType="INTEGER" />
+	    	<result column="percode" property="percode" jdbcType="VARCHAR" />
+	    	<result column="url" property="url" jdbcType="VARCHAR" />
+	    	<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+	    	<result column="available" property="available" jdbcType="INTEGER" />
+		</resultMap>
+	<sql id="Base_Column_List" >
+			name,
+			type,
+			percode,
+			url,
+			parent_id,
+			available
+	</sql>
+	
+	
+	<insert id="insert" parameterType="com.pengyd.bean.Permission">
+        insert into permission (
+			<include refid="Base_Column_List" />
+		)values(
+			NOW(),
+        	#{name,jdbcType=VARCHAR},
+        	#{type,jdbcType=INTEGER},
+        	#{percode,jdbcType=VARCHAR},
+        	#{url,jdbcType=VARCHAR},
+        	#{parentId,jdbcType=INTEGER},
+        	#{available,jdbcType=INTEGER}
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="com.pengyd.bean.Permission">
+        delete from permission
+        <if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR} and
+            </if>
+			<if test="type != null and type != ''">
+                type = #{type,jdbcType=INTEGER} and
+            </if>
+			<if test="percode != null and percode != ''">
+                percode = #{percode,jdbcType=VARCHAR} and
+            </if>
+			<if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR} and
+            </if>
+			<if test="parentId != null and parentId != ''">
+                parent_id = #{parentId,jdbcType=INTEGER} and
+            </if>
+			<if test="available != null and available != ''">
+                available = #{available,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </delete>
+    
+    <delete id="deleteBatch">
+        DELETE FROM permission WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+        	#{id}
+        </foreach>
+    </delete>
+    
+    <update id="update" parameterType="com.pengyd.bean.Permission">
+    	update permission
+    	<set>
+			<if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+			<if test="type != null and type != ''">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+			<if test="percode != null and percode != ''">
+                percode = #{percode,jdbcType=VARCHAR},
+            </if>
+			<if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+			<if test="parentId != null and parentId != ''">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+			<if test="available != null and available != ''">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+    	</set>
+    	where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Permission">
+    	select count(*) from permission 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR} and
+            </if>
+			<if test="type != null and type != ''">
+                type = #{type,jdbcType=INTEGER} and
+            </if>
+			<if test="percode != null and percode != ''">
+                percode = #{percode,jdbcType=VARCHAR} and
+            </if>
+			<if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR} and
+            </if>
+			<if test="parentId != null and parentId != ''">
+                parent_id = #{parentId,jdbcType=INTEGER} and
+            </if>
+			<if test="available != null and available != ''">
+                available = #{available,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectData" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Permission">
+    	select id,
+			<include refid="Base_Column_List" />
+		from permission 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="permission.id != null and permission.id != ''">
+                id = #{permission.id,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.name != null and permission.name != ''">
+                name = #{permission.name,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.type != null and permission.type != ''">
+                type = #{permission.type,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.percode != null and permission.percode != ''">
+                percode = #{permission.percode,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.url != null and permission.url != ''">
+                url = #{permission.url,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.parentId != null and permission.parentId != ''">
+                parent_id = #{permission.parentId,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.available != null and permission.available != ''">
+                available = #{permission.available,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+    <select id="selectRelationCount" resultType="java.lang.Integer" parameterType="com.pengyd.bean.Permission">
+    	select count(*) from permission 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="id != null and id != ''">
+                id = #{id,jdbcType=INTEGER} and
+            </if>
+			<if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR} and
+            </if>
+			<if test="type != null and type != ''">
+                type = #{type,jdbcType=INTEGER} and
+            </if>
+			<if test="percode != null and percode != ''">
+                percode = #{percode,jdbcType=VARCHAR} and
+            </if>
+			<if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR} and
+            </if>
+			<if test="parentId != null and parentId != ''">
+                parent_id = #{parentId,jdbcType=INTEGER} and
+            </if>
+			<if test="available != null and available != ''">
+                available = #{available,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+    </select>
+    
+    <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.Permission">
+    	select xtx.*, 
+		from permission xtx, 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="permission.id != null and permission.id != ''">
+                xtx.id = #{permission.id,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.name != null and permission.name != ''">
+                xtx.name = #{permission.name,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.type != null and permission.type != ''">
+                xtx.type = #{permission.type,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.percode != null and permission.percode != ''">
+                xtx.percode = #{permission.percode,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.url != null and permission.url != ''">
+                xtx.url = #{permission.url,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.parentId != null and permission.parentId != ''">
+                xtx.parent_id = #{permission.parentId,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.available != null and permission.available != ''">
+                xtx.available = #{permission.available,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
+    </select>
+	
+	<select id="selectByParam" resultMap="BaseResultMap" parameterType="com.pengyd.bean.Permission">
+    	select id,
+			<include refid="Base_Column_List" />
+		from permission 
+		<if test="_parameter != null">
+            <where>
+            <trim suffixOverrides="and">
+			<if test="permission.id != null and permission.id != ''">
+                id = #{permission.id,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.name != null and permission.name != ''">
+                name = #{permission.name,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.type != null and permission.type != ''">
+                type = #{permission.type,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.percode != null and permission.percode != ''">
+                percode = #{permission.percode,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.url != null and permission.url != ''">
+                url = #{permission.url,jdbcType=VARCHAR} and
+            </if>
+			<if test="permission.parentId != null and permission.parentId != ''">
+                parent_id = #{permission.parentId,jdbcType=INTEGER} and
+            </if>
+			<if test="permission.available != null and permission.available != ''">
+                available = #{permission.available,jdbcType=INTEGER} and
+            </if>
+            </trim>
+            </where>
+        </if>
+        order by ${order_by} desc
+    </select>
+    
+	<select id="ajaxSelectPermListByUse" resultMap="BaseResultMap">
+    	select id,
+			<include refid="Base_Column_List" />
+		from permission 
+		WHERE percode != ""
+        order by id ASC
+    </select>
+    
+    <select id="selectByPermIds" resultMap="BaseResultMap">
+    	select id,
+			<include refid="Base_Column_List" />
+		from permission 
+		WHERE id IN (${permIds})
+        order by id
+    </select>
+	
+</mapper>

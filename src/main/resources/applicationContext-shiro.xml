@@ -8,43 +8,47 @@
     <description>apache shiro配置</description>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-    	<!--shiro 的核心安全接口,这个属性是必须的 -->
+        <!--shiro 的核心安全接口  -->
         <property name="securityManager" ref="securityManager"/>
-        <!-- 设置默认的首页 - 要求登录时的链接  -->
+
+        <!-- 设置默认的首页 - 要求登录时的链接 - 没有认证通过的时候，通过此页面进行认证  -->
         <property name="loginUrl" value="/rest/login"/>
+
         <!--登录成功后要跳转的链接  -->
         <property name="successUrl" value="/rest/main"/>
-        <!--未授权时要跳转的链接  -->
+
+        <!--未授权时要跳转的链接 - 指定拒绝访问页面  -->
         <property name="unauthorizedUrl" value="/rest/401"/>
-        <!--shiro 链接约束配置  -->
+
+        <!--shiro 链接约束配置 - 内置的过滤器的选用配置  -->
         <property name="filterChainDefinitions">
             <value>
+                <!--
+                anon 允许匿名访问
+                authc 认证
+                perms 授权
+                -->
+
                 <!-- 静态资源允许访问 -->
                 /assets/** = anon
-                <!-- 登录页允许访问 --> 
+                <!-- 登录页允许访问 -->
                 /rest/login = anon
-                /rest/loginByAjax = anon 
+                /rest/loginByAjax = anon
                 /rest/401 = anon
                 /rest/404 = anon
                 /rest/500 = anon
-                
-                <!-- APP登录页允许访问-20171215新增 --> 
+
+                <!-- APP登录页允许访问-20171215新增 -->
                 /app/** = anon
-                
-                
+
+
                 <!-- 其他资源需要认证 authc  -->
-               	/** = authc
-                
-                  <!-- 已经登录并且有授权admin:manage才可以访问 -->
-              <!--  /system=roles[admin:manage] -->
+                /** = authc
+
+                <!-- 已经登录并且有授权admin:manage才可以访问 -->
+                <!--  /system=roles[admin:manage] -->
             </value>
         </property>
-    </bean>
-    
-
-    <!-- 缓存管理器 使用Ehcache实现 -->
-    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
     </bean>
 
     <!-- 会话DAO -->
@@ -53,6 +57,11 @@
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionDAO" ref="sessionDAO"/>
+    </bean>
+
+    <!-- 缓存管理器 使用Ehcache实现 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
     </bean>
 
     <!-- 安全管理器 -->
@@ -66,7 +75,14 @@
         <property name="cacheManager" ref="shiroEhcacheManager" />
         <!-- <property name="sessionManager" ref="sessionManager" /> -->
     </bean>
+
+    <!-- MD5加密算法的凭证匹配器 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="1"/>
+    </bean>
+
     <!-- Shiro生命周期处理器 -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <!--<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>-->
 
 </beans>

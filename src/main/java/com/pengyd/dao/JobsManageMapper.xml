@@ -24,16 +24,15 @@
 	
 	<insert id="insert" parameterType="com.pengyd.bean.JobsManage">
         insert into jobs_manage (
-			<include refid="Base_Column_List" />
-		)values(
-			NOW(),
-        	#{createUserId,jdbcType=INTEGER},
-        	#{workUserId,jdbcType=INTEGER},
-        	#{jobInfo,jdbcType=VARCHAR},
-        	#{jobState,jdbcType=INTEGER},
-			NOW(),
-        	#{updateTime,jdbcType=TIMESTAMP},
-        	#{jobWorkInfo,jdbcType=VARCHAR}
+        <include refid="Base_Column_List" />
+        )values(
+        #{createUserId,jdbcType=INTEGER},
+        #{workUserId,jdbcType=INTEGER},
+        #{jobInfo,jdbcType=VARCHAR},
+        #{jobState,jdbcType=INTEGER},
+        NOW(),
+        NOW(),
+        #{jobWorkInfo,jdbcType=VARCHAR}
         )
     </insert>
     
@@ -212,8 +211,8 @@
     </select>
     
     <select id="selectRelationData" resultType="java.util.Map" parameterType="com.pengyd.bean.JobsManage">
-    	select xtx.*, 
-		from jobs_manage xtx, 
+    	select xtx.*
+		from jobs_manage xtx
 		<if test="_parameter != null">
             <where>
             <trim suffixOverrides="and">
@@ -282,5 +281,89 @@
             </where>
         </if>
         order by ${order_by} desc
+    </select>
+
+    <select id="selectRelationCountByEmpRealname" resultType="java.lang.Integer" parameterType="com.pengyd.bean.JobsManage">
+        select count(*) from
+        (
+        select xtx.*, e1.realname AS realname1, e2.realname AS realname2
+        from jobs_manage xtx, employee e1, employee e2
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="jobsManage.id != null and jobsManage.id != ''">
+                        xtx.id = #{jobsManage.id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.createUserId != null and jobsManage.createUserId != ''">
+                        xtx.create_user_id = #{jobsManage.createUserId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.workUserId != null and jobsManage.workUserId != ''">
+                        xtx.work_user_id = #{jobsManage.workUserId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.jobInfo != null and jobsManage.jobInfo != ''">
+                        xtx.job_info = #{jobsManage.jobInfo,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="jobsManage.jobState != null and jobsManage.jobState != ''">
+                        xtx.job_state = #{jobsManage.jobState,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.createTime != null and jobsManage.createTime != ''">
+                        xtx.create_time = #{jobsManage.createTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="jobsManage.updateTime != null and jobsManage.updateTime != ''">
+                        xtx.update_time = #{jobsManage.updateTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="jobsManage.jobWorkInfo != null and jobsManage.jobWorkInfo != ''">
+                        xtx.job_work_info = #{jobsManage.jobWorkInfo,jdbcType=VARCHAR} and
+                    </if>
+                    xtx.create_user_id = e1.id and
+                    xtx.work_user_id = e2.id and
+                    <if test="empRealname != null and empRealname != ''">
+                        e2.realname LIKE CONCAT(CONCAT('%', #{empRealname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                </trim>
+            </where>
+        </if>
+        ) a
+    </select>
+
+    <select id="selectRelationDataByEmpRealname" resultType="java.util.Map" parameterType="com.pengyd.bean.JobsManage">
+        select xtx.*, e1.realname AS realname1, e2.realname AS realname2
+        from jobs_manage xtx, employee e1, employee e2
+        <if test="_parameter != null">
+            <where>
+                <trim suffixOverrides="and">
+                    <if test="jobsManage.id != null and jobsManage.id != ''">
+                        xtx.id = #{jobsManage.id,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.createUserId != null and jobsManage.createUserId != ''">
+                        xtx.create_user_id = #{jobsManage.createUserId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.workUserId != null and jobsManage.workUserId != ''">
+                        xtx.work_user_id = #{jobsManage.workUserId,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.jobInfo != null and jobsManage.jobInfo != ''">
+                        xtx.job_info = #{jobsManage.jobInfo,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="jobsManage.jobState != null and jobsManage.jobState != ''">
+                        xtx.job_state = #{jobsManage.jobState,jdbcType=INTEGER} and
+                    </if>
+                    <if test="jobsManage.createTime != null and jobsManage.createTime != ''">
+                        xtx.create_time = #{jobsManage.createTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="jobsManage.updateTime != null and jobsManage.updateTime != ''">
+                        xtx.update_time = #{jobsManage.updateTime,jdbcType=TIMESTAMP} and
+                    </if>
+                    <if test="jobsManage.jobWorkInfo != null and jobsManage.jobWorkInfo != ''">
+                        xtx.job_work_info = #{jobsManage.jobWorkInfo,jdbcType=VARCHAR} and
+                    </if>
+                    xtx.create_user_id = e1.id and
+                    xtx.work_user_id = e2.id and
+                    <if test="empRealname != null and empRealname != ''">
+                        e2.realname LIKE CONCAT(CONCAT('%', #{empRealname,jdbcType=VARCHAR}), '%') and
+                    </if>
+                </trim>
+            </where>
+        </if>
+        order by xtx.${order_by} desc limit #{limit} offset #{offset}
     </select>
 </mapper>

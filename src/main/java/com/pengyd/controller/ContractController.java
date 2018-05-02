@@ -60,7 +60,6 @@ public class ContractController {
 
     /**
      * 数据展示页面
-     * @return
      */
     @RequiresPermissions(value = "contract_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -70,7 +69,6 @@ public class ContractController {
 
     /**
      * 数据新增页面
-     * @return
      */
     @RequiresPermissions(value = "contract_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -80,7 +78,6 @@ public class ContractController {
 
     /**
      * 数据修改页面
-     * @return
      */
     @RequiresPermissions(value = "contract_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -123,6 +120,12 @@ public class ContractController {
             //将request变成多部分request
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 
+            /*Enumeration<String> params2 = multiRequest.getParameterNames();
+            while (params2.hasMoreElements()) {
+                String value = (String) params2.nextElement();//调用nextElement方法获得元素
+                System.out.println(value);
+                System.out.println(multiRequest.getParameter(value));
+            }*/
 
             String empId = multiRequest.getParameter("empIdName");
 
@@ -141,26 +144,22 @@ public class ContractController {
             MultipartFile file = multiRequest.getFile("contractFileName");
 
             if (file != null) {
-                String pathName = "H:/graduationdoc/empContract/";
+                String pathName = "F:/graduationdoc/empContract/";
                 File dirFile = new File(pathName);
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
                 }
 
+                /*System.out.println(file.getContentType());//application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                System.out.println(file.getName());//file
+                System.out.println(file.getOriginalFilename());//xxx.docx
+                System.out.println(file.getSize());*///11078
 
                 String fileName = file.getOriginalFilename();
                 String fileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
 
                 String docName = empRealname + fileNameSuffix;
                 String docPathName = pathName + empRealname + fileNameSuffix;
-
-                File empContract = new File(docPathName);
-                if(empContract.exists()){
-                    ReturnData rd = new ReturnData();
-                    rd.setCode("11");
-                    rd.setMsg("员工合同已存在，请勿重复添加！");
-                    return rd;
-                }
 
                 contract.setContractName(docName);
                 contract.setContractUrl(docPathName);
@@ -174,9 +173,7 @@ public class ContractController {
                 }
             }
         }
-        //执行插入 Contract 操作
-        ReturnData rd = contractService.insert(contract);
-        return rd;
+        return contractService.insert(contract);//执行插入 Contract 操作
     }
 
     @RequiresPermissions(value = "contract_downFileById")
@@ -279,7 +276,7 @@ public class ContractController {
             MultipartFile file = multiRequest.getFile("contractFileName");
 
             if (file != null) {
-                String pathName = "H:/graduationdoc/empContract/";
+                String pathName = "F:/graduationdoc/empContract/";
                 File dirFile = new File(pathName);
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
@@ -290,7 +287,6 @@ public class ContractController {
 
                 String docName = empRealname + fileNameSuffix;
                 String docPathName = pathName + empRealname + fileNameSuffix;
-
 
                 contract.setContractName(docName);
                 contract.setContractUrl(docPathName);

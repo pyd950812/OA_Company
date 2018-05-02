@@ -47,6 +47,7 @@ import com.google.gson.Gson;
 @RequestMapping(value = "/attd_approve_list")
 public class AttdApproveListController {
 
+
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
@@ -60,7 +61,6 @@ public class AttdApproveListController {
 
     /**
      * 数据展示页面
-     * @return
      */
     @RequiresPermissions(value = "attd_approve_list_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -70,7 +70,6 @@ public class AttdApproveListController {
 
     /**
      * 数据新增页面
-     * @return
      */
     @RequiresPermissions(value = "attd_approve_list_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -80,7 +79,6 @@ public class AttdApproveListController {
 
     /**
      * 数据修改页面
-     * @return
      */
     @RequiresPermissions(value = "attd_approve_list_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -101,10 +99,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据插入操作
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
@@ -147,7 +141,7 @@ public class AttdApproveListController {
             attdApproveInfo.setApproveState(2);//如果当前的任务是提交申请，则设置状态值为1 - 0-等待提交 1-开始审批 2-审批中 3-审批通过 4-审批驳回
             attdApproveInfoService.update(attdApproveInfo);
         }*/
-        else if ("审批【技术总监】".equals(name)) {
+        else if ("审批【技术总监/总经理】".equals(name)) {
             //获取到请假的天数
             ReturnData rdData = attdApproveInfoService.selectByParam(null, attdApproveInfo);
             List<AttdApproveInfo> dataList = (List<AttdApproveInfo>) rdData.getData().get("data");
@@ -172,10 +166,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据删除操作
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -185,7 +175,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据批量删除操作
-     * @param request 请求数据
      */
     @RequestMapping({ "/deleteBatch" })
     @ResponseBody
@@ -204,10 +193,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据修改操作
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -219,10 +204,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据分页查询操作
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ResponseBody
@@ -239,10 +220,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据分页查询操作 - 关联查询
-     * @param attd_approve_list json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/selectRelationData", method = RequestMethod.POST)
     @ResponseBody
@@ -278,15 +255,11 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据查询操作不分页
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/selectByParam", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ReturnData selectByParam(@RequestBody AttdApproveList attdApproveList, Model model,
-            HttpServletRequest request) {
+                                    HttpServletRequest request) {
         String order_by = request.getParameter("order_by");//排序
 
         return attdApproveListService.selectByParam(order_by, attdApproveList);
@@ -294,10 +267,6 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据导出操作
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public void export(HttpServletRequest request, HttpServletResponse response) {
@@ -311,20 +280,20 @@ public class AttdApproveListController {
         //分页查询
         JqGridJsonBean rd = attdApproveListService.select(page, rows, order_by, attdApproveList);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("attdApproveList");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("批注用户");
         row1.createCell(3 - 1).setCellValue("批注内容");
         row1.createCell(4 - 1).setCellValue("批注日期");
         row1.createCell(5 - 1).setCellValue("关联的审批申请表的ID");
-        //在sheet里创建第三行  
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<AttdApproveList> maps = (List<AttdApproveList>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -337,7 +306,7 @@ public class AttdApproveListController {
             row.createCell(5 - 1).setCellValue(map.getaAInfoId() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出attdApproveList").getBytes(), "ISO8859_1");
@@ -355,15 +324,11 @@ public class AttdApproveListController {
 
     /**
      * 对 attd_approve_list 的数据导入操作
-     * @param attdApproveList json 数据对象
-     * @param model spring model 操作
-     * @param request 请求数据
-     * @return ReturnData 通用数据对象
      */
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -388,7 +353,7 @@ public class AttdApproveListController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //attdApproveListService.insert(attdApproveList);  
+                    //attdApproveListService.insert(attdApproveList);
                 }
 
             }
@@ -396,7 +361,7 @@ public class AttdApproveListController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");

@@ -52,15 +52,31 @@ public class ArchivesLogAspect {
     public void before(JoinPoint joinPoint) {
         this.request = getHttpservletRequest();
 
-        this.current_emp = ((Employee) this.request.getSession().getAttribute("current_emp"));
+        if (request != null) {
+            this.current_emp = ((Employee) this.request.getSession().getAttribute("current_emp"));
+        }
+        /*else {
+            Employee current_emp = new Employee();
+            current_emp.setId(0);
+            current_emp.setLoginname("admin");
+            this.current_emp = current_emp;
+        }*/
+
         this.startTimeMillis = System.currentTimeMillis();
     }
 
     public void after(JoinPoint joinPoint) {
         this.request = getHttpservletRequest();
-        this.requestURL = this.request.getRequestURL();
 
-        this.requestQuery = this.request.getQueryString();
+        if (request != null) {
+            this.requestURL = this.request.getRequestURL();
+            this.requestQuery = this.request.getQueryString();
+        }
+        else {
+            this.requestURL = new StringBuffer("admin");
+            this.requestQuery = "admin";
+        }
+
         try {
             this.properties.load(this.inputStream);
 
@@ -147,8 +163,14 @@ public class ArchivesLogAspect {
     }
 
     private String getIp() {
-        String ip = request.getRemoteAddr();
-        if ("0:0:0:0:0:0:0:1".equals(ip)) {
+        String ip = "";
+        if (request != null) {
+            ip = request.getRemoteAddr();
+            if ("0:0:0:0:0:0:0:1".equals(ip)) {
+                ip = "127.0.0.1";
+            }
+        }
+        else {
             ip = "127.0.0.1";
         }
         return ip;
@@ -224,8 +246,12 @@ public class ArchivesLogAspect {
 
     public HttpServletRequest getHttpservletRequest() {
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-        HttpServletRequest request = sra.getRequest();
+
+        HttpServletRequest request = null;
+        if (ra != null) {
+            ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+            request = sra.getRequest();
+        }
         return request;
     }
 }

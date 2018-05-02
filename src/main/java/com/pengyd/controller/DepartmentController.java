@@ -1,6 +1,7 @@
 package com.pengyd.controller;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.pengyd.bean.Department;
+import com.pengyd.bean.DeptPerm;
 import com.pengyd.service.DepartmentService;
+import com.pengyd.service.DeptPermService;
 import com.pengyd.util.JqGridJsonBean;
 import com.pengyd.util.ReturnData;
 import org.apache.log4j.Logger;
@@ -49,6 +52,9 @@ public class DepartmentController {
     @Resource
     private DepartmentService departmentService;
 
+    @Resource
+    private DeptPermService deptPermService;
+
     /**
      * 数据展示页面
      * @return
@@ -61,7 +67,6 @@ public class DepartmentController {
 
     /**
      * 数据新增页面
-     * @return
      */
     @RequiresPermissions(value = "department_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -71,15 +76,15 @@ public class DepartmentController {
 
     /**
      * 数据修改页面
-     * @return
      */
     @RequiresPermissions(value = "department_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");
+        int deptId = Integer.valueOf(id);
 
         Department department = new Department();
-        department.setId(Integer.valueOf(Integer.parseInt(id)));
+        department.setId(deptId);
 
         ReturnData rd = departmentService.selectByParam(null, department);
         if (rd.getCode().equals("OK")) {
@@ -87,16 +92,55 @@ public class DepartmentController {
 
             model.addAttribute("olddata", JSON.toJSONString(data.get(0)));
         }
+
+        //获取权限信息
+        DeptPerm deptPerm = new DeptPerm();
+        deptPerm.setDeptId(deptId);
+
+        List<Integer> permValue = new ArrayList<Integer>();
+        ReturnData rdDeptPerm = deptPermService.selectByParam(null, deptPerm);
+        List<DeptPerm> dataDeptPerm = (List<DeptPerm>) rdDeptPerm.getData().get("data");
+        if (dataDeptPerm.size() > 0) {
+            for (int i = 0; i < dataDeptPerm.size(); i++) {
+                permValue.add(dataDeptPerm.get(i).getPermId());
+            }
+        }
+
+        String permValueStr = permValue.toString();
+
+        if (permValue.size() > 0) {
+            permValueStr = permValueStr.substring(1, permValueStr.length() - 1);
+        }
+
+        model.addAttribute("permValue", permValueStr);
+
         return "department/edit";
     }
 
     /**
      * 对 department 的数据插入操作
      */
-    @RequestMapping(value = "/insert", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public ReturnData insert(@RequestBody Department department, Model model, HttpServletRequest request) {
-        return departmentService.insert(department);//执行插入 Department 操作
+    public ReturnData insert(String GridParam, Model model, HttpServletRequest request) {
+        Department department = new Gson().fromJson(GridParam, Department.class);//json 转对象
+
+        ReturnData rd = departmentService.insert(department);
+
+        int deptId = (int) rd.getData().get("data");
+
+        String permValue = request.getParameter("permValue");//2,3,4
+
+        //首先 - 新增设备的时候肯定是新增
+        String[] permValueArray = permValue.split(",");
+        for (int i = 0; i < permValueArray.length; i++) {
+            DeptPerm deptPerm = new DeptPerm();
+            deptPerm.setDeptId(deptId);
+            deptPerm.setPermId(Integer.valueOf(permValueArray[i]));
+            deptPermService.insert(deptPerm);
+        }
+
+        return rd;//执行插入 Department 操作
     }
 
     /**
@@ -110,6 +154,7 @@ public class DepartmentController {
 
     /**
      * 对 department 的数据批量删除操作
+     * @param request 请求数据
      */
     @RequestMapping({ "/deleteBatch" })
     @ResponseBody
@@ -129,9 +174,59 @@ public class DepartmentController {
     /**
      * 对 department 的数据修改操作
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ReturnData update(@RequestBody Department department, Model model, HttpServletRequest request) {
+    public ReturnData update(String GridParam, Model model, HttpServletRequest request) {
+        Department department = new Gson().fromJson(GridParam, Department.class);//json 转对象
+
+        int deptId = department.getId();
+
+        //原先存在的权限项
+        DeptPerm deptPerm = new DeptPerm();
+        deptPerm.setDeptId(deptId);
+
+        List<Integer> permValueOld = new ArrayList<Integer>();
+        List<Integer> permValueIdOld = new ArrayList<Integer>();
+        ReturnData rdDeptPerm = deptPermService.selectByParam(null, deptPerm);
+        List<DeptPerm> dataDeptPerm = (List<DeptPerm>) rdDeptPerm.getData().get("data");
+        if (dataDeptPerm.size() > 0) {
+            for (int i = 0; i < dataDeptPerm.size(); i++) {
+                DeptPerm deptPermTemp = dataDeptPerm.get(i);
+                permValueOld.add(deptPermTemp.getPermId());
+                permValueIdOld.add(deptPermTemp.getId());
+            }
+        }
+
+        //新的权限项
+        List<Integer> permValueNew = new ArrayList<Integer>();
+
+        String permValue = request.getParameter("permValue");//2,3,4
+
+        //首先 - 新增设备的时候肯定是新增
+        String[] permValueArray = permValue.split(",");
+        for (int i = 0; i < permValueArray.length; i++) {
+            permValueNew.add(Integer.valueOf(permValueArray[i]));
+        }
+
+        //删除没有的
+        for (int i = 0; i < permValueOld.size(); i++) {
+            if (!permValueNew.contains(permValueOld.get(i))) {
+                DeptPerm deptPermTemp = new DeptPerm();
+                deptPermTemp.setId(permValueIdOld.get(i));
+                deptPermService.delete(deptPermTemp);
+            }
+        }
+
+        //新增新增的
+        for (int i = 0; i < permValueNew.size(); i++) {
+            if (!permValueOld.contains(permValueNew.get(i))) {
+                DeptPerm deptPermTemp = new DeptPerm();
+                deptPermTemp.setDeptId(deptId);
+                deptPermTemp.setPermId(permValueNew.get(i));
+                deptPermService.insert(deptPermTemp);
+            }
+        }
+
         return departmentService.update(department);//执行 Department  操作
     }
 
@@ -183,20 +278,21 @@ public class DepartmentController {
         //分页查询
         JqGridJsonBean rd = departmentService.select(page, rows, order_by, department);
 
-        //创建HSSFWorkbook对象(excel的文档对象)  
+        //创建HSSFWorkbook对象(excel的文档对象)
         HSSFWorkbook wb = new HSSFWorkbook();
-        //建立新的sheet对象（excel的表单）  
+        //建立新的sheet对象（excel的表单）
         HSSFSheet sheet = wb.createSheet("department");
-        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个  
+        //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
         HSSFRow row1 = sheet.createRow(0);
 
-        //创建单元格并设置单元格内容  
+        //创建单元格并设置单元格内容
         row1.createCell(1 - 1).setCellValue("主键");
         row1.createCell(2 - 1).setCellValue("部门编码");
         row1.createCell(3 - 1).setCellValue("部门名称");
         row1.createCell(4 - 1).setCellValue("部门信息");
         row1.createCell(5 - 1).setCellValue("创建时间");
-        //在sheet里创建第三行  
+        row1.createCell(6 - 1).setCellValue("是否能直接分配所属工作-1-分配，2-不分配");
+        //在sheet里创建第三行
         @SuppressWarnings("unchecked")
         List<Department> maps = (List<Department>) rd.getRoot();
         for (int i = 0; i < maps.size(); i++) {
@@ -207,9 +303,10 @@ public class DepartmentController {
             row.createCell(3 - 1).setCellValue(map.getDeptname() + "");
             row.createCell(4 - 1).setCellValue(map.getDeptinfo() + "");
             row.createCell(5 - 1).setCellValue(map.getCreateTime() + "");
+            row.createCell(6 - 1).setCellValue(map.getIsDis() + "");
         }
 
-        //输出Excel文件  
+        //输出Excel文件
         try {
             ServletOutputStream output = response.getOutputStream();
             String fileName = new String(("导出department").getBytes(), "ISO8859_1");
@@ -231,7 +328,7 @@ public class DepartmentController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData _import(@RequestParam(value = "file", required = false) MultipartFile file,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ReturnData rd = new ReturnData();
         String filename = file.getOriginalFilename();
         if (filename == null || "".equals(filename)) {
@@ -256,7 +353,7 @@ public class DepartmentController {
                     //System.out.println(row.getCell(0));
                     //此处自己添字段例如 myTable.set...(row.getCell(0))
 
-                    //departmentService.insert(department);  
+                    //departmentService.insert(department);
                 }
 
             }
@@ -264,7 +361,7 @@ public class DepartmentController {
         catch (Exception e) {
             rd.setCode("ERROR");
             rd.setMsg(e.getMessage());
-            //e.printStackTrace();  
+            //e.printStackTrace();
         }
 
         rd.setCode("OK");
