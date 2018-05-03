@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <ol class="breadcrumb">
             <li>工作管理</li>
             <li>></li>
-            <li class="active">审批任务管理</li>
+            <li class="active">任务管理</li>
         </ol>
     </div>
     <!--过滤条件-->
@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="panel panel-default">
         	<div class="panel-heading">
             <span class="iconstate left bg-filter"></span>
-            <span class="left bg-filter">审批任务数据表</span>
+            <span class="left bg-filter">任务数据表</span>
         	</div>
         </div>
         <div class="panel-body">
@@ -107,7 +107,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				return "<a target='_blank' href='<%=path %>/activiti_flow/viewCurrentImage?taskId="+rowData.id+"'>查看当前流程图</a>";
 			}},
 			{name: "handle", index: "handle", sortable: false, width: 60, align: "center",formatter:function(value,options,rowData){
-				return "<a href='#' onclick='javascript:handleTask("+rowData.id+");return false;'>办理</a>";
+				var taskName = rowData.name;
+				
+				var actHtml = "";
+
+				if ("完成任务【部门职员】" == taskName) {
+					actHtml = "<a href='#' onclick='javascript:finishTask("+rowData.id+");return false;'>完成任务</a>";
+				} else {
+					actHtml = "<a href='#' onclick='javascript:handleTask("+rowData.id+");return false;'>办理</a>";
+				}
+				return actHtml;
 			}}
             ],
             rowNum:15, 
@@ -131,6 +140,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function handleTask(value){
 		//alert(value);
 		window.location.href= "<%=path %>/activiti_flow/handleTask?taskId="+value;
+	}
+	
+	function finishTask(value){
+		window.location.href= "<%=path %>/activiti_flow/finishTask?taskId="+value;
 	}
 	
     //表格自适应屏幕

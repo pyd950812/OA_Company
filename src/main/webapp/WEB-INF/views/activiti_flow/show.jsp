@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <!--过滤条件-->
     <div class="filter panel panel-default">
-        <div class="panel-heading">
+        <!-- <div class="panel-heading">
             <span class="glyphicon glyphicon-search"></span>
             <span>过滤条件</span>
         </div>
@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span>流程名称：</span>
 	        <input type="text" placeholder="请输入流程名称" id="searchSelectActivitiFlowName">
 	        <button class="chaxun-bottom" id="activiti_flow_chaxun">查询</button>
-        </div>
+        </div> -->
         
         <div class="panel panel-default">
         	<div class="panel-heading">
@@ -149,7 +149,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	       		data:{
 	       			depid:value+""
 	       		},
-                dataType: 'json',
 	       		/* cache:false,
 	       		contentType: "application/json;charset=UTF-8", */
 	           	success:function(data){

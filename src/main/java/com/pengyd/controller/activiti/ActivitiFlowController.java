@@ -155,6 +155,7 @@ public class ActivitiFlowController {
                 order_by = "id";
             }
 
+            //找到所有的流程部署信息
             List<Deployment> deployments = activitiConsoleUtils.getAllDeployment();//org.activiti.engine.impl.persistence.entity.DeploymentEntity
 
             //将对象转换为JSON

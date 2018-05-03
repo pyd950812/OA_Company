@@ -18,15 +18,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
     
 	<link rel="stylesheet" href="<%=path %>/assets/js/layui/css/layui.css" /><!-- media="all"  -->
-
-    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
-    <script type="text/javascript" src="<%=path %>/assets/js/layui/layui.js"></script>
-    <script type="text/javascript" src="<%=path %>/assets/js/layui/layui-xtree.js"></script>
+	
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
     <script type="text/javascript" src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-
-
+	
+    <script type="text/javascript" src="<%=path %>/assets/js/layer/laydate.js"></script>
+	
+	<script type="text/javascript" src="<%=path %>/assets/js/layui/layui.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="<%=path %>/assets/js/layui/layui-xtree.js" charset="UTF-8"></script>
 	
     <script src="<%=path %>/assets/js/user_common.js"></script>
     
@@ -186,6 +186,8 @@ $(function(){
    		xtree = new layuiXtree({
    		      elem: 'permDivId'  //(必填) 放置xtree的容器id，不带#号
    		      , form: form    //(必填) layui 的 form
+   		      ,method:'post'
+   		      ,type:'json'
    		      , data: '<%=path %>/permission/xtreedata'  //(必填) 数据接口，需要返回指定结构json字符串
    		      , ckall: true   //启动全选功能，默认false
    		      , ckallback: function () {}//全选框状态改变后执行的回调函数

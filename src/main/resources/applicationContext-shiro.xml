@@ -51,6 +51,7 @@
         </property>
     </bean>
 
+
     <!-- 会话DAO -->
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/>
 
@@ -58,6 +59,7 @@
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionDAO" ref="sessionDAO"/>
     </bean>
+
 
     <!-- 缓存管理器 使用Ehcache实现 -->
     <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
@@ -71,10 +73,12 @@
                 <ref bean="securityRealm"/>
             </list>
         </property>
+
         <!-- cacheManager,集合spring缓存工厂 -->
         <property name="cacheManager" ref="shiroEhcacheManager" />
         <!-- <property name="sessionManager" ref="sessionManager" /> -->
     </bean>
+
 
     <!-- MD5加密算法的凭证匹配器 -->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -82,7 +86,7 @@
         <property name="hashIterations" value="1"/>
     </bean>
 
-    <!-- Shiro生命周期处理器 -->
-    <!--<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>-->
 
+    <!-- Shiro生命周期处理器 -->
+    <!-- <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/> -->
 </beans>

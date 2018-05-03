@@ -15,21 +15,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" href="<%=path %>/assets/css/iframe.css">
     <link rel="stylesheet" href="<%=path %>/assets/css/pagination.css">
     
+    <link rel="stylesheet" href="<%=path %>/assets/css/ui.jqgrid.css">
+	
     <link rel="stylesheet" href="<%=path %>/assets/css/common.css">
     
     <%-- <link rel="stylesheet" href="<%=path %>/assets/css/bootstrap/fileinput/fileinput.min.css"> --%>
     
-    <script src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
-    <script src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
-    <script src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <script src="<%=path %>/assets/js/layer/laydate.js"></script>
-    
     <%-- <script src="<%=path %>/assets/js/bootstrap/fileinput/fileinput.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap/fileinput/fileinput_locale_zh.js"></script> --%>
     
-   </head>
-   
+    <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/assets/js/jquery/grid.locale-cn.js"></script>
+    <script type="text/javascript" src="<%=path %>/assets/js/jquery/jquery.jqGrid.min.js"></script>
+    <script src="<%=path %>/assets/js/jquery/jquery.pagination.js"></script>
+    <script type="text/javascript" src="<%=path %>/assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <script src="<%=path %>/assets/js/layer/laydate.js"></script>
+    
+    <script src="<%=path %>/assets/js/user_common.js"></script>
+    
    <style>
 	.amap-sug-result{
 		z-index:100000;
@@ -37,7 +41,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	/* #fieldHidden{
 		display: none;
 	} */
-</style>
+	</style>
+	
+   </head>
+   
 <body>
 <div class="container-fluid GL-hzs">
 	<!--头部内容-->
@@ -45,17 +52,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <ol class="breadcrumb">
             <li>工作管理</li>
             <li>></li>
-            <li class="active">业务流程部署</li>
+            <li class="active">工作任务管理</li>
         </ol>
     </div>
     <!--提示必填项部分-->
 	<div class="filter panel panel-default">
-		<div class="panel-heading" style="border-bottom:0px;">
-			<span>温馨提示：带*的为必填部分，请核对完成后点击保存</span>
+		<div class="panel-heading" style="border-bottom:0px;" id="spanDivId">
 			
-	<span type = "button" id ="save" class="save">保存</span>
-	<span type = "button" id= "back" class="back">返回</span>
-	
 		</div>
 	</div>
 	
@@ -69,53 +72,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         
         
-<form id="uploadForm" enctype="multipart/form-data">  
-        
         <div class="panel-body pad-tb-25" id="jcxx">
         	 <div class="row">
+        	 
 				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 流程名称：
+                    <span class="col-xs-3 glyphicon">* 工作小结：
                     </span>
                     <div class="col-xs-9 pad-0 row">
-                        <input type="text" class="col-xs-12 GL-add-require" id="activitiFlowId" name="activitiFlowName" value="">
+                        <textarea class="col-xs-12 GL-add-require" id="job_work_info" value=""></textarea>
                     </div>
                 </div>
-				<div class="col-xs-6 row ie-col-6">
-                    <span class="col-xs-3 glyphicon">* 流程文件-ZIP：
-                    </span>
-                    <div class="col-xs-9 pad-0 row">
-                        <!-- <input type="text" class="col-xs-12 GL-add-require" id="activitiFlowFile" value=""> -->
-                        <!-- <input type="file" name="activitiFlowFile" id="activitiFlowFile" multiple class="file-loading" />
-                        multiple   data-show-upload="true" data-show-caption="true" 
-                         -->
-                        
-                        <input id="activitiFlowFileId" name="activitiFlowFileName" type="file" class="file">
-                    </div>
-                </div>
+                
         	 </div>
+        	 
         </div>
 	
-</form>
-      
 	</div>
+	
 </div>
 <script>
 
+$(function(){
+	var outcomeListSize = '${outcomeListSize}';
+	
+	var actHtmlStr = "<span>温馨提示：带*的为必填部分，请核对完成后点击保存</span>";
+	if (outcomeListSize != null && outcomeListSize>0) {
+		actHtmlStr += "<span type = 'button' id ='save' class='save'>完成</span>";
+	}
+	actHtmlStr += "<span type = 'button' id ='back' class='back'>返回</span>";
+	
+	$("#spanDivId").html(actHtmlStr);
+	
+	var jobsManageId = '${jobsManageId}';
+	var taskId = '${taskId}';
+	
 	$("#save").click(function(){
+		var jobWorkInfo = $("#job_work_info").val();
+		//alert(annotation);
 
-		var formData = new FormData($('#uploadForm')[0]);
-		
-	    $.ajax({url:'<%=path %>/activiti_flow/insertActivitiFlow',
+	    $.ajax({url:'<%=path %>/jobs_manage/finishTask',
        		type:'post',
-            data: formData, 
-       		cache:false,
-       		//JSON.stringify(param),
-            processData: false,  
-            contentType: false, 
+            data: {jobWorkInfo:jobWorkInfo,
+            	jobsManageId:jobsManageId,
+            	taskId:taskId}, 
            	success:function(data){
            		if(data.code == "OK"){
-           			alert("服务部署成功");
-               		window.location.href= "<%=path %>/activiti_flow/show";
+           			alert("任务处理完毕");
+               		window.location.href= "<%=path %>/activiti_flow/showTask";
            		} else {
            			alert(data.msg);
            		}
@@ -123,12 +126,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            	error : function() {
            		alert("异常！");
            	}
-       });
+        });
 	});
 	
 	$("#back").click(function(){
-		window.location.href= "<%=path %>/activiti_flow/show";
+		window.location.href= "<%=path %>/activiti_flow/showTask";
 	});
+
+});
 
 </script>
 </body>

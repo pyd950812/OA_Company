@@ -62,7 +62,7 @@ public class AttdApproveListController {
      * 数据展示页面
      * @return
      */
-    @RequiresPermissions(value = "attd_approve_list_show")
+//    @RequiresPermissions(value = "attd_approve_list_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String show(Model model, HttpServletRequest request) {
         return "attd_approve_list/show";

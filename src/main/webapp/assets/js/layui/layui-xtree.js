@@ -43,6 +43,24 @@ layuiXtree.prototype.getChildByClassName = function (obj, cn) {
     return _xtemp;
 }
 
+//创建request对象
+function createXMLHttpRequest() {
+	try {
+		return new XMLHttpRequest();//大多数浏览器
+	} catch (e) {
+		try {
+			return ActvieXObject("Msxml2.XMLHTTP");//IE6.0
+		} catch (e) {
+			try {
+				return ActvieXObject("Microsoft.XMLHTTP");//IE5.5及更早版本	
+			} catch (e) {
+				alert("哥们儿，您用的是什么浏览器啊？");
+				throw e;
+			}
+		}
+	}
+}
+
 //加载特效，且获取数据
 layuiXtree.prototype.Loading = function (options) {
     var _this = this;
@@ -56,6 +74,7 @@ layuiXtree.prototype.Loading = function (options) {
     _this.xloading.style.marginTop = _this._container.offsetHeight / 2 - 50 + 'px';
     _this._container.innerHTML = '';
     _this._container.appendChild(_this.xloading); //加载显示
+    
     if (typeof (options.data) == 'object') {
         _this._dataJson = options.data;
         _this.Initial(options);
@@ -63,17 +82,30 @@ layuiXtree.prototype.Loading = function (options) {
     }
 
     //如果是字符串url，进行异步加载
-    var obj = new XMLHttpRequest();
-    obj.open('get', options.data, true);
-    obj.onreadystatechange = function () {
+    $.ajax({
+        url:options.data,
+        type:'post',
+        cache:false,
+        dataType:'json',
+        success:function(data){
+            alert(data);
+            _this._dataJson = data;//eval('(' + data + ')'); //将返回的数据转为json
+            _this.Initial(options);
+        },
+        error : function() {
+            alert("异常！");
+        }
+    });
+
+
+
+    /*obj.onreadystatechange = function () {
         if (obj.readyState == 4 && obj.status == 200 || obj.status == 304) { //回调成功
-            console.log(obj.responseText)
-            console.log(encodeURI(obj.responseText)+"!!!!!!!!!")
             _this._dataJson = eval('(' + obj.responseText + ')'); //将返回的数据转为json
             _this.Initial(options);
         }
-    };
-    obj.send();
+    };*/
+    
 }
 
 //data验证后的数据初始化
@@ -117,6 +149,10 @@ layuiXtree.prototype.dataBind = function (d) {
             var xtree_ischecked = '';
             var xtree_isdisabled = d[i].disabled ? ' disabled="disabled" ' : '';
             _this._domStr += '<div class="layui-xtree-item">';
+
+        	/*alert(d[i].data);
+        	alert(typeof d[i].data);*/
+        	
             if (d[i].data.length > 0)
                 _this._domStr += '<i class="layui-icon layui-xtree-icon" data-xtree="' + (_this._isopen ? '1' : '0') + '">' + (_this._isopen ? _this._iconOpen : _this._iconClose) + '</i>';
             else {

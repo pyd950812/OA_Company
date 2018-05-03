@@ -59,7 +59,7 @@ public class EmployeeController {
     /**
      * 数据展示页面
      */
-    //@RequiresPermissions(value = "employee_show")
+    @RequiresPermissions(value = "employee_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String show(Model model, HttpServletRequest request) {
         return "employee/show";

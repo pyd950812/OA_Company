@@ -309,20 +309,25 @@ public class PermissionController {
      */
     @RequestMapping("/xtreedata")
     @ResponseBody
-    public String xtreeData(HttpServletResponse response){
-//        response.setContentType("text/html;charset=utf-8");
-
+    public JSONArray xtreeData() {
         List<XtreeData> xtreeDataList = permissionService.selXtreeData();
-        String xtreeDataArray = JSONArray.parseArray(JSON.toJSONString(xtreeDataList)).toString();
-//        String newStr = null;
-//        try {
-//            newStr = new String(xtreeDataArray.getBytes(), "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        System.out.println(xtreeDataArray);
+        JSONArray xtreeDataArray = JSONArray.parseArray(JSON.toJSONString(xtreeDataList));
         return xtreeDataArray;
     }
+//    public String xtreeData(HttpServletResponse response){
+////        response.setContentType("text/html;charset=utf-8");
+//
+//        List<XtreeData> xtreeDataList = permissionService.selXtreeData();
+//        String xtreeDataArray = JSONArray.parseArray(JSON.toJSONString(xtreeDataList)).toString();
+////        String newStr = null;
+////        try {
+////            newStr = new String(xtreeDataArray.getBytes(), "UTF-8");
+////        } catch (UnsupportedEncodingException e) {
+////            e.printStackTrace();
+////        }
+//        System.out.println(xtreeDataArray);
+//        return xtreeDataArray;
+//    }
 //    public List<XtreeData> xtreeData() {
 //        return permissionService.selXtreeData();
 //    }

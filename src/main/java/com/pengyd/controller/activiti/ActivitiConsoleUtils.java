@@ -80,9 +80,9 @@ public class ActivitiConsoleUtils {
     }
 
     /**
-     *  显示图片
+     *  查看流程图
      */
-    public InputStream showImages(String pdid) {//查看流程图
+    public InputStream showImages(String pdid) {
         return processEngine.getRepositoryService().getProcessDiagram(pdid);
     }
 
@@ -99,18 +99,28 @@ public class ActivitiConsoleUtils {
      *   2、传入一个参数：新增加的请假单的id
      *   3、因为在提交申请的任务中有#{userID},所以在进入提交申请的任务之前，必须通过流程变量给userID赋值
      */
-    public List<Task> getTasksByAssignee(String userId) {//当前登录人登录系统以后要执行的任务
+    /**
+     *  根据任务执行人查看正在执行的任务  Assignee任务执行人  当前登录人登录系统以后要执行的任务
+     */
+    public List<Task> getTasksByAssignee(String userId) {
+        //任务执行人当前存在的所有任务
         return processEngine.getTaskService().createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc()
                 .list();
     }
 
-    public List<PvmTransition> getPvmTransitions(String taskId) {//根据taskId得到当前任务所在的流程实例正在执行的节点的所有的sequenceFlow的名称
+    /**
+     *  根据taskId得到当前任务所在的流程实例正在执行的节点的所有的sequenceFlow的名称
+     */
+    public List<PvmTransition> getPvmTransitions(String taskId) {
         ActivityImpl activityImpl = getActivityImplByTaskId(taskId);
 
         return activityImpl.getOutgoingTransitions();
     }
 
-    public ActivityImpl getActivityImplByTaskId(String taskId) {//根据taskId得到当前流程实例正在执行的节点ActivityImpl
+    /**
+     *  根据taskId得到当前流程实例正在执行的节点ActivityImpl
+     */
+    public ActivityImpl getActivityImplByTaskId(String taskId) {
         //根据taskId获取到task
         Task task = processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult();
 
@@ -123,14 +133,20 @@ public class ActivitiConsoleUtils {
         return processDefinitionEntity.findActivity(pi.getActivityId());
     }
 
-    public ProcessDefinitionEntity getProcessDefinitionEntityByTaskId(String taskId) {//根据taskId获取到ProcessDefinitionEntity
+    /**
+     *  根据taskId获取到ProcessDefinitionEntity
+     */
+    public ProcessDefinitionEntity getProcessDefinitionEntityByTaskId(String taskId) {
         Task task = processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult();
 
         return (ProcessDefinitionEntity) processEngine.getRepositoryService()
                 .getProcessDefinition(task.getProcessDefinitionId());
     }
 
-    public String getBusinessKeyByTaskId(String taskId) {//根据taskId查找businessKey
+    /**
+     *  根据taskId查找businessKey
+     */
+    public String getBusinessKeyByTaskId(String taskId) {
         Task task = processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult();
 
         ProcessInstance pi = processEngine.getRuntimeService().createProcessInstanceQuery()
@@ -139,7 +155,10 @@ public class ActivitiConsoleUtils {
         return pi.getBusinessKey();
     }
 
-    public ProcessInstance finishTask(String taskId) {//根据taskId完成任务，并且在完成任务以后判断流程实例是否结束
+    /**
+     *  根据taskId完成任务，并且在完成任务以后判断流程实例是否结束
+     */
+    public ProcessInstance finishTask(String taskId) {
         //根据taskId提取任务、
         Task task = processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult();
         //根据任务得到piid
@@ -154,7 +173,10 @@ public class ActivitiConsoleUtils {
         return pi;//如果整个流程实例结束了，则pi为null,如果没有结束就是一个对象
     }
 
-    public ProcessInstance finishTask(String taskId, Map<String, Object> variables) {//根据taskId完成任务，并且在完成任务以后判断流程实例是否结束
+    /**
+     *  根据taskId完成任务，并且在完成任务以后判断流程实例是否结束
+     */
+    public ProcessInstance finishTask(String taskId, Map<String, Object> variables) {
         //根据taskId提取任务、
         Task task = processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult();
         //根据任务得到piid
