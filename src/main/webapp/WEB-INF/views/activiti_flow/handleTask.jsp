@@ -157,7 +157,8 @@ $(function(){
        		type:'post',
             data: {annotation:annotation,
             	attdApproveInfoId:attdApproveInfo.id,
-            	taskId:taskId}, 
+            	taskId:taskId},
+            dataType:"json",
            	success:function(data){
            		if(data.code == "OK"){
            			alert("任务办理成功");

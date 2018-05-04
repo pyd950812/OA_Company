@@ -88,7 +88,6 @@ layuiXtree.prototype.Loading = function (options) {
         cache:false,
         dataType:'json',
         success:function(data){
-            alert(data);
             _this._dataJson = data;//eval('(' + data + ')'); //将返回的数据转为json
             _this.Initial(options);
         },

@@ -32,6 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <a class="navbar-brad" href="#">
                 <span>公司OA系统</span>
             </a>
+            <span style="margin-left: 20px">欢迎，</span><span>${sessionScope.current_emp.realname}</span><span>  登录本企业OA系统</span>
         </div>
         <div class="header-right right">
             <button onclick="jumpIframe('rest/welcome')">
@@ -129,10 +130,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </li>
 
             <li role="presentation">
-                <a href="#ssztgl-salary" class="nav-header" data-toggle="collapse"><span class="glyphicon glyphicon-folder-open"></span><span>薪资管理</span></a>
+                <a href="#ssztgl-salary" class="nav-header" data-toggle="collapse"><span class="glyphicon glyphicon-folder-open"></span><span>其他管理</span></a>
                 <ul id="ssztgl-salary" class="nav nav-list collapse">
-                    <li><a onclick="jumpIframe('employee/salary')"><span class="glyphicon glyphicon-menu-right"></span><span>员工薪资信息</span></a></li>
-
                     <c:if test="${sessionScope.name == 'admin' }">
                     <li><a onclick="jumpIframe('employeeEvection/admin')"><span class="glyphicon glyphicon-menu-right"></span><span>员工出差管理</span></a></li>
                     </c:if>

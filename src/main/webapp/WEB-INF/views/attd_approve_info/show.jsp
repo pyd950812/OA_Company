@@ -47,22 +47,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="active">考勤审批提交管理</li>
 	        <button class="chaxun-bottom" id="attd_approve_info_AskForLeave">请假</button>
 	        <button class="chaxun-bottom" id="attd_approve_info_ExchangeHoliday">调休</button>
-	        <button class="chaxun-bottom" id="attd_approve_info_OnBusiness">出差</button>
+	        <!-- <button class="chaxun-bottom" id="attd_approve_info_OnBusiness">出差</button> -->
         </ol>
     </div>
     <!--过滤条件-->
     <div class="filter panel panel-default">
-        <div class="panel-heading">
+        <!-- <div class="panel-heading">
             <span class="glyphicon glyphicon-search"></span>
             <span>过滤条件</span>
         </div>
         <div class="panel-body pad-tb-25">
-            <span>用户名：</span>
-	        <input type="text" placeholder="请输入用户名" id="searchSelectRealname">
+            <span>申请人：</span>
+	        <input type="text" placeholder="请输入申请人名称" id="searchSelectRealname">
             <span>请假日期：</span>
 	        <input type="text" placeholder="请输入日期" id="searchSelectCreateTime">
 	        <button class="chaxun-bottom" id="attd_approve_info_chaxun">查询</button>
-        </div>
+        </div> -->
         
         <div class="panel panel-default">
         	<div class="panel-heading">
@@ -244,7 +244,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	       			attdApproveId:attdApproveId,
 	       			attdApproveType:attdApproveType
 	       		},
-                dataType:'json',
+                dataType:"json",
 	           	success:function(data){
 	           		if(data.code == "OK"){
 	           			alert("审批提交成功");
@@ -253,9 +253,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	           			alert(data.msg);
 	           		}
 	           	}, 
-	           	error : function(data,type, err) {
-	           		alert(type);
-	           		alert(err);
+	           	error : function() {
+	           		alert("异常！");
 	           	}
 	        });
 		}
@@ -287,13 +286,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		//为param 赋值
 		var GridParam = JSON.stringify(param);
-		searchFun(GridParam);
+
+		var empRealname = $("#searchSelectRealname").val();
+		
+		searchFun(GridParam, empRealname);
 	});
 
-	function searchFun(GridParam){
+	function searchFun(GridParam, empRealname){
 		$("#GRIDTABLE").jqGrid("setGridParam",{
-			url:"<%=path %>/attd_approve_info/select",
-			postData:{GridParam:GridParam},
+			url:"<%=path %>/attd_approve_info/selectRelationDataByEmpRealname",
+			postData:{GridParam:GridParam,empRealname:empRealname},
 			page:1
 		}).trigger("reloadGrid");
 	}

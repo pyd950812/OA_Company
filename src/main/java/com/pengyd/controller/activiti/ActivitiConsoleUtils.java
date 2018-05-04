@@ -86,6 +86,9 @@ public class ActivitiConsoleUtils {
         return processEngine.getRepositoryService().getProcessDiagram(pdid);
     }
 
+    /**
+     *
+     */
     public void startPI(String attdApproveId, String attdApproveType, String empId) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("empId", empId);

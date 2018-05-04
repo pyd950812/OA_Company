@@ -114,7 +114,8 @@ $(function(){
        		type:'post',
             data: {jobWorkInfo:jobWorkInfo,
             	jobsManageId:jobsManageId,
-            	taskId:taskId}, 
+            	taskId:taskId},
+            dataType:"json",
            	success:function(data){
            		if(data.code == "OK"){
            			alert("任务处理完毕");

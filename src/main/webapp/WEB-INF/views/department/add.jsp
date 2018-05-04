@@ -151,27 +151,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 $(function(){
 	/* 获取到权限信息 */
-	<%-- $.ajax({
-		url:'<%=path %>/permission/ajaxSelectPermListByUse',
-   		type:'post',
-       	success:function(data){
-       		var permDataList = data.data.data;
-       		var htmlStr = "";
-       		for (var int = 0; int < permDataList.length; int++) {
-       			var permData = permDataList[int];
-       			htmlStr+="<input type='checkbox' name='permName' value="+permData.id+" checked>"+permData.name+"";
-       			htmlStr+="<br/>";
-			}
-       		$("#permDivId").html(htmlStr);
-       	}, 
-       	error:function() {
-       		alert("异常！");
-       	}
-    }); --%>
-
-    
-    //var xtreeJq;
-    
     var xtree;
     layui.config({
     	base : "js/"
@@ -180,8 +159,6 @@ $(function(){
     		
     	layer = parent.layer === undefined ? layui.layer : parent.layer,
    		laypage = layui.laypage;
-    	
-    	//xtreeJq = layui.jquery;
    		
    		xtree = new layuiXtree({
    		      elem: 'permDivId'  //(必填) 放置xtree的容器id，不带#号
@@ -193,54 +170,20 @@ $(function(){
    		      , ckallback: function () {}//全选框状态改变后执行的回调函数
    		      
    		      , isopen: true  //加载完毕后的展开状态，默认值：true
-   		      
-   		      /* , click: function (data) {  //节点选中状态改变事件监听，全选框有自己的监听事件
-  		            alert(data.elem); //得到checkbox原始DOM对象
-  		        	alert(data.elem.checked); //开关是否开启，true或者false
-  		     		alert(data.value); //开关value值，也可以通过data.elem.value得到
-  		  			alert(data.othis); //得到美化后的DOM对象
-  		          } */
-   		      
-   		       /* , icon: {        //三种图标样式，更改几个都可以，用的是layui的图标
-   		           open: "图标代号"       //节点打开的图标
-   		           , close: "图标代号"    //节点关闭的图标
-   		           , end: "图标代号"      //末尾节点的图标
-   		       }
-   		       , color: {       //三种图标颜色，独立配色，更改几个都可以
-   		           open: "#EE9A00"        //节点图标打开的颜色
-   		           , close: "#EEC591"     //节点图标关闭的颜色
-   		           , end: "#828282"       //末级节点图标的颜色
-   		       }
-   		        */
+
    		});
     })
 
     var permValue =[]; 
 
     function getPermValue(){ //jquery获取复选框值 
-    	permValue =[]; 
-    	/* $('input[name="permName"]:checked').each(function(){ 
-    		permValue.push($(this).val()); 
-    	});  */
-
-    	//alert(permValue.length==0 ?'你还没有选择任何内容！':permValue);//2,3,4
+    	permValue =[];
     	
     	var list=xtree.GetChecked();
-        //alert(list); - object HTMLInputElement
-        //console.log(list);
-        
+
     	//菜单id
     	//var mStr="";
     	for(var i=0;i<list.length;i++){
-    		//mStr+=list[i].value+",";
-    		/* if(xtree.GetParent(list[i].value)!=null){
-    			mStr+=xtree.GetParent(list[i].value).value+",";
-    			if(xtree.GetParent(xtree.GetParent(list[i].value).value)!=null){
-     				mStr+=xtree.GetParent(xtree.GetParent(list[i].value).value).value+",";
-    			}
-    		}else{
-    			mStr+=list[i].value+",";
-    		} */
     		
     		var cheInVal = list[i].value;
     		permValue.push(cheInVal);
@@ -259,11 +202,6 @@ $(function(){
     			}
     		}
     	}
-        //alert(permValue);//1,2,3,4
-        
-    	//去除字符串末尾的‘,’
-    	/* mStr=mStr.substring(0,mStr.length-1);
-        alert(mStr); */
     }
 
     var departmentParam = {};
