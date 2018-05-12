@@ -49,10 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var deploymentId = '${deploymentId}';
 		var imageName = '${imageName}';
 		var acs = '${acs}';
-		
-		/* alert(deploymentId);
-		alert(imageName);
-		alert(acs); */
+
 		
 		var acsJson = JSON.parse(acs);
 

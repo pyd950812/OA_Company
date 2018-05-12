@@ -34,9 +34,10 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<!-- 配置使Spring采用CGLIB代理 -->
+	<!-- 配置使Spring采用CGLIB代理 开启AOP对类代理-->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
+	<!-- 开启shiro授权注解 -->
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"/>
 	</bean>

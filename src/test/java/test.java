@@ -1,9 +1,16 @@
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+
 /**
  * @Author pengyd
  * @Date 2018/1/3 14:23
  * @function:
  */
-public class test {
+public class test extends AuthorizingRealm{
 
     public static void main(String[] args) {
         System.out.println(printHeart("*"));
@@ -94,4 +101,13 @@ public class test {
     }
 
 
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        return null;
+    }
+
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        return null;
+    }
 }

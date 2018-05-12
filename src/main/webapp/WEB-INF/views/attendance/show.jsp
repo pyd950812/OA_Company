@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <input type="text" placeholder="请输入日期" id="searchSelectCreateTime">
 	        <button class="chaxun-bottom" id="attendance_chaxun">查询</button>
         </div>
-        
+
         <div class="panel panel-default">
         	<div class="panel-heading">
             <span class="iconstate left bg-filter"></span>
@@ -170,10 +170,10 @@ laydate.render({
 	var searchGridParam = JSON.stringify(attendanceParam);
 	
     //查询
-	$("#attendance_chaxun").click(function(){
 		var param = JSON.parse(searchGridParam);
 
-		var empRealname = $("#searchSelectRealname").val();
+		var$("#attendance_chaxun").click(function(){
+            empRealname = $("#searchSelectRealname").val();
 
 		var selectCreateTime = $("#searchSelectCreateTime").val();
 		param.createTime = selectCreateTime+ " 00:00:00";

@@ -41,7 +41,7 @@ import com.google.gson.Gson;
 /**
  * @Author pengyd
  * @Date 2018/3/22 17:08
- * @function:
+ * @function: 任务
  */
 @Controller
 @RequestMapping(value = "/jobs_manage")
@@ -135,20 +135,6 @@ public class JobsManageController {
 
         ProcessInstance pi = null;
 
-        //if ("提交申请".equals(name)) {
-        /*if ("完成任务【部门职员】".equals(name)) {
-            jobsManage.setJobState(2);//0-新建 1-进行中 2-已解决
-            jobsManageService.update(jobsManage);
-
-            //完成当前的任务,并且返回一个流程实例
-            pi = activitiConsoleUtils.finishTask(taskId);
-        }*/
-
-        /*if (pi == null) {//该流程已经完成了
-            jobsManage.setJobState(2);//0-新建 1-进行中 2-已解决
-            jobsManageService.update(jobsManage);
-        }*/
-
         pi = activitiConsoleUtils.finishTask(taskId);
 
         jobsManage.setJobState(2);//0-新建 1-进行中 2-已解决
@@ -157,7 +143,7 @@ public class JobsManageController {
     }
 
     /**
-     * 对 attd_approve_list 的数据插入操作
+     * 查看工作小结
      */
     @RequestMapping(value = "/viewJobWorkInfo", method = RequestMethod.POST)
     @ResponseBody
@@ -255,6 +241,9 @@ public class JobsManageController {
         return jobsManageService.selectRelationDataByEmpRealname(page, rows, order_by, jobsManage, empRealname);
     }
 
+    /**
+     *  删除已分配的任务
+     */
     @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData deleteById(Model model, HttpServletRequest request) {

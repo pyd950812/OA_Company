@@ -41,6 +41,7 @@ public class SchedulerUtil {
 
     public static void executeAttendanceDailyQuartz() throws Exception {
         String id = "attendanceDailyId";
+        //从配置文件中获取定时器调用的时间  每天23点50分执行
         String cronTriggerStr = PropertyUtil.getValue("attendanceDailyTriggerStr", "application.properties");
 
         String jobName = "job" + id;

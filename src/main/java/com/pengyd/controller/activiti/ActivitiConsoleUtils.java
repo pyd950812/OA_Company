@@ -87,13 +87,13 @@ public class ActivitiConsoleUtils {
     }
 
     /**
-     *
+     *  开始一个流程实例
      */
     public void startPI(String attdApproveId, String attdApproveType, String empId) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("empId", empId);
-
-        processEngine.getRuntimeService().startProcessInstanceByKey(attdApproveType, "" + attdApproveId, variables);//第二个参数是businesskey:请假单的主键
+        //第二个参数是businesskey:请假单的主键
+        processEngine.getRuntimeService().startProcessInstanceByKey(attdApproveType, "" + attdApproveId, variables);
     }
 
     /**
@@ -121,7 +121,7 @@ public class ActivitiConsoleUtils {
     }
 
     /**
-     *  根据taskId得到当前流程实例正在执行的节点ActivityImpl
+     *  根据taskId得到当前流程实例正在执行的节点ActivityImpl  当前流程执行到哪里了
      */
     public ActivityImpl getActivityImplByTaskId(String taskId) {
         //根据taskId获取到task
@@ -203,20 +203,23 @@ public class ActivitiConsoleUtils {
                 .singleResult();
     }
 
+    /**
+     *  删除流程实例
+     */
     public ProcessInstance deleteProcessInstance(Task task) {
         //The task cannot be deleted because is part of a running process
         //processEngine.getTaskService().deleteTask(task.getId());
 
         //根据taskId提取任务 - 根据任务得到piid
         String piid = task.getProcessInstanceId();
-
+        //根据piid删除对应的ProcessInstance 流程实例
         processEngine.getRuntimeService().deleteProcessInstance(piid, "系统删除");
 
         //根据piid过滤流程实例
         ProcessInstance pi = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(piid)
                 .singleResult();
-
-        return pi;//如果整个流程实例结束了，则pi为null,如果没有结束就是一个对象
+        //如果整个流程实例结束了，则pi为null,如果没有结束就是一个对象
+        return pi;
     }
 
 }

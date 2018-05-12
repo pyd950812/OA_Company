@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * @Author pengyd
  * @Date 2018/3/22 17:08
- * @function: 封装返回值
+ * @function: 封装返回数据
  */
 public class ReturnData {
     private String code;

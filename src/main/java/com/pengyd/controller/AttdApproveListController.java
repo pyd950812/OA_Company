@@ -43,6 +43,11 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
 
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:  审批批注
+ */
 @Controller
 @RequestMapping(value = "/attd_approve_list")
 public class AttdApproveListController {
@@ -109,7 +114,7 @@ public class AttdApproveListController {
 
         //添加批注列表信息
         String attdApproveInfoId = request.getParameter("attdApproveInfoId");
-
+        //获取批注内容
         String annotation = request.getParameter("annotation");
 
         AttdApproveList attdApproveList = new AttdApproveList();
@@ -118,6 +123,7 @@ public class AttdApproveListController {
 
         attdApproveList.setaAInfoId(attdApproveInfoIdI);
         attdApproveList.setAnnotation(annotation);
+        //设置批注的用户
         attdApproveList.setEmpId(currentEmp.getId());
 
         //任务执行到下一级

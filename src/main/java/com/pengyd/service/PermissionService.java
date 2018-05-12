@@ -53,6 +53,9 @@ public interface PermissionService {
 
     ReturnData ajaxSelectPermListByUse();
 
+    /**
+     * 通过ID找到所有的Permission
+     */
     ReturnData selectByPermIds(String permIds);
 
     List<XtreeData> selXtreeData();

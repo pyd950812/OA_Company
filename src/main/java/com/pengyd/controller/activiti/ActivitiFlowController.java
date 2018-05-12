@@ -86,7 +86,7 @@ public class ActivitiFlowController {
         String taskId = request.getParameter("taskId");
 
         model.addAttribute("taskId", taskId);
-
+        //根据taskId查找businessKey
         String businessKey = activitiConsoleUtils.getBusinessKeyByTaskId(taskId);
         AttdApproveInfo attdApproveInfo = new AttdApproveInfo();
         attdApproveInfo.setId(Integer.valueOf(businessKey));
@@ -96,7 +96,7 @@ public class ActivitiFlowController {
         if (dataAttdApproveInfo.size() > 0) {
             model.addAttribute("attdApproveInfo", JSONObject.toJSONString(dataAttdApproveInfo.get(0)));//请假单的回显
         }
-
+        //根据taskId得到当前任务所在的流程实例正在执行的节点的所有的sequenceFlow的名称
         List<PvmTransition> pvmTransitions = activitiConsoleUtils.getPvmTransitions(taskId);
         model.addAttribute("outcomeListSize", pvmTransitions.size());//该任务的sequenceFlow
 
@@ -110,6 +110,7 @@ public class ActivitiFlowController {
 
         model.addAttribute("taskId", taskId);
 
+        //根据taskId查找businessKey
         String businessKey = activitiConsoleUtils.getBusinessKeyByTaskId(taskId);
 
         //更新相关的状态值为 进行中
@@ -291,9 +292,8 @@ public class ActivitiFlowController {
     }
 
     /**
-     * 查看流程部署的流程图
+     * 查看流程部署的流程图  并且写到输出流中
      */
-//    @RequiresPermissions(value = "activiti_flow_viewImage")
     @RequestMapping(value = "/viewImage", method = RequestMethod.GET)
     public void viewImage(Model model, HttpServletRequest request, HttpServletResponse response) {
         String pdid = request.getParameter("pdid");
@@ -334,7 +334,6 @@ public class ActivitiFlowController {
     /**
      * 提交审批任务
      */
-//    @RequiresPermissions(value = "activiti_flow_commitAttdApprove")
     @RequestMapping(value = "/commitAttdApprove")
     @ResponseBody
     public ReturnData commitAttdApprove(Model model, HttpServletRequest request) {
@@ -376,10 +375,9 @@ public class ActivitiFlowController {
     @RequestMapping(value = "/commitJobsManage")
     @ResponseBody
     public ReturnData commitJobsManage(Model model, HttpServletRequest request) {
-        //Employee currentEmp = ((Employee) request.getSession().getAttribute("current_emp"));
-        //String empName = currentEmp.getRealname();
-
+        //任务ID
         String jobsManageId = request.getParameter("jobsManageId");
+        //被指定的员工ID
         String workUserId = request.getParameter("workUserId");
 
         Employee employee = new Employee();
@@ -389,7 +387,7 @@ public class ActivitiFlowController {
 
         activitiConsoleUtils.startPI(jobsManageId, "PublishTask", employeeList.get(0).getRealname());
 
-        //更新相关的状态值为 进行中
+        //点击分配任务后，将该任务的状态值设为 ----进行中
         JobsManage jobsManage = new JobsManage();
         jobsManage.setId(Integer.valueOf(jobsManageId));
         jobsManage.setJobState(1);
@@ -423,13 +421,8 @@ public class ActivitiFlowController {
 
             Employee currentEmp = ((Employee) request.getSession().getAttribute("current_emp"));
             String empName = currentEmp.getRealname();
-
+            //根据员工的真实姓名找到属于员工的任务
             List<Task> tasks = activitiConsoleUtils.getTasksByAssignee(empName);
-
-            //将对象转换为JSON
-
-            //查询Attendance总数据量
-            //int count = attendanceMapper.selectRelationCount(attendance);
 
             int count = tasks.size();
 
@@ -471,7 +464,6 @@ public class ActivitiFlowController {
     /**
      * 查看流程部署的流程图
      */
-//    @RequiresPermissions(value = "activiti_flow_viewCurrentImage")
     @RequestMapping(value = "/viewCurrentImage", method = RequestMethod.GET)
     public String viewCurrentImage(Model model, HttpServletRequest request, HttpServletResponse response) {
         String taskId = request.getParameter("taskId");

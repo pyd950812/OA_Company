@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @Author pengyd
  * @Date 2018/3/22 17:08
- * @function: 分页
+ * @function: 分页信息
  */
 public class JqGridJsonBean {
     private int page;

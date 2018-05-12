@@ -28,8 +28,8 @@
                 authc 认证
                 perms 授权
                 -->
-
-                <!-- 静态资源允许访问 -->
+                <!-- /** 一般放最下面 -->
+                <!-- 静态资源允许访问 图片、JS、css等资源设置为匿名访问-->
                 /assets/** = anon
                 <!-- 登录页允许访问 -->
                 /rest/login = anon
@@ -52,7 +52,7 @@
     </bean>
 
 
-    <!-- 会话DAO -->
+    <!-- 会话DAO  通过sessionDao来管理session数据-->
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/>
 
     <!-- 会话管理器 -->
@@ -74,13 +74,13 @@
             </list>
         </property>
 
-        <!-- cacheManager,集合spring缓存工厂 -->
+        <!-- cacheManager,集合spring缓存工厂  缓存管理器，主要对session和授权数据进行缓存-->
         <property name="cacheManager" ref="shiroEhcacheManager" />
         <!-- <property name="sessionManager" ref="sessionManager" /> -->
     </bean>
 
 
-    <!-- MD5加密算法的凭证匹配器 -->
+    <!-- MD5加密算法的凭证匹配器  散列算法-->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="1"/>

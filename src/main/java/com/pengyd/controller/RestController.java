@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.pengyd.bean.Employee;
+import com.pengyd.security.SecurityRealm;
 import com.pengyd.service.EmployeeService;
 import com.pengyd.util.ReturnData;
 import org.apache.log4j.Logger;
@@ -33,6 +34,13 @@ public class RestController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private SecurityRealm securityRealm;
+
+    /**
+     *  项目刚启动时，shiro中配置了，首先会进入到这里进行校验
+     *  判断是否认证通过，没有就跳到登录界面
+     */
     @RequestMapping({ "/login" })
     public String login(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
@@ -109,13 +117,15 @@ public class RestController {
 
         ReturnData rd = new ReturnData();
         try {
+            //获取主体对象
             Subject subject = SecurityUtils.getSubject();
 
+            //判断是否认证通过
             if (subject.isAuthenticated()) {
                 rd.setCode("OK");
                 rd.setMsg("登录成功");
             }
-
+            //执行认证提交    token 在认证提交前准备token(令牌)
             subject.login(new UsernamePasswordToken(username, password));
 
             Employee employee = employeeService.selectByLoginName(username);
@@ -133,9 +143,14 @@ public class RestController {
         return rd;
     }
 
+    /**
+     *  登出操作
+     */
     @RequestMapping(value = { "/logoutAction" }, method = RequestMethod.GET )
     public String logoutAction(HttpSession session) {
         session.removeAttribute("userInfo");
+        //清除缓存
+//        securityRealm.clearCached();
 
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
