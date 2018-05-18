@@ -141,11 +141,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
 	function delDeployment(value){
-		//alert(value);
+//		alert(value);
 		if (confirm("是否确认删除该部署项？")) {
 			$.ajax({url:'<%=path %>/activiti_flow/delDeployment',
 	       		type:'post',
-	       		//dataType:'json',
+	       		dataType:'json',
 	       		data:{
 	       			depid:value+""
 	       		},

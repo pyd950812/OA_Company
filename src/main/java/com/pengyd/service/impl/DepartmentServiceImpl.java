@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.google.common.collect.Maps;
 import com.pengyd.bean.Department;
 import com.pengyd.dao.DepartmentMapper;
 import com.pengyd.service.DepartmentService;
@@ -36,6 +37,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         ReturnData rd = new ReturnData();
         try {
             departmentMapper.insert(department);
+            int deptId = department.getId();
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("data", deptId);
+            rd.setData(dataMap);
             rd.setCode("OK");
             rd.setMsg("数据插入成功 ");
         }

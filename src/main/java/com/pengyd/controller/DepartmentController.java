@@ -122,10 +122,10 @@ public class DepartmentController {
         ReturnData rd = departmentService.insert(department);
 
         int deptId = (int) rd.getData().get("data");
-
+        //拿到前台传过来复选框中的值（选中了哪些权限）
         String permValue = request.getParameter("permValue");//2,3,4
 
-        //首先 - 新增设备的时候肯定是新增
+        //首先 - 新增部门的时候肯定是新增
         String[] permValueArray = permValue.split(",");
         for (int i = 0; i < permValueArray.length; i++) {
             DeptPerm deptPerm = new DeptPerm();

@@ -62,7 +62,7 @@ public class ActivitiConsoleUtils {
     }
 
     /**
-     *  查询所有的流程定义的信息
+     *  通过流程定义ID，查询流程定义的信息
      */
     public ProcessDefinition getProcessDefinitionByDeploymentID(String deploymentID) {
         ProcessDefinitionQuery processDefinitionQuery = processEngine.getRepositoryService()
@@ -102,6 +102,7 @@ public class ActivitiConsoleUtils {
      *   2、传入一个参数：新增加的请假单的id
      *   3、因为在提交申请的任务中有#{userID},所以在进入提交申请的任务之前，必须通过流程变量给userID赋值
      */
+
     /**
      *  根据任务执行人查看正在执行的任务  Assignee任务执行人  当前登录人登录系统以后要执行的任务
      */
@@ -193,7 +194,7 @@ public class ActivitiConsoleUtils {
 
         return pi;//如果整个流程实例结束了，则pi为null,如果没有结束就是一个对象
     }
-
+    //
     public List<Task> getTaskListByBusinessKey(String businessKey) {
         return processEngine.getTaskService().createTaskQuery().processInstanceBusinessKey(businessKey).list();
     }

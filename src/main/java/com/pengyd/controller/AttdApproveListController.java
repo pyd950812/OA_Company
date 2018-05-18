@@ -145,10 +145,6 @@ public class AttdApproveListController {
             //完成当前的任务,并且返回一个流程实例
             pi = activitiConsoleUtils.finishTask(taskId);
         }
-        /*else if (name.contains("审批")) {
-            attdApproveInfo.setApproveState(2);//如果当前的任务是提交申请，则设置状态值为1 - 0-等待提交 1-开始审批 2-审批中 3-审批通过 4-审批驳回
-            attdApproveInfoService.update(attdApproveInfo);
-        }*/
         else if ("审批【技术总监/总经理】".equals(name)) {
             //获取到请假的天数
             ReturnData rdData = attdApproveInfoService.selectByParam(null, attdApproveInfo);

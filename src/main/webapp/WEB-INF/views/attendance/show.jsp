@@ -169,11 +169,11 @@ laydate.render({
 	
 	var searchGridParam = JSON.stringify(attendanceParam);
 	
-    //查询
-		var param = JSON.parse(searchGridParam);
+        //查询
+		$("#attendance_chaxun").click(function(){
+            var param = JSON.parse(searchGridParam);
 
-		var$("#attendance_chaxun").click(function(){
-            empRealname = $("#searchSelectRealname").val();
+            var empRealname = $("#searchSelectRealname").val();
 
 		var selectCreateTime = $("#searchSelectCreateTime").val();
 		param.createTime = selectCreateTime+ " 00:00:00";

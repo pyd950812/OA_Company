@@ -111,7 +111,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		cache:false,
        		//JSON.stringify(param),
             processData: false,  
-            contentType: false, 
+            contentType: false,
+            dataType: 'json',
            	success:function(data){
            		if(data.code == "OK"){
            			alert("服务部署成功");

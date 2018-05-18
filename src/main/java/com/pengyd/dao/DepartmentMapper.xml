@@ -19,6 +19,9 @@
 
 
     <insert id="insert" parameterType="com.pengyd.bean.Department">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() <!-- @@IDENTITY 两种方式都可以完成相关内容的赋值 -->
+        </selectKey>
         insert into department (
         <include refid="Base_Column_List" />
         )values(

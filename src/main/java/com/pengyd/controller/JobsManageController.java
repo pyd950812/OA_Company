@@ -254,7 +254,7 @@ public class JobsManageController {
             rd.setMsg("id为空");
         }
         else {
-            //判断相关的任务是否存在，存在的话，做删除操作
+            //判断相关的任务是否存在，存在的话，做删除操作  根据请假单主键businessKey来查看相关任务Task
             List<Task> taskList = activitiConsoleUtils.getTaskListByBusinessKey(id);
 
             //删除任务并返回流程实例

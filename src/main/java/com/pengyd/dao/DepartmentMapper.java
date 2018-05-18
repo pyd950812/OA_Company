@@ -18,7 +18,7 @@ public interface DepartmentMapper {
     /**
      * department 执行插入 Department 操作
      */
-    void insert(Department department);
+    int insert(Department department);
 
     /**
      * department 执行删除 数据操作

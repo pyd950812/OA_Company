@@ -251,11 +251,13 @@ public class PermissionServiceImpl implements PermissionService {
     public List<XtreeData> selXtreeData() {
         List<XtreeData> list1 = new ArrayList<>();
 
+        //获取到所有的权限permission
         Permission permission = new Permission();
         List<Permission> permList = permissionMapper.selectByParam(permission, "id");
 
         for (int i = 0; i < permList.size(); i++) {
             Permission permission1 = permList.get(i);
+            //首先找到parent_id=0的permission 即人事信息管理以及工作管理
             if (permission1.getParentId() == 0) {//父菜单
                 XtreeData x1 = new XtreeData();
                 int permId1 = permission1.getId();
@@ -263,7 +265,7 @@ public class PermissionServiceImpl implements PermissionService {
                 x1.setTitle(permission1.getName());
 
                 List<XtreeData> list2 = new ArrayList<>();
-
+                //然后找到人事信息管理以及工作管理 以下的
                 for (int j = 0; j < permList.size(); j++) {
                     Permission permission2 = permList.get(j);
                     if (permission2.getParentId() == permId1) {

@@ -78,7 +78,7 @@ public class ActivitiFlowController {
     }
 
     /**
-     *  任务执行，经理级审批员工请假、调休申请
+     *  任务执行，经理级审批员工请假、调休申请  前台任务执行点击办理
      */
 //    @RequiresPermissions(value = "activiti_flow_handleTask")
     @RequestMapping(value = "/handleTask", method = RequestMethod.GET)
@@ -86,7 +86,7 @@ public class ActivitiFlowController {
         String taskId = request.getParameter("taskId");
 
         model.addAttribute("taskId", taskId);
-        //根据taskId查找businessKey
+        //根据taskId查找businessKey   businessKey关联到请假表的id 通过ID可以找到对应的申请记录
         String businessKey = activitiConsoleUtils.getBusinessKeyByTaskId(taskId);
         AttdApproveInfo attdApproveInfo = new AttdApproveInfo();
         attdApproveInfo.setId(Integer.valueOf(businessKey));
@@ -318,7 +318,7 @@ public class ActivitiFlowController {
     /**
      * 删除流程部署 - 被使用中的流程部署项，禁止删除
      */
-    @RequiresPermissions(value = "activiti_flow_delDeployment")
+//    @RequiresPermissions(value = "activiti_flow_delDeployment")
     @RequestMapping(value = "/delDeployment")
     @ResponseBody
     public ReturnData delDeployment(Model model, HttpServletRequest request) {
@@ -370,7 +370,7 @@ public class ActivitiFlowController {
     }
 
     /**
-     * 任务分配
+     * 任务分配  点击分配任务
      */
     @RequestMapping(value = "/commitJobsManage")
     @ResponseBody
@@ -379,7 +379,7 @@ public class ActivitiFlowController {
         String jobsManageId = request.getParameter("jobsManageId");
         //被指定的员工ID
         String workUserId = request.getParameter("workUserId");
-
+        //根据被指定的员工的id 开启一个工作流程
         Employee employee = new Employee();
         employee.setId(Integer.valueOf(workUserId));
         ReturnData rData = employeeService.selectByParam(null, employee);
@@ -400,6 +400,9 @@ public class ActivitiFlowController {
         return rd;
     }
 
+    /**
+     * 根据员工姓名找到与之相关的所有的任务执行列表
+     */
     @RequestMapping(value = "/selectEmpTastList", method = RequestMethod.POST)
     @ResponseBody
     public JqGridJsonBean selectEmpTastList(Model model, HttpServletRequest request) {
@@ -462,12 +465,12 @@ public class ActivitiFlowController {
     }
 
     /**
-     * 查看流程部署的流程图
+     * 任务执行界面，点击查看流程图   查看流程部署的流程图
      */
     @RequestMapping(value = "/viewCurrentImage", method = RequestMethod.GET)
     public String viewCurrentImage(Model model, HttpServletRequest request, HttpServletResponse response) {
         String taskId = request.getParameter("taskId");
-
+        //根据taskID来查看当前流程执行到哪一个节点ActivityImpl
         ActivityImpl activityImpl = activitiConsoleUtils.getActivityImplByTaskId(taskId);
 
         ProcessDefinitionEntity processDefinitionEntity = activitiConsoleUtils
