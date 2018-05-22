@@ -67,7 +67,6 @@ public class AttdApproveListController {
      * 数据展示页面
      * @return
      */
-//    @RequiresPermissions(value = "attd_approve_list_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String show(Model model, HttpServletRequest request) {
         return "attd_approve_list/show";
@@ -77,7 +76,6 @@ public class AttdApproveListController {
      * 数据新增页面
      * @return
      */
-    //@RequiresPermissions(value = "attd_approve_list_add")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model, HttpServletRequest request) {
         return "attd_approve_list/add";
@@ -87,7 +85,6 @@ public class AttdApproveListController {
      * 数据修改页面
      * @return
      */
-    //@RequiresPermissions(value = "attd_approve_list_edit")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -157,6 +154,7 @@ public class AttdApproveListController {
             pi = activitiConsoleUtils.finishTask(taskId, variables);
         }
         else if ("审批【董事长】".equals(name)) {
+            //如果流程完成了，pi就是null，否则就返回一个ProcessInstance对象
             pi = activitiConsoleUtils.finishTask(taskId);
         }
 

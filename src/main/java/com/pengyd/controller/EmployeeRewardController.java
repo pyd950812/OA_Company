@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * @Author pengyd
  * @Date 2018/3/30 18:47
- * @function:
+ * @function: 奖罚
  */
 @Controller
 @RequestMapping("employeeReward")
@@ -128,7 +128,7 @@ public class EmployeeRewardController {
     @ResponseBody
     public ReturnData delete(HttpServletRequest request){
         String ids = request.getParameter("ids");
-        System.out.println(ids+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        System.out.println(ids+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         ReturnData rd = new ReturnData();
         if(ids == null || ids.equals("")){
             rd.setCode("ERROR");
@@ -168,7 +168,7 @@ public class EmployeeRewardController {
     public JqGridJsonBean otherSelect(String GridParam, Model model, HttpServletRequest request){
         EmployeeReward employeeReward = new Gson().fromJson(GridParam, EmployeeReward.class);
         Employee employee =(Employee) request.getSession().getAttribute("employee");
-        System.out.println(employee.toString()+"!!!!!!!!!!!!!!");
+//        System.out.println(employee.toString()+"!!!!!!!!!!!!!!");
         employeeReward.setEmpName(employee.getRealname());
 
         String page = request.getParameter("page");//第几页

@@ -36,7 +36,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
-
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:  部门
+ */
 @Controller
 @RequestMapping(value = "/department")
 public class DepartmentController {

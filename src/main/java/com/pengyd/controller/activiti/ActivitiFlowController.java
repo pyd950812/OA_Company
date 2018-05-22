@@ -42,7 +42,11 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.alibaba.fastjson.JSONObject;
 
 
-
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function:  工作流
+ */
 @Controller
 @RequestMapping(value = "/activiti_flow")
 public class ActivitiFlowController {
@@ -103,6 +107,9 @@ public class ActivitiFlowController {
         return "activiti_flow/handleTask";
     }
 
+    /**
+     *  点击完成任务后的工作小结
+     */
 //    @RequiresPermissions(value = "activiti_flow_finishTask")
     @RequestMapping(value = "/finishTask", method = RequestMethod.GET)
     public String finishTask(Model model, HttpServletRequest request) {
@@ -181,7 +188,7 @@ public class ActivitiFlowController {
 
             //jgjb.setRoot(deployments);// 查询数据信息
 
-            //无法取出相关的数据
+            //取出相关的数据
             List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
             for (int i = 0; i < count; i++) {
@@ -212,6 +219,10 @@ public class ActivitiFlowController {
         return jgjb;
     }
 
+    /**
+     *  部署工作流
+     *
+     */
     @RequestMapping(value = "/insertActivitiFlow", method = RequestMethod.POST)
     @ResponseBody
     public ReturnData insert(HttpServletRequest request) {
@@ -441,7 +452,7 @@ public class ActivitiFlowController {
 
             //jgjb.setRoot(deployments);// 查询数据信息
 
-            //无法取出相关的数据
+            //取出相关的数据
             List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
             for (int i = 0; i < count; i++) {

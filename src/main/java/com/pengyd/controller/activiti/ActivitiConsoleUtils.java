@@ -21,7 +21,11 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * @Author pengyd
+ * @Date 2018/3/22 17:08
+ * @function: 工作流工具类
+ */
 @Component
 public class ActivitiConsoleUtils {
 
@@ -194,7 +198,10 @@ public class ActivitiConsoleUtils {
 
         return pi;//如果整个流程实例结束了，则pi为null,如果没有结束就是一个对象
     }
-    //
+
+    /**
+     * 根据请假单主键businessKey来查看相关任务Task
+     */
     public List<Task> getTaskListByBusinessKey(String businessKey) {
         return processEngine.getTaskService().createTaskQuery().processInstanceBusinessKey(businessKey).list();
     }

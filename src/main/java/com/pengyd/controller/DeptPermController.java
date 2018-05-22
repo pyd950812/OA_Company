@@ -38,7 +38,7 @@ import com.google.gson.Gson;
 /**
  * @Author pengyd
  * @Date 2018/3/22 17:08
- * @function:
+ * @function: 部门-权限关联
  */
 @Controller
 @RequestMapping(value = "/dept_perm")

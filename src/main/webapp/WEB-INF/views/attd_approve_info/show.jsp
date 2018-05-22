@@ -176,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					actHtml += "&nbsp;&nbsp;&nbsp;";
 					actHtml += "<a href='#' onclick='javascript:updateAttdApprove("+value+");return false;'>修改</a>";
 					actHtml += "&nbsp;&nbsp;&nbsp;";
-					actHtml += "<a href='#' onclick='javascript:commitAttdApprove("+value+","+rowData.approve_type+");return false;'>提交申请</a>";
+					actHtml += "<a href='       #' onclick='javascript:commitAttdApprove("+value+","+rowData.approve_type+");return false;'>提交申请</a>";
 				} else if (approveState == 1) {//0-等待提交 1-开始审批 2-审批中 3-审批通过 4-审批驳回
 					actHtml += "<a href='#' onclick='javascript:delAttdApprove("+value+");return false;'>删除</a>";
 					actHtml += "&nbsp;&nbsp;&nbsp;";
