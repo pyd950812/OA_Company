@@ -117,7 +117,7 @@
             ],
             colModel: [
                 {name: "id", index: "id", sortable: false, width: 60, align: "center", hidden:true},
-                {name: "emp_code", index: "emp_code", sortable: false, width: 60, align: "center"},
+                {name: "emp_code", index: "emp_code", sortable: false, width: 60, align: "center"},// cellattr:addCellAttr
                 {name: "loginname", index: "loginname", sortable: false, width: 60, align: "center"},
                 //{name: "password", index: "password", sortable: false, width: 60, align: "center"},
                 {name: "realname", index: "realname", sortable: false, width: 60, align: "center"},
@@ -144,7 +144,12 @@
     });
 
     var searchGridParam = JSON.stringify(employeeParam);
-
+//    function addCellAttr() {
+//
+//        return "style='color:red'";
+//    }
+//    console.info('---->',$("#jqgh_GRIDTABLE_emp_code"));
+//    $("#jqgh_GRIDTABLE_emp_code").css("color","red");
     //查询
     $("#employee_chaxun").click(function(){
         var param = JSON.parse(searchGridParam);
