@@ -313,6 +313,7 @@ public class PermissionController {
         List<XtreeData> xtreeDataList = permissionService.selXtreeData();
         JSONArray xtreeDataArray = JSONArray.parseArray(JSON.toJSONString(xtreeDataList));
         return xtreeDataArray;
+
     }
 
     /**
