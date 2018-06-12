@@ -40,7 +40,8 @@ public class AttdApproveInfoServiceImpl implements AttdApproveInfoService {
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			//操作异常,返回错误信息
-			rd.setCode("ERROR");rd.setMsg(e.getMessage());
+			rd.setCode("ERROR");
+			rd.setMsg(e.getMessage());
 		}
 		
 		return rd;
