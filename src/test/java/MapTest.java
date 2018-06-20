@@ -56,8 +56,14 @@ public class MapTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void qq(){
+        Map map = com.google.common.collect.Maps.newHashMap();
+        map.put("1", "2");
+        map.put("a", "b");
 
+        map.forEach((k,v)-> System.out.println(k+""+v));
     }
 
 }
