@@ -1,5 +1,6 @@
 package com.pengyd.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,9 @@ public class RestController {
 
     @Autowired
     private SecurityRealm securityRealm;
+
+    @Resource
+    private StringRedisTemplate redisTemplate;
 
     /**
      *  项目刚启动时，shiro中配置了，首先会进入到这里进行校验
@@ -93,6 +98,7 @@ public class RestController {
 
     @RequestMapping(value = { "/loginAction" }, method = RequestMethod.POST )
     public String loginAction(Model model, HttpServletRequest request) {
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -114,7 +120,7 @@ public class RestController {
     public ReturnData loginByAjax(HttpServletRequest request,HttpSession session) {
         String username = request.getParameter("loginname");
         String password = request.getParameter("password");
-
+//        redisTemplate.opsForValue().set("pdop:P1082","test");
         ReturnData rd = new ReturnData();
         try {
             //获取主体对象
