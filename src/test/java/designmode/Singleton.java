@@ -11,9 +11,7 @@ public class Singleton {
      *
      */
     //1.首先将构造方法私有化  private
-    private Singleton(){
-
-    }
+    private Singleton(){}
 
     //2.饿汉式  提供私有的静态的实例
     private static Singleton instance =  new Singleton();

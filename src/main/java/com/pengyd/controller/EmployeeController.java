@@ -57,6 +57,9 @@ public class EmployeeController {
     @Resource
     private JobposService jobposService;
 
+    @Resource
+    private StringRedisTemplate redisTemplate;
+
 
 
     /**
@@ -65,6 +68,7 @@ public class EmployeeController {
     @RequiresPermissions(value = "employee_show")
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String show(Model model, HttpServletRequest request) {
+
         return "employee/show";
     }
 

@@ -39,8 +39,6 @@ public class RestController {
     @Autowired
     private SecurityRealm securityRealm;
 
-    @Resource
-    private StringRedisTemplate redisTemplate;
 
     /**
      *  项目刚启动时，shiro中配置了，首先会进入到这里进行校验
@@ -125,6 +123,8 @@ public class RestController {
         try {
             //获取主体对象
             Subject subject = SecurityUtils.getSubject();
+
+
 
             //判断是否认证通过
             if (subject.isAuthenticated()) {

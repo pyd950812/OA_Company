@@ -13,4 +13,9 @@
       <module name="OA_Company" target="1.8" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="OA_Company" options="-extdirs G:\idea\OA_Company/src/main/webapp/WEB-INF/lib" />
+    </option>
+  </component>
 </project>
