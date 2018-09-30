@@ -24,20 +24,23 @@ public class MapTest {
     private static String sss;
 
     public static void main(String[] args) {
-/*        System.out.println(sss);
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-        System.out.println("执行结束时间：" + s.format(new Date()) + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-
-        logger.info("执行结束时间：" + s.format(new Date()) + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-
-        logger.debug("debug test");
-        logger.info("info test");
-        logger.error("error test");
-        teetete(new ModelMap());*/
-        xyz();
+        System.out.println(sss);
+//        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+//        System.out.println("执行结束时间：" + s.format(new Date()) + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//
+//
+//        logger.info("执行结束时间：" + s.format(new Date()) + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//
+//
+//        logger.debug("debug test");
+//        logger.info("info test");
+//        logger.error("error test");
+//        teetete(new ModelMap());
+//        xyz();
+//        qq();
+        teetete(new ModelMap());
     }
+
 
     public static void teetete(ModelMap model){
         model.addAttribute("aaaa","bbbbb");
